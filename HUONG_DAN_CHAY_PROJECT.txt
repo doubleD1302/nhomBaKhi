@@ -1,0 +1,116 @@
+HUONG DAN NHANH - PROJECT VIEC LAM SINH VIEN
+============================================
+
+1. CAU TRUC
+-----------
+backend/         API Node.js + Express, JWT, PostgreSQL
+client-flutter/  App sinh vien
+admin-android/   App quan tri Android (Java/XML)
+
+2. CHAY LAN DAU
+---------------
+Yeu cau: Node.js 20, Flutter 3.35+/Dart 3, Java 17, Android SDK va
+PostgreSQL/Supabase.
+
+BACKEND - PowerShell tai thu muc project:
+    cd backend
+    npm install
+    Copy-Item .env.example .env   # chi tao neu chua co .env
+
+Sua backend/.env: DATABASE_URL = PostgreSQL connection string cua Supabase
+(Connection Pooler, Session mode/cong 5432); JWT_SECRET = chuoi rieng ngau
+nhien dai it nhat 32 ky tu. Khong dua .env/khoa bi mat len Git.
+
+Tao database rong va tai khoan quan tri:
+    npm run db:setup
+    npm run create-admin -- admin@example.test "MatKhauMoiRatDai123" "Quan tri"
+
+Chay API:
+    npm start
+
+Kiem tra http://localhost:3000/health. Terminal khac:
+    cd backend
+    npm test
+
+FLUTTER - terminal moi:
+    cd client-flutter
+    flutter pub get
+    flutter devices
+    flutter run
+
+ANDROID ADMIN:
+Mo admin-android bang Android Studio, doi Gradle Sync, chon thiet bi va bam
+Run. Hoac build APK:
+    cd admin-android
+    .\gradlew.bat assembleDebug
+
+3. NOI BO API
+-------------
+Sua client-flutter/lib/api_config.dart truoc khi chay/build ca hai app:
+- Android emulator: http://10.0.2.2:3000/api
+- Dien thoai that: http://<IP-LAN-may-tinh>:3000/api
+- Sau khi deploy: https://<domain-api>/api
+
+Dien thoai that va may tinh can cung mang; mo firewall cong 3000 neu can.
+Android Admin doc chung api_config.dart. Sau khi doi URL, build lai app.
+
+CAC FILE SQL HIEN DANG DE TRONG
+-------------------------------
+backend/schema.sql, backend/seed.sql va backend/reset-schema.sql deu rong.
+Database online da duoc xoa du lieu truoc do, nhung cac bang tren server van
+con. Khong chay npm run db:setup hoac npm run db:reset cho den khi nhom viet
+lai SQL schema/reset. Sau khi co schema, setup database rong; seed.sql co the
+de trong neu khong muon nap du lieu mau.
+
+Dang nhap quan tri, sau do tao nhom viec bang POST /api/admin/categories voi
+JSON {"name":"Phuc vu"} khi can thu nghiem nghiep vu. Tao tai khoan nha tuyen
+dung bang POST /api/auth/register, cap nhat ho so cong ty va cho quan tri
+duyet. Client co the dang ky tai khoan sinh vien.
+
+4. LENH THUONG DUNG
+-------------------
+Backend:
+    npm run dev             Chay lai server khi sua code
+    npm test                Chay test
+    npm run db:reset        Xoa bang project va tao lai database rong
+
+Flutter:
+    flutter analyze
+    flutter test
+    flutter clean
+
+Android Admin:
+    .\gradlew.bat assembleDebug
+    .\gradlew.bat clean
+
+Chi chay db:reset tren database co the xoa. Khong chia se/commit .env,
+mat khau, JWT secret hay Supabase key.
+
+5. TINH TRANG HIEN TAI - VIEC NHOM CAN LAM TIEP
+------------------------------------------------
+Hien co:
+- Backend API va schema co so du lieu; seed.sql de trong, khong co du lieu mau.
+- Flutter va Android Admin da duoc xoa code de nhom tu phat trien.
+- Cac thu muc, manifest, dependency va cau hinh build cua hai app van duoc giu.
+- Huong dan endpoint: backend/api.md. Checklist: PHU_LUC_4_CHECKLIST.txt.
+
+Viec nhom can lam:
+1. Deploy backend len Render va gan Supabase that; hien chua co URL API cong
+   khai. api_config.dart dang la URL placeholder.
+2. Viet lai Flutter app va Android Admin; hien hai app chi con bo khung, chua
+   co man hinh hoac chuc nang de chay.
+3. Viet lai backend/schema.sql va reset-schema.sql truoc khi khoi tao database;
+   seed.sql de trong neu chua muon nap du lieu.
+4. Tao va kiem tra du lieu mau theo de 25: toi thieu 25 nha tuyen dung, 80 tin
+   (co tin bi tu choi), 200 sinh vien co gio ranh, 300 ca va 500 cham cong.
+   Database hien khong co ban ghi; seed.sql chua co du lieu.
+5. Kiem thu cac yeu cau app: dang nhap/phan quyen, danh sach API, form, trang
+   thai loading/error, chong mat du lieu khi xoay man hinh, anh URL va thao
+   tac xoa co xac nhan/hoan tac theo tieu chi mon hoc.
+6. Hoan tat upload tep/anh len Supabase Storage neu nghiep vu su dung.
+7. Cap nhat NHOMXX, API URL; kiem thu end-to-end tren dien thoai that va
+   danh dau checklist nop bai bang ket qua kiem thu thuc te.
+
+Thu tu de xuat: (1) deploy API va tao schema Supabase, (2) phat trien hai app
+ket noi cung API, (3) nap/kiem tra du lieu mau, (4) kiem thu va hoan tat
+PHU_LUC_4_CHECKLIST.txt.

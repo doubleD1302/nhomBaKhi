@@ -1,0 +1,42 @@
+PHU LUC 4 - DANH SACH TU KIEM TRUOC KHI NOP
+===========================================
+
+Danh dau [x] chi khi da tu kiem tra tren he thong that. Khong danh dau thay
+cho viec chay thu.
+
+BACKEND VA CO SO DU LIEU
+[ ] 1. Mo https://<app>.onrender.com/health tu mot may khac, nhan HTTP 200.
+[ ] 2. Goi API can dang nhap khong kem token, nhan HTTP 401.
+[ ] 3. Goi API chi danh cho quan tri bang token tai khoan khach, nhan HTTP 403.
+[ ] 4. Du an Supabase dang Active, khong bi tam dung.
+[ ] 5. Chay schema.sql va seed.sql tren database trong, khong co loi.
+[ ] 6. Nap va kiem tra du lieu mau dat so luong toi thieu cua de tai.
+
+UNG DUNG VA TINH NANG
+[ ] 7. Cai APK Admin len dien thoai Android that va dang nhap duoc.
+[ ] 8. Cai APK Client len dien thoai that va dang nhap duoc.
+[ ] 9. Hai app cung xem mot du lieu: thao tac tren Admin hien tren Client.
+[ ] 10. Tat Wi-Fi, mo app: co thong bao loi mang, app khong bi vang.
+[ ] 11. Xoay man hinh khi nhap form: du lieu dang nhap khong bi mat.
+[ ] 12. Chay flutter analyze, khong con loi.
+
+BAO MAT, HO SO VA DEMO
+[ ] 13. Tep .env khong co trong repository va lich su commit.
+[ ] 14. README co link API, tai khoan thu nghiem moi vai tro va cach chay.
+[ ] 15. Moi thanh vien co it nhat 15 commit co y nghia bang tai khoan rieng.
+[ ] 16. Bao cao du 9 muc, co so do CSDL va bang it nhat 25 ca kiem thu.
+[ ] 17. Video 5-8 phut quay man hinh that va co thuyet minh.
+[ ] 18. Goi API truoc buoi demo 2-3 phut de danh thuc Render.
+
+DU LIEU TOI THIEU RIENG CUA DE 25
+---------------------------------
+Tai lieu yeu cau it nhat:
+- 25 nha tuyen dung
+- 80 tin tuyen dung, bao gom tin bi tu choi
+- 200 sinh vien co khung gio ranh
+- 300 ca lam
+- 500 ban ghi cham cong
+
+Database trong project hien de rong theo yeu cau. Cac muc 5 va 6 chi danh dau
+sau khi nhom da nap schema va bo du lieu mau dung yeu cau. Khong dung du lieu
+mau nhu tai khoan that.

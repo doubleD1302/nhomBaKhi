@@ -1,0 +1,41 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7FAF9">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NHOMXX · ADMIN"
+            android:textColor="#115E59"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Trung tâm quản trị"
+            android:textColor="#102A28"
+            android:textStyle="bold"
+            android:textSize="28sp" />
+        <TextView
+            android:id="@+id/dashboardStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:padding="16dp"
+            android:background="#E6F3F0"
+            android:text="Đang tải số liệu..."
+            android:textSize="16sp" />
+        <Button android:id="@+id/employersButton" style="@style/MenuButton" android:text="Duyệt nhà tuyển dụng" />
+        <Button android:id="@+id/jobsButton" style="@style/MenuButton" android:text="Duyệt tin tuyển dụng" />
+        <Button android:id="@+id/reportsButton" style="@style/MenuButton" android:text="Báo cáo lừa đảo" />
+        <Button android:id="@+id/timeRecordsButton" style="@style/MenuButton" android:text="Chấm công cần duyệt" />
+        <Button android:id="@+id/payrollButton" style="@style/MenuButton" android:text="Tổng hợp &amp; duyệt bảng lương" />
+        <Button android:id="@+id/analyticsButton" style="@style/MenuButton" android:text="Báo cáo &amp; thống kê" />
+        <Button android:id="@+id/logoutButton" style="@style/MenuButton" android:text="Đăng xuất" />
+    </LinearLayout>
+</ScrollView>

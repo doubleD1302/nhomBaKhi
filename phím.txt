@@ -1,0 +1,5 @@
+chạy backend
+	npm run dev
+chạy flutter
+	flutter run
+đổi địa chỉ mạnh

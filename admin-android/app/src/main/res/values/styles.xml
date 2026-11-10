@@ -1,0 +1,28 @@
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#115E59</item>
+        <item name="colorPrimaryVariant">#0F766E</item>
+        <item name="colorSecondary">#F59E0B</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="android:textColorPrimary">#0F172A</item>
+        <item name="android:textColorSecondary">#52615F</item>
+        <item name="android:textColorHint">#64748B</item>
+        <item name="android:editTextColor">#0F172A</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#F7FAF9</item>
+        <item name="android:navigationBarColor">#F7FAF9</item>
+    </style>
+    <style name="MenuButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="backgroundTint">#115E59</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+</resources>

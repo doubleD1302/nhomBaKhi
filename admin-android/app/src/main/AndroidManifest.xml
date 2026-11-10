@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="false"
+        android:label="NHOMXX - Viec lam Admin"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".AnalyticsActivity" android:exported="false" />
+        <activity android:name=".PayrollActivity" android:exported="false" />
+        <activity android:name=".TimeRecordsActivity" android:exported="false" />
+        <activity android:name=".ReportsActivity" android:exported="false" />
+        <activity android:name=".JobsActivity" android:exported="false" />
+        <activity android:name=".EmployersActivity" android:exported="false" />
+        <activity android:name=".DashboardActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

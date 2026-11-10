@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+.gradle/
+local.properties
+*.iml
+.idea/
+*.jks
+*.keystore
