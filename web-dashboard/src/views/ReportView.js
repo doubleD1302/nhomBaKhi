@@ -1,4 +1,5 @@
 // Views: Weekly Report Generator View
+// Phục vụ: Dự án Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
 (function() {
   class ReportView {
     generate(week, memberId, tasks) {
@@ -12,7 +13,7 @@
       const todo = targetTasks.filter(t => t.status === 'todo');
 
       let md = `# BÁO CÁO TIẾN ĐỘ TUẦN ${week} — NHÓM BA KHỈ\n`;
-      md += `**Đề tài 25: Nền tảng việc làm bán thời gian cho sinh viên · INT4211**\n`;
+      md += `**Đề tài 25: Hệ thống Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro) · INT4211**\n`;
       md += `**Người báo cáo:** ${memberId === 'ALL' ? 'Toàn bộ nhóm 4 thành viên' : memberId}\n`;
       md += `**Thời điểm xuất:** ${new Date().toLocaleDateString('vi-VN')}\n\n`;
 

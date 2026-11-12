@@ -74,7 +74,8 @@
           e.preventDefault();
           col.style.background = '';
           const taskId = e.dataTransfer.getData('text/plain');
-          const newStatus = col.dataset.status;
+          const parentCol = col.closest('.kanban-col');
+          const newStatus = parentCol ? parentCol.dataset.status : col.dataset.status;
           if (taskId && newStatus && onUpdateStatus) {
             onUpdateStatus(taskId, newStatus);
           }

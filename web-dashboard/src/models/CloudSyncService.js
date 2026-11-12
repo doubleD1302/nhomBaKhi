@@ -219,6 +219,62 @@ const DEFAULT_PROJECT_URL = 'https://ffcmzleqrddcqrznmwqu.supabase.co';
       }
     }
 
+    async fetchClaimedRoles() {
+      if (!this.isConfigured()) return {};
+      try {
+        const res = await fetch(`${this.url}/rest/v1/bang_cong_viec?task_id=like.ROLE_*`, {
+          method: 'GET',
+          headers: this.getHeaders()
+        });
+        if (res.ok) {
+          const list = await res.json();
+          const claims = {};
+          list.forEach(r => {
+            const roleId = r.task_id.replace('ROLE_', '');
+            claims[roleId] = {
+              name: r.notes || '',
+              mssv: r.pr_link || '',
+              code: r.updated_by || '',
+              claimedAt: r.updated_at
+            };
+          });
+          return claims;
+        }
+      } catch (err) {
+        console.error("fetchClaimedRoles error:", err);
+      }
+      return {};
+    }
+
+    async pushClaimedRole(claimData) {
+      if (!this.isConfigured()) return { success: false };
+      try {
+        const payload = [{
+          task_id: `ROLE_${claimData.roleId}`,
+          status: 'claimed',
+          progress_percent: 100,
+          actual_hours: 0,
+          notes: claimData.name,
+          pr_link: claimData.mssv,
+          updated_by: claimData.code,
+          updated_at: new Date().toISOString()
+        }];
+
+        const res = await fetch(`${this.url}/rest/v1/bang_cong_viec`, {
+          method: 'POST',
+          headers: {
+            ...this.getHeaders(),
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+        return { success: res.ok };
+      } catch (err) {
+        console.error("pushClaimedRole error:", err);
+        return { success: false, error: err.message };
+      }
+    }
+
     onStatusChange(fn) {
       this.listeners.push(fn);
     }

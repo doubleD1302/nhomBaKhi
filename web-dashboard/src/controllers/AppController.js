@@ -1,4 +1,5 @@
 // Controller: Main Application Controller
+// Phục vụ: Dự án Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
 (function() {
   class AppController {
     constructor() {
@@ -11,10 +12,22 @@
       };
     }
 
-    init() {
+    async init() {
       window.ProjectModel.init();
       window.UserModel.init();
       window.CloudSyncService.init();
+
+      // Đồng bộ trạng thái vai trò đã khóa từ Supabase Cloud
+      if (window.CloudSyncService.isConfigured()) {
+        try {
+          const claims = await window.CloudSyncService.fetchClaimedRoles();
+          if (claims && Object.keys(claims).length > 0) {
+            window.UserModel.setClaimedRolesFromCloud(claims);
+          }
+        } catch (e) {
+          console.warn("Could not sync claimed roles on init", e);
+        }
+      }
 
       this.setupTheme();
       this.setupEventListeners();
@@ -142,7 +155,7 @@
       if (!user) return;
       const member = window.ProjectModel.members.find(m => m.id === user.memberId) || window.ProjectModel.members[0];
 
-      document.getElementById('header-user-avatar').innerHTML = window.Icons.get(member.icon || 'server', 'icon-sm');
+      document.getElementById('header-user-avatar').innerHTML = window.Icons.get(member.icon || 'building', 'icon-sm');
       document.getElementById('header-user-name').textContent = `${user.memberId} · ${user.name}`;
       document.getElementById('header-user-code').textContent = user.accessCode;
     }
@@ -212,6 +225,13 @@
       window.ProjectModel.updateTaskStatus(taskId, status);
       this.renderActiveView();
       this.showToast(`Đã chuyển task ${taskId} sang [${window.WbsView.getStatusLabel(status)}]`);
+
+      // Tự động đẩy task lên Supabase nếu có kết nối
+      const updatedTask = window.ProjectModel.tasks.find(t => t.id === taskId);
+      if (updatedTask && window.CloudSyncService.isConfigured()) {
+        const u = window.UserModel.currentUser;
+        window.CloudSyncService.pushTask(updatedTask, u ? u.name : '');
+      }
     }
 
     openTaskModal(taskId) {
@@ -245,19 +265,25 @@
         notes: document.getElementById('modal-notes').value.trim()
       };
 
-      window.ProjectModel.updateTask(tid, updates);
+      const updated = window.ProjectModel.updateTask(tid, updates);
       this.closeModal();
       this.renderActiveView();
       this.showToast(`Đã lưu cập nhật cho task ${tid}!`);
+
+      if (updated && window.CloudSyncService.isConfigured()) {
+        const u = window.UserModel.currentUser;
+        window.CloudSyncService.pushTask(updated, u ? u.name : '');
+      }
     }
 
     showToast(msg) {
       const container = document.getElementById('toast-container');
+      if (!container) return;
       const toast = document.createElement('div');
       toast.className = 'toast';
       toast.innerHTML = `${window.Icons.get('check-circle', 'text-emerald')} <span>${msg}</span>`;
       container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
+      setTimeout(() => toast.remove(), 3200);
     }
 
     setupEventListeners() {
@@ -272,52 +298,81 @@
         };
       });
 
-      // Claim Role Button
-      document.getElementById('btn-claim-role')?.addEventListener('click', () => {
-        const name = document.getElementById('reg-name-input').value.trim() || 'Thành viên Nhóm Ba Khỉ';
-        const mssv = document.getElementById('reg-mssv-input').value.trim() || 'INT4211';
-        const memberId = window.GatewayView.selectedRole;
-        const member = window.ProjectModel.members.find(m => m.id === memberId) || window.ProjectModel.members[0];
+      // Refresh claimed roles from cloud button
+      document.getElementById('btn-refresh-claimed-roles')?.addEventListener('click', async () => {
+        const btn = document.getElementById('btn-refresh-claimed-roles');
+        if (btn) btn.innerHTML = `${window.Icons.get('refresh-cw')} Đang kiểm tra...`;
+        if (window.CloudSyncService.isConfigured()) {
+          const claims = await window.CloudSyncService.fetchClaimedRoles();
+          if (claims) {
+            window.UserModel.setClaimedRolesFromCloud(claims);
+            window.GatewayView.render(window.ProjectModel.members);
+            this.showToast("Đã cập nhật trạng thái các vai trò từ Cloud!");
+          }
+        }
+        if (btn) btn.innerHTML = `${window.Icons.get('refresh-cw')} Làm mới từ Cloud`;
+      });
 
-        const user = window.UserModel.claimRole(memberId, name, mssv, window.ProjectModel.members);
-        window.GatewayView.showDigitalPass(user, member, () => {
+      // Claim Role Button
+      document.getElementById('btn-claim-role')?.addEventListener('click', async () => {
+        const nameInput = document.getElementById('reg-name-input');
+        const mssvInput = document.getElementById('reg-mssv-input');
+        const name = (nameInput ? nameInput.value : '').trim() || 'Thành viên Nhóm Ba Khỉ';
+        const mssv = (mssvInput ? mssvInput.value : '').trim() || 'INT4211';
+        const memberId = window.GatewayView.selectedRole;
+
+        if (!memberId) {
+          alert("Vui lòng chọn 1 vai trò còn trống trước khi tiếp tục!");
+          return;
+        }
+
+        const member = window.ProjectModel.members.find(m => m.id === memberId) || window.ProjectModel.members[0];
+        const res = window.UserModel.claimRole(memberId, name, mssv, window.ProjectModel.members);
+
+        if (!res.success) {
+          alert(res.message);
+          window.GatewayView.render(window.ProjectModel.members);
+          return;
+        }
+
+        // Đẩy vai trò đã khóa lên Supabase Cloud để các thiết bị khác đồng bộ
+        if (window.CloudSyncService.isConfigured()) {
+          await window.CloudSyncService.pushClaimedRole({
+            roleId: memberId,
+            name: name,
+            mssv: mssv,
+            code: res.code
+          });
+        }
+
+        window.GatewayView.showDigitalPass(res.user, member, () => {
           this.checkAuthAndRender();
-          this.showToast(`Chào mừng ${name} với vai trò ${member.id}!`);
+          this.showToast(`Chào mừng ${name} nhận vai trò ${member.id}!`);
         });
       });
 
       // Copy Pass Code Button
       document.getElementById('btn-copy-pass-code')?.addEventListener('click', () => {
         const code = document.getElementById('pass-code-display').textContent;
-        navigator.clipboard.writeText(code).then(() => this.showToast("Đã sao chép mã code!"));
+        navigator.clipboard.writeText(code).then(() => this.showToast("Đã sao chép mã bảo mật độc quyền!"));
       });
 
       // Code Login Button
       document.getElementById('btn-submit-code')?.addEventListener('click', () => {
-        const code = document.getElementById('input-access-code').value;
+        const codeInput = document.getElementById('input-access-code');
+        const code = codeInput ? codeInput.value : '';
         const user = window.UserModel.authenticateByCode(code, window.ProjectModel.members);
         if (user) {
-          this.showToast(`Đăng nhập thành công với mã ${code}!`);
+          this.showToast(`Đăng nhập thành công với mã ${user.accessCode}!`);
           this.checkAuthAndRender();
         } else {
-          alert(`Mã truy cập "${code}" không hợp lệ! Vui lòng dùng: BK-TV01, BK-TV02, BK-TV03 hoặc BK-TV04.`);
+          alert(`Mã bảo mật "${code}" không chính xác hoặc chưa được đăng ký!\n\nVui lòng kiểm tra lại mã đã được cấp (định dạng TRO-XXX-XXXX-XXXX).`);
         }
-      });
-
-      // Quick Code Buttons
-      document.querySelectorAll('.btn-quick-code').forEach(btn => {
-        btn.onclick = () => {
-          const user = window.UserModel.authenticateByCode(btn.dataset.code, window.ProjectModel.members);
-          if (user) {
-            this.showToast(`Đăng nhập nhanh ${btn.dataset.code}!`);
-            this.checkAuthAndRender();
-          }
-        };
       });
 
       // Logout Button
       document.getElementById('btn-logout')?.addEventListener('click', () => {
-        if (confirm("Bạn có muốn đăng xuất và đổi sang vai trò khác?")) {
+        if (confirm("Bạn có muốn đăng xuất khỏi phiên làm việc hiện tại?")) {
           window.UserModel.clearSession();
           this.checkAuthAndRender();
         }
@@ -349,13 +404,56 @@
       // Theme toggle
       document.getElementById('btn-theme-toggle')?.addEventListener('click', () => this.toggleTheme());
 
+      // Cloud Modal
+      document.getElementById('btn-cloud-sync')?.addEventListener('click', () => this.openCloudModal());
+      document.getElementById('btn-cloud-modal-close')?.addEventListener('click', () => this.closeCloudModal());
+
+      document.getElementById('btn-test-cloud')?.addEventListener('click', async () => {
+        const btn = document.getElementById('btn-test-cloud');
+        if (btn) btn.innerHTML = `${window.Icons.get('refresh-cw')} Đang kiểm tra...`;
+        const res = await window.CloudSyncService.testConnection();
+        alert(res.message);
+        if (btn) btn.innerHTML = `${window.Icons.get('refresh-cw')} Kiểm tra kết nối`;
+      });
+
+      document.getElementById('btn-save-cloud-config')?.addEventListener('click', async () => {
+        const url = document.getElementById('input-supabase-url').value;
+        const key = document.getElementById('input-supabase-key').value;
+        window.CloudSyncService.saveConfig(url, key);
+        const res = await window.CloudSyncService.testConnection();
+        this.showToast(res.message);
+        this.closeCloudModal();
+      });
+
+      document.getElementById('btn-push-all-cloud')?.addEventListener('click', async () => {
+        if (!confirm("Tải toàn bộ 64 đầu việc lên Supabase Cloud để đồng bộ với cả nhóm?")) return;
+        const u = window.UserModel.currentUser;
+        const res = await window.CloudSyncService.pushAllTasks(window.ProjectModel.tasks, u ? u.name : 'Khởi tạo');
+        if (res.success) {
+          this.showToast(`Đã tải thành công ${res.count} task lên Supabase Cloud!`);
+        } else {
+          alert(`Lỗi: ${res.message || res.error}`);
+        }
+      });
+
+      document.getElementById('btn-pull-cloud')?.addEventListener('click', async () => {
+        const res = await window.CloudSyncService.pullTasks();
+        if (res.success && res.data) {
+          const count = window.ProjectModel.applyRemoteSync(res.data);
+          this.renderActiveView();
+          this.showToast(`Đã đồng bộ ${count} task từ Supabase Cloud!`);
+        } else {
+          alert(`Lỗi kéo dữ liệu: ${res.message}`);
+        }
+      });
+
       // Add Commit
       document.getElementById('btn-add-commit')?.addEventListener('click', () => {
         const user = window.UserModel.currentUser;
         if (!user) return;
         const hash = prompt("Nhập mã hash commit hoặc mã PR (ví dụ: a1b2c3d hoặc PR #12):");
         if (!hash) return;
-        const message = prompt("Nhập nội dung commit (ví dụ: [T002] Them auth middleware JWT va bcrypt):");
+        const message = prompt("Nhập nội dung commit (ví dụ: [T002] Tinh toan tien dien nuoc va ma VietQR):");
         if (!message) return;
 
         window.UserModel.addCommit(user.memberId, hash, message);
@@ -411,17 +509,18 @@
       // Export JSON
       document.getElementById('btn-export-json')?.addEventListener('click', () => {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-          project: "INT4211_De25",
+          project: "INT4211_SmartTro_De25",
           exportedAt: new Date().toISOString(),
           tasks: window.ProjectModel.tasks,
           commits: window.UserModel.commits,
+          claimedRoles: window.UserModel.claimedRoles,
           criteriaC1: window.ProjectModel.criteriaC1,
           criteriaC2: window.ProjectModel.criteriaC2,
           seedQuota: window.ProjectModel.seedQuota
         }, null, 2));
         const a = document.createElement('a');
         a.setAttribute("href", dataStr);
-        a.setAttribute("download", `TienDo_De25_${new Date().toISOString().slice(0, 10)}.json`);
+        a.setAttribute("download", `TienDo_SmartTro_${new Date().toISOString().slice(0, 10)}.json`);
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -440,10 +539,12 @@
             const data = JSON.parse(evt.target.result);
             if (data.tasks) window.ProjectModel.tasks = data.tasks;
             if (data.commits) window.UserModel.commits = data.commits;
+            if (data.claimedRoles) window.UserModel.claimedRoles = data.claimedRoles;
             if (data.criteriaC1) window.ProjectModel.criteriaC1 = data.criteriaC1;
             if (data.criteriaC2) window.ProjectModel.criteriaC2 = data.criteriaC2;
             window.ProjectModel.save();
             window.UserModel.saveCommits();
+            window.UserModel.saveClaimedRoles();
             this.renderActiveView();
             this.showToast("Đã nạp file dữ liệu tiến độ thành công!");
           } catch (err) { alert("File JSON không hợp lệ!"); }

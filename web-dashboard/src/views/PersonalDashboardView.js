@@ -1,4 +1,5 @@
 // Views: Personal Dashboard View (Customized Studio for Each Member)
+// Phục vụ: Dự án Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
 (function() {
   class PersonalDashboardView {
     render(user, member, stats, commits, onUpdateStatus, onEditTask, onAddCommit) {
@@ -7,12 +8,12 @@
       // Personal Hero Banner
       const banner = document.getElementById('personal-hero-banner');
       if (banner) {
-        banner.style.background = `linear-gradient(135deg, ${member.avatarColor} 0%, #152B4A 100%)`;
-        document.getElementById('personal-hero-icon').innerHTML = window.Icons.get(member.icon || 'server', 'icon-xl');
+        banner.style.background = `linear-gradient(135deg, ${member.avatarColor} 0%, #0F203C 100%)`;
+        document.getElementById('personal-hero-icon').innerHTML = window.Icons.get(member.icon || 'building', 'icon-xl');
         document.getElementById('personal-hero-role').textContent = `${member.id} — ${member.name}`;
         document.getElementById('personal-hero-desc').textContent = member.role;
-        document.getElementById('personal-hero-backup').innerHTML = `${window.Icons.get('users', 'icon-sm')} Dự phòng hỗ trợ chéo: <strong>${member.backup}</strong>`;
-        document.getElementById('personal-hero-hours').innerHTML = `${window.Icons.get('clock', 'icon-sm')} Khối lượng: <strong>${member.plannedHours} giờ (16 task)</strong>`;
+        document.getElementById('personal-hero-backup').innerHTML = `${window.Icons.get('users', 'icon-sm')} Hỗ trợ chéo: <strong>${member.backup}</strong>`;
+        document.getElementById('personal-hero-hours').innerHTML = `${window.Icons.get('clock', 'icon-sm')} Khối lượng: <strong>${member.plannedHours} giờ (16 đầu việc)</strong>`;
       }
 
       // Personal Task Stats
@@ -70,7 +71,7 @@
             <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
               <p><strong>URL Render Web Service:</strong> <a href="${window.PROJECT_DATA.renderUrl}" target="_blank" style="color:var(--primary); font-weight:600;">${window.PROJECT_DATA.renderUrl}</a></p>
               <p><strong>Endpoint Kiểm tra sức khỏe:</strong> <code>GET /health</code> (Đảm bảo trả về HTTP 200 OK)</p>
-              <p><strong>Cơ chế bảo mật:</strong> JWT Token tự phát hành, bcrypt băm mật khẩu, phân quyền 3 vai trò (SINH_VIEN, NHA_TUYEN_DUNG, QUAN_TRI) chặt chẽ ở Backend.</p>
+              <p><strong>Nghiệp vụ cốt lõi:</strong> REST API quản lý danh mục phòng trọ, chốt chỉ số công tơ điện/nước, tự động tính tiền lũy tiến, sinh mã VietQR chuyển khoản ngân hàng và xác thực JWT phân quyền 3 tác nhân (SINH_VIEN, CHU_TRO, QUAN_TRI).</p>
             </div>
             <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist Nhiệm Vụ Backend & Deploy:</h4>
             <div id="role-checklist-container"></div>
@@ -80,15 +81,15 @@
         container.innerHTML = `
           <div class="card">
             <div class="card-title">
-              <span>${window.Icons.get('smartphone')} Xưởng Phát Triển App Android Studio (TV02)</span>
-              <span class="badge-status in_progress">Java + XML Layout</span>
+              <span>${window.Icons.get('smartphone')} Ứng Dụng Android Chủ Trọ & Quản Lý Tòa Nhà (TV02)</span>
+              <span class="badge-status in_progress">Java + XML Layout (minSdk 24)</span>
             </div>
             <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
               <p><strong>Stack kỹ thuật:</strong> Android Studio, Java, XML Layout, Retrofit 2 + Gson, MPAndroidChart, minSdk 24.</p>
               <p><strong>Quy định bắt buộc:</strong> Tên app, Package ID và log TAG phải chứa mã nhóm <code>nhomBaKhi</code>.</p>
-              <p><strong>2 Màn hình RecyclerView:</strong> Danh sách Nhà tuyển dụng & Danh sách Tin tuyển dụng.</p>
+              <p><strong>Nghiệp vụ chính:</strong> Danh mục phòng trọ (RecyclerView), màn hình nhập số điện nước định kỳ, xuất hóa đơn thu tiền tích hợp VietQR, quản lý hợp đồng thuê và biểu đồ doanh thu theo tháng.</p>
             </div>
-            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist 10 Tiêu Chí C.1 (Android Admin):</h4>
+            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist 10 Tiêu Chí C.1 (Android Admin & Chủ Trọ):</h4>
             <div id="role-checklist-container"></div>
           </div>
         `;
@@ -96,15 +97,15 @@
         container.innerHTML = `
           <div class="card">
             <div class="card-title">
-              <span>${window.Icons.get('layers')} Xưởng Phát Triển App Client Flutter (TV03)</span>
-              <span class="badge-status in_progress">Flutter 3.35+ Dart</span>
+              <span>${window.Icons.get('layers')} Ứng Dụng Flutter Cho Sinh Viên Thuê Trọ (TV03)</span>
+              <span class="badge-status in_progress">Flutter 3.35+ Dart (Material 3)</span>
             </div>
             <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
-              <p><strong>Stack kỹ thuật:</strong> Flutter 3.35+, Dart 3, Material 3, Geolocator GPS, Package Http/Dio.</p>
-              <p><strong>Điểm nhấn nghiệp vụ:</strong> Check-in/out định vị GPS, Lọc tin phù hợp lịch rảnh (Interval Overlap), Xóa lịch rảnh có <strong>Undo SnackBar</strong>.</p>
+              <p><strong>Stack kỹ thuật:</strong> Flutter 3.35+, Dart 3, Material 3, Geolocator GPS, Package Http/Dio, SharedPreferences.</p>
+              <p><strong>Điểm nhấn nghiệp vụ:</strong> Tìm kiếm phòng trọ theo bán kính trường đại học qua định vị GPS (công thức Haversine), bộ lọc tiện ích phòng, gửi yêu cầu đặt cọc & hợp đồng thuê, gửi phản ánh sửa chữa hỏng hóc kèm <strong>Undo SnackBar</strong>.</p>
               <p><strong>Chất lượng mã nguồn:</strong> Lệnh <code>flutter analyze</code> phải sạch 0 errors.</p>
             </div>
-            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist 10 Tiêu Chí C.2 (Flutter Client):</h4>
+            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist 10 Tiêu Chí C.2 (Flutter Client Sinh Viên):</h4>
             <div id="role-checklist-container"></div>
           </div>
         `;
@@ -112,13 +113,14 @@
         container.innerHTML = `
           <div class="card">
             <div class="card-title">
-              <span>${window.Icons.get('database')} Cơ Sở Dữ Liệu, Core Logic & Kiểm Thử QA (TV04)</span>
-              <span class="badge-status in_progress">PostgreSQL ERD ThietKe_De25</span>
+              <span>${window.Icons.get('database')} Cơ Sở Dữ Liệu PostgreSQL & Kiểm Thử QA (TV04)</span>
+              <span class="badge-status in_progress">Supabase PostgreSQL 15+</span>
             </div>
             <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
               <p><strong>Kết nối CSDL:</strong> Supabase Pooler Session mode IPv4 (cổng 5432).</p>
-              <p><strong>Core Logic 1:</strong> API nhận ca bọc trong Transaction có khóa dòng <code>SELECT FOR UPDATE</code> chống overbooking.</p>
-              <p><strong>Core Logic 2:</strong> Chấm công GPS tính khoảng cách Haversine. Khoảng cách &gt;200m tự động gắn cờ <code>CAN_DUYET_TAY</code>.</p>
+              <p><strong>Core Logic 1:</strong> Giao dịch đặt cọc / giữ phòng bọc trong Transaction có khóa dòng <code>SELECT ... FOR UPDATE</code> chống overbooking cùng 1 phòng trọ.</p>
+              <p><strong>Core Logic 2:</strong> Công thức tính toán lũy tiến hóa đơn điện nước và định mức sinh hoạt.</p>
+              <p><strong>Kiểm thử QA:</strong> Bộ 25 test case xuyên suốt tích hợp từ Database -> API -> 2 ứng dụng di động.</p>
             </div>
             <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Tiến Độ Dữ Liệu Mẫu (Seed Quota) & Test Case:</h4>
             <div id="role-checklist-container"></div>
