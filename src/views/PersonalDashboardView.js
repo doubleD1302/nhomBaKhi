@@ -112,8 +112,8 @@
         container.innerHTML = `
           <div class="card">
             <div class="card-title">
-              <span>${window.Icons.get('database')} Kiến Trúc CSDL, Core Logic & QA Lead (TV04)</span>
-              <span class="badge-status in_progress">PostgreSQL 12 Bảng</span>
+              <span>${window.Icons.get('database')} Cơ Sở Dữ Liệu, Core Logic & Kiểm Thử QA (TV04)</span>
+              <span class="badge-status in_progress">PostgreSQL ERD ThietKe_De25</span>
             </div>
             <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
               <p><strong>Kết nối CSDL:</strong> Supabase Pooler Session mode IPv4 (cổng 5432).</p>
