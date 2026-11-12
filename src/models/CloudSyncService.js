@@ -4,12 +4,13 @@
   const CONFIG_KEY = 'INT4211_DE25_CLOUD_CONFIG';
 
 const DEFAULT_PROJECT_URL = 'https://ffcmzleqrddcqrznmwqu.supabase.co';
+  const DEFAULT_ANON_KEY = 'sb_publishable_V57AzV8f3E92WPVyUb5NqA_FMNRcx3K';
 
   class CloudSyncService {
     constructor() {
       this.url = DEFAULT_PROJECT_URL;
-      this.anonKey = '';
-      this.status = 'unconfigured'; // 'unconfigured' | 'connected' | 'error' | 'syncing'
+      this.anonKey = DEFAULT_ANON_KEY;
+      this.status = 'connected'; // 'unconfigured' | 'connected' | 'error' | 'syncing'
       this.lastSyncTime = null;
       this.listeners = [];
     }
@@ -20,22 +21,20 @@ const DEFAULT_PROJECT_URL = 'https://ffcmzleqrddcqrznmwqu.supabase.co';
         try {
           const cfg = JSON.parse(saved);
           this.url = (cfg.url || DEFAULT_PROJECT_URL).trim().replace(/\/$/, '');
-          this.anonKey = (cfg.anonKey || '').trim();
-          if (this.url && this.anonKey) {
-            this.status = 'connected';
-            // Tự động kiểm tra kết nối nền
-            setTimeout(() => this.testConnection(true), 800);
-          } else {
-            this.status = 'unconfigured';
-          }
+          this.anonKey = (cfg.anonKey || DEFAULT_ANON_KEY).trim();
         } catch (e) {
           console.error("Cloud config parse error", e);
-          this.status = 'unconfigured';
           this.url = DEFAULT_PROJECT_URL;
+          this.anonKey = DEFAULT_ANON_KEY;
         }
       } else {
-        this.status = 'unconfigured';
         this.url = DEFAULT_PROJECT_URL;
+        this.anonKey = DEFAULT_ANON_KEY;
+      }
+
+      this.status = (this.url && this.anonKey) ? 'connected' : 'unconfigured';
+      if (this.status === 'connected') {
+        setTimeout(() => this.testConnection(true), 500);
       }
     }
 
