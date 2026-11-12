@@ -207,6 +207,15 @@
       const personalStats = window.ProjectModel.getStats(user.memberId);
       const personalCommits = window.UserModel.getCommits(user.memberId);
 
+      // Render Top 5 Urgent Tasks Hub (Tuần 9 & Kiểm Soát Phụ Thuộc Chéo)
+      window.UrgentTasksHubView.render(
+        window.ProjectModel.tasks,
+        window.ProjectModel.members,
+        user,
+        (taskId, status) => this.handleUpdateStatus(taskId, status),
+        (taskId) => this.openTaskModal(taskId)
+      );
+
       // Render Personal Dashboard
       window.PersonalDashboardView.render(
         user,
