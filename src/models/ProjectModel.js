@@ -22,8 +22,8 @@
         try {
           const parsed = JSON.parse(saved);
           this.tasks = parsed.tasks || base.tasks || [];
-          this.members = parsed.members || base.members || [];
-          this.milestones = parsed.milestones || base.milestones || [];
+          this.members = base.members || [];
+          this.milestones = base.milestones || [];
           this.criteriaC1 = parsed.criteriaC1 || base.criteriaC1 || [];
           this.criteriaC2 = parsed.criteriaC2 || base.criteriaC2 || [];
           this.seedQuota = parsed.seedQuota || base.seedQuota || [];
@@ -48,8 +48,6 @@
     save() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         tasks: this.tasks,
-        members: this.members,
-        milestones: this.milestones,
         criteriaC1: this.criteriaC1,
         criteriaC2: this.criteriaC2,
         seedQuota: this.seedQuota,
@@ -139,6 +137,9 @@
       if (!Array.isArray(remoteRecords) || remoteRecords.length === 0) return 0;
       let updatedCount = 0;
       for (const record of remoteRecords) {
+        // Skip metadata / role lock records
+        if (record.task_id && record.task_id.startsWith('ROLE_')) continue;
+
         const t = this.tasks.find(x => x.id === record.task_id);
         if (t) {
           if (record.status) t.status = record.status;

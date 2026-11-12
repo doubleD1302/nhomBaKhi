@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản Lý Dự Án — Đề Tài 25: Nền Tảng Việc Làm Bán Thời Gian (INT4211)</title>
+  <title>SmartTro · Quản Lý & Thuê Nhà Trọ Sinh Viên (Đề Tài 25 · INT4211)</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,20 +12,26 @@
   <div id="gateway-screen" class="gateway-overlay" style="display:none;">
     <div class="gateway-card">
       <div class="gateway-header">
-        <h1>💼 ĐỀ TÀI 25 · NỀN TẢNG VIỆC LÀM BÁN THỜI GIAN</h1>
-        <p>Hệ thống Quản lý Dự án & Bảng Phân công Công việc Nhóm Ba Khỉ (INT4211 · HK261)</p>
+        <div class="gateway-brand-badge">
+          <svg class="icon icon-xl" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h1>SMARTTRO · QUẢN LÝ & THUÊ NHÀ TRỌ SINH VIÊN</h1>
+        <p>Hệ thống Quản lý Dự án & Tiến độ Phân công Độc quyền · Nhóm Ba Khỉ · Đề tài 25 (INT4211 · HK261)</p>
       </div>
 
       <!-- Mode Tabs: Claim Role vs Access with Code -->
       <div class="gateway-mode-tabs">
-        <div class="gateway-mode-tab active" data-mode="claim">1. Chọn Vai Trò & Nhận Mã</div>
-        <div class="gateway-mode-tab" data-mode="code">2. Đăng Nhập Bằng Mã Code</div>
+        <div class="gateway-mode-tab active" data-mode="claim">1. Nhận Vai Trò & Cấp Mã Token</div>
+        <div class="gateway-mode-tab" data-mode="code">2. Đăng Nhập Bằng Mã Bảo Mật</div>
       </div>
 
       <!-- MODE 1: CLAIM ROLE & REGISTER -->
       <div id="gateway-mode-claim">
-        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:18px 20px; margin-bottom:24px;">
-          <h3 style="font-size:14px; font-weight:700; color:#93C5FD; margin-bottom:12px;">Bước 1: Nhập thông tin của bạn</h3>
+        <div class="gateway-info-box">
+          <div style="font-size:13px; font-weight:700; color:#93C5FD; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg>
+            Bước 1: Nhập thông tin định danh của bạn
+          </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
             <div>
               <label style="display:block; font-size:11px; font-weight:700; text-transform:uppercase; color:#94A3B8; margin-bottom:4px;">Họ và Tên thành viên:</label>
@@ -38,44 +44,48 @@
           </div>
         </div>
 
-        <h3 style="font-size:14px; font-weight:700; color:#93C5FD; margin-bottom:12px;">Bước 2: Chọn 1 trong 4 vai trò chính bạn đảm nhận</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; margin-top:16px;">
+          <h3 style="font-size:13.5px; font-weight:700; color:#93C5FD; display:flex; align-items:center; gap:8px;">
+            <svg class="icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Bước 2: Chọn 1 trong 4 vai trò độc quyền (Đã nhận sẽ bị khóa tự động)
+          </h3>
+          <button id="btn-refresh-claimed-roles" class="btn btn-outline" style="font-size:11.5px; padding:4px 10px; border-color:rgba(255,255,255,0.2); color:#93C5FD;" title="Cập nhật trạng thái mới nhất từ Supabase Cloud">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            Làm mới từ Cloud
+          </button>
+        </div>
+
         <div id="role-cards-container" class="role-selection-grid"></div>
 
-        <div style="text-align:center; margin-top:20px;">
-          <button id="btn-claim-role" class="btn btn-primary" style="padding:12px 28px; font-size:14px; border-radius:8px; box-shadow:0 4px 14px rgba(59,130,246,0.4);">
-            🚀 Cấp Mã Đăng Nhập & Nhận Vai Trò Này
+        <div style="text-align:center; margin-top:24px;">
+          <button id="btn-claim-role" class="btn btn-primary" style="padding:12px 32px; font-size:14px; border-radius:8px; box-shadow:0 6px 18px rgba(13,148,136,0.35);">
+            Cấp Mã Bảo Mật & Nhận Vai Trò Này
           </button>
         </div>
       </div>
 
-      <!-- MODE 2: QUICK CODE LOGIN -->
-      <div id="gateway-mode-code" style="display:none; max-width:520px; margin:0 auto;">
-        <div style="text-align:center; margin-bottom:20px;">
-          <h3 style="font-size:16px; font-weight:700; color:#FFFFFF;">Đăng Nhập Nhanh Bằng Mã Truy Cập</h3>
-          <p style="font-size:13px; color:#94A3B8; margin-top:4px;">Nhập mã code được cấp cho vai trò của bạn (ví dụ: BK-TV01, BK-TV02, BK-TV03, BK-TV04)</p>
+      <!-- MODE 2: CRYPTOGRAPHIC CODE LOGIN -->
+      <div id="gateway-mode-code" style="display:none; max-width:540px; margin:0 auto;">
+        <div style="text-align:center; margin-bottom:22px;">
+          <h3 style="font-size:16px; font-weight:700; color:#FFFFFF;">Đăng Nhập Bằng Mã Bảo Mật Độc Quyền</h3>
+          <p style="font-size:13px; color:#94A3B8; margin-top:6px; line-height:1.5;">
+            Nhập mã khóa truy cập bảo mật được cấp khi bạn nhận vai trò (Định dạng: <code>TRO-XXX-XXXX-XXXX</code>)
+          </p>
         </div>
 
-        <div style="display:flex; gap:10px; margin-bottom:24px;">
-          <input type="text" id="input-access-code" class="form-control" placeholder="Nhập mã code (BK-TV01...)" style="font-family:monospace; font-size:15px; text-transform:uppercase; text-align:center;" />
-          <button id="btn-submit-code" class="btn btn-primary" style="padding:0 24px;">Vào Dashboard</button>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+          <input type="text" id="input-access-code" class="form-control" placeholder="TRO-SRV-9F2A-8K7X..." style="font-family:monospace; font-size:15px; text-transform:uppercase; text-align:center; letter-spacing:1px;" />
+          <button id="btn-submit-code" class="btn btn-primary" style="padding:0 24px;">Xác Thực & Vào</button>
         </div>
 
-        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:18px;">
-          <div style="font-size:12px; color:#94A3B8; text-align:center; margin-bottom:12px;">Hoặc bấm vào mã vai trò bên dưới để đăng nhập thử ngay:</div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <button class="btn btn-outline btn-quick-code" data-code="BK-TV01" style="border-color:rgba(255,255,255,0.15); color:#93C5FD;">
-              🔑 TV01 (Backend & Cloud)
-            </button>
-            <button class="btn btn-outline btn-quick-code" data-code="BK-TV02" style="border-color:rgba(255,255,255,0.15); color:#93C5FD;">
-              🔑 TV02 (App Android)
-            </button>
-            <button class="btn btn-outline btn-quick-code" data-code="BK-TV03" style="border-color:rgba(255,255,255,0.15); color:#93C5FD;">
-              🔑 TV03 (App Flutter)
-            </button>
-            <button class="btn btn-outline btn-quick-code" data-code="BK-TV04" style="border-color:rgba(255,255,255,0.15); color:#93C5FD;">
-              🔑 TV04 (CSDL & QA)
-            </button>
+        <div class="gateway-security-notice">
+          <div style="font-weight:700; font-size:12px; color:#60A5FA; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            Cơ Chế Bảo Mật Vai Trò Thông Minh:
           </div>
+          <p style="font-size:12px; color:#94A3B8; line-height:1.5;">
+            Để bảo đảm tính công bằng và toàn vẹn dữ liệu, mỗi vai trò (TV01, TV02, TV03, TV04) chỉ được cấp cho <strong>1 thành viên duy nhất</strong>. Khi một thành viên đã nhận vai trò, hệ thống sẽ tự động khóa trên Cloud để các thành viên khác không thể nhận trùng lặp.
+          </p>
         </div>
       </div>
     </div>
@@ -84,27 +94,28 @@
   <!-- DIGITAL MEMBER PASS MODAL -->
   <div id="member-pass-modal" class="modal-overlay">
     <div class="member-pass-modal">
-      <div style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:#60A5FA; margin-bottom:6px;">
-        THẺ THÀNH VIÊN KỸ THUẬT SỐ · INT4211
+      <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1.2px; color:#2DD4BF; margin-bottom:6px;">
+        THẺ THÀNH VIÊN KỸ THUẬT SỐ · SMARTTRO
       </div>
-      <h2 id="pass-member-name" style="font-size:20px; font-weight:800; color:#FFFFFF;">Họ và Tên</h2>
+      <h2 id="pass-member-name" style="font-size:22px; font-weight:800; color:#FFFFFF;">Họ và Tên</h2>
       <div id="pass-member-mssv" style="font-size:13px; color:#94A3B8;">MSSV: 231A010014</div>
-      <div id="pass-role-title" style="font-size:13.5px; font-weight:700; color:#34D399; margin-top:8px;">TV01 — Backend & DevOps</div>
+      <div id="pass-role-title" style="font-size:14px; font-weight:700; color:#34D399; margin-top:10px;">TV01 — Backend & Cloud</div>
 
       <div class="pass-code-box">
-        <span style="font-size:12px; color:#94A3B8;">MÃ CODE:</span>
-        <span id="pass-code-display" class="pass-code-val">BK-TV01</span>
-        <button id="btn-copy-pass-code" class="btn btn-outline" style="padding:4px 8px; font-size:11px; border-color:rgba(255,255,255,0.2); color:#FFFFFF;">
-          📋 Sao chép
+        <span style="font-size:11.5px; color:#94A3B8; font-weight:700;">MÃ BẢO MẬT:</span>
+        <span id="pass-code-display" class="pass-code-val">TRO-SRV-9F2A-8K7X</span>
+        <button id="btn-copy-pass-code" class="btn btn-outline" style="padding:4px 10px; font-size:11.5px; border-color:rgba(255,255,255,0.25); color:#FFFFFF;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          Sao chép
         </button>
       </div>
 
-      <p style="font-size:12px; color:#94A3B8; margin-bottom:18px;">
-        Hãy lưu lại mã code này. Lần sau bạn có thể dùng mã code để vào thẳng Dashboard cá nhân mà không cần đăng ký lại!
+      <p style="font-size:12px; color:#94A3B8; margin-bottom:20px; line-height:1.45;">
+        🔒 <em>Mã bảo mật này là duy nhất và chứng nhận quyền sở hữu của bạn đối với vai trò trên Cloud. Hãy lưu lại mã để đăng nhập trên các trình duyệt khác!</em>
       </p>
 
-      <button id="btn-enter-dashboard-with-pass" class="btn btn-primary" style="width:100%; padding:12px; font-size:14px; border-radius:8px;">
-        🚀 Truy Cập Dashboard Cá Nhân Ngay
+      <button id="btn-enter-dashboard-with-pass" class="btn btn-primary" style="width:100%; padding:13px; font-size:14px; border-radius:8px;">
+        Truy Cập Dashboard Cá Nhân Ngay
       </button>
     </div>
   </div>
@@ -116,10 +127,12 @@
     <header class="app-header">
       <div class="header-top">
         <div class="brand-wrapper">
-          <div class="brand-logo-badge">💼</div>
+          <div class="brand-logo-badge">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
           <div>
-            <div class="brand-title">Đề Tài 25 · Nền Tảng Việc Làm Bán Thời Gian</div>
-            <div class="brand-sub">Nhóm Ba Khỉ · INT4211 (HK261) · Android (Admin) + Flutter (Client) + Backend Render + Supabase</div>
+            <div class="brand-title">SmartTro · Quản Lý & Thuê Nhà Trọ Sinh Viên</div>
+            <div class="brand-sub">Nhóm Ba Khỉ · Đề tài 25 (INT4211 · HK261) · Android (Chủ Trọ) + Flutter (Sinh Viên) + Backend Cloud + Supabase</div>
           </div>
         </div>
 
@@ -139,14 +152,27 @@
 
           <!-- Switch View Button -->
           <button id="btn-toggle-view" class="btn btn-header">
-            👥 Xem Bảng Toàn Đội
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Xem Bảng Toàn Đội
           </button>
 
-          <button id="btn-theme-toggle" class="btn btn-header" title="Sáng/Tối">🌙 Tối</button>
-          <button id="btn-export-json" class="btn btn-header" title="Xuất file JSON">💾 Xuất JSON</button>
-          <button id="btn-import-json" class="btn btn-header" title="Nhập file JSON">📥 Nhập JSON</button>
+          <button id="btn-theme-toggle" class="btn btn-header" title="Sáng/Tối">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            Tối
+          </button>
+          <button id="btn-export-json" class="btn btn-header" title="Xuất file JSON">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Xuất JSON
+          </button>
+          <button id="btn-import-json" class="btn btn-header" title="Nhập file JSON">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            Nhập JSON
+          </button>
           <input type="file" id="input-import-file" accept=".json" style="display:none;" />
-          <button id="btn-logout" class="btn btn-header" style="color:#FCA5A5;" title="Đổi vai trò">🚪 Đăng xuất</button>
+          <button id="btn-logout" class="btn btn-header" style="color:#FCA5A5;" title="Đổi phiên làm việc">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            Đăng xuất
+          </button>
         </div>
       </div>
     </header>
@@ -173,7 +199,8 @@
             </div>
             <div>
               <button id="btn-add-commit" class="btn btn-header" style="background:rgba(255,255,255,0.2); font-size:12px;">
-                ➕ Ghi Nhận Commit Mới
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                Ghi Nhận Commit Mới
               </button>
             </div>
           </div>
@@ -182,7 +209,9 @@
         <!-- Personal KPI Grid -->
         <div class="grid-4">
           <div class="card stat-box">
-            <div class="stat-icon primary">📈</div>
+            <div class="stat-icon primary">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            </div>
             <div>
               <div id="personal-stat-percent" class="stat-val">0%</div>
               <div class="stat-label">Tiến độ 16 task của bạn</div>
@@ -193,7 +222,9 @@
           </div>
 
           <div class="card stat-box">
-            <div class="stat-icon emerald">✅</div>
+            <div class="stat-icon emerald">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            </div>
             <div>
               <div id="personal-stat-tasks-done" class="stat-val">0/16</div>
               <div class="stat-label">Đầu việc đã hoàn thành</div>
@@ -202,7 +233,9 @@
           </div>
 
           <div class="card stat-box">
-            <div class="stat-icon amber">⏱️</div>
+            <div class="stat-icon amber">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
             <div>
               <div id="personal-stat-hours" class="stat-val">0h</div>
               <div class="stat-label">Thời gian thực tế / Kế hoạch</div>
@@ -211,7 +244,9 @@
           </div>
 
           <div class="card stat-box">
-            <div class="stat-icon indigo">🌿</div>
+            <div class="stat-icon indigo">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
+            </div>
             <div>
               <div id="personal-stat-commit-count" class="stat-val">0/15</div>
               <div class="stat-label">Chỉ tiêu Commit GitHub</div>
@@ -231,12 +266,15 @@
           <!-- Commit Activity Feed -->
           <div class="card">
             <div class="card-title">
-              <span>🌿 Nhật Ký Commit Cá Nhân Trên GitHub</span>
+              <span>
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
+                Nhật Ký Commit Cá Nhân Trên GitHub
+              </span>
               <span style="font-size:11.5px; color:var(--text-muted);">Căn cứ tính hệ số điểm (E.3)</span>
             </div>
             <div id="personal-commits-container"></div>
             <div style="margin-top:12px; font-size:11.5px; color:var(--text-muted); line-height:1.4;">
-              💡 <em>Lưu ý: Giảng viên sẽ kiểm tra trực tiếp commit của bạn khi bảo vệ. Mỗi commit cần mang thông điệp rõ ràng theo mã task (ví dụ: <code>[T002] Them auth JWT</code>).</em>
+              <em>Lưu ý: Giảng viên sẽ kiểm tra trực tiếp commit của bạn khi bảo vệ. Mỗi commit cần mang thông điệp rõ ràng theo mã task (ví dụ: <code>[T002] Tinh toan tien dien nuoc va ma VietQR</code>).</em>
             </div>
           </div>
         </div>
@@ -269,28 +307,47 @@
       <section id="view-team" style="display:none;">
         <!-- Team Sub-Nav Tabs -->
         <nav class="nav-tabs" style="margin-top:0; margin-bottom:20px;">
-          <div class="nav-tab active" data-target="team-tab-overview">📊 Tổng Quan Toàn Đội</div>
-          <div class="nav-tab" data-target="team-tab-kanban">📋 Bảng Kanban (64 Task)</div>
-          <div class="nav-tab" data-target="team-tab-wbs">📑 Danh Sách WBS Chi Tiết</div>
-          <div class="nav-tab" data-target="team-tab-milestones">🎯 Mốc & Tiêu Chí Nghiệm Thu</div>
-          <div class="nav-tab" data-target="team-tab-reports">📝 Tạo Báo Cáo Tuần</div>
+          <div class="nav-tab active" data-target="team-tab-overview">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Tổng Quan Toàn Đội
+          </div>
+          <div class="nav-tab" data-target="team-tab-kanban">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M6 5v11"/><path d="M12 5v6"/><path d="M18 5v14"/></svg>
+            Bảng Kanban (64 Task)
+          </div>
+          <div class="nav-tab" data-target="team-tab-wbs">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="5" width="6" height="6" rx="1"/><path d="m3 17 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>
+            Danh Sách WBS Chi Tiết
+          </div>
+          <div class="nav-tab" data-target="team-tab-milestones">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+            Mốc & Tiêu Chí Nghiệm Thu
+          </div>
+          <div class="nav-tab" data-target="team-tab-reports">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+            Tạo Báo Cáo Tuần
+          </div>
         </nav>
 
         <!-- TEAM TAB 1: OVERVIEW -->
         <div id="team-tab-overview" class="tab-content active">
           <div class="alert-box">
-            <div class="alert-icon">⚠️</div>
+            <div class="alert-icon">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+            </div>
             <div>
               <div style="font-weight:700; font-size:13.5px;">MỐC KIỂM TRA GIỮA KỲ — TUẦN 11 (1.0 ĐIỂM, KHÔNG NỘP BÙ)</div>
               <div style="font-size:12.5px; line-height:1.45; margin-top:2px;">
-                Backend phải deploy online có HTTPS trên Render + Ít nhất 3 API thật + 2 màn hình mỗi app kết nối CSDL chung.
+                Backend phải deploy online có HTTPS trên Render + Ít nhất 3 API phòng trọ thật + 2 màn hình mỗi app kết nối CSDL chung.
               </div>
             </div>
           </div>
 
           <div class="grid-4">
             <div class="card stat-box">
-              <div class="stat-icon primary">📈</div>
+              <div class="stat-icon primary">
+                <svg class="icon icon-lg" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+              </div>
               <div>
                 <div id="stat-percent-done" class="stat-val">0%</div>
                 <div class="stat-label">Tiến độ toàn đội</div>
@@ -301,7 +358,9 @@
             </div>
 
             <div class="card stat-box">
-              <div class="stat-icon emerald">✅</div>
+              <div class="stat-icon emerald">
+                <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+              </div>
               <div>
                 <div id="stat-task-count" class="stat-val">0/64</div>
                 <div class="stat-label">Công việc đã xong</div>
@@ -310,7 +369,9 @@
             </div>
 
             <div class="card stat-box">
-              <div class="stat-icon amber">⏱️</div>
+              <div class="stat-icon amber">
+                <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
               <div>
                 <div id="stat-hours-done" class="stat-val">0h</div>
                 <div class="stat-label">Thời lượng hoàn thành</div>
@@ -319,7 +380,9 @@
             </div>
 
             <div class="card stat-box">
-              <div class="stat-icon accent">👥</div>
+              <div class="stat-icon accent">
+                <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
               <div>
                 <div class="stat-val">4 Thành Viên</div>
                 <div class="stat-label">Cân bằng 16 task/người</div>
@@ -330,7 +393,7 @@
 
           <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
             <h3 style="font-size:15px; font-weight:700;">Tiến Độ 4 Thành Viên (Bấm thẻ để lọc nhanh)</h3>
-            <span style="font-size:12px; color:var(--text-muted);">Mỗi người 16 task (~25% tổng dự án)</span>
+            <span style="font-size:12px; color:var(--text-muted);">Mỗi người 16 task (~25% tổng khối lượng đồ án)</span>
           </div>
           <div id="dashboard-member-cards" class="grid-4"></div>
 
@@ -348,8 +411,8 @@
               <select id="filter-member" class="select-input">
                 <option value="ALL">Tất cả thành viên (4 người)</option>
                 <option value="TV01">TV01 — Backend & Cloud</option>
-                <option value="TV02">TV02 — App Android</option>
-                <option value="TV03">TV03 — App Flutter</option>
+                <option value="TV02">TV02 — App Android Chủ Trọ</option>
+                <option value="TV03">TV03 — App Flutter Sinh Viên</option>
                 <option value="TV04">TV04 — CSDL & QA</option>
               </select>
 
@@ -358,50 +421,58 @@
                 <option value="ALL">Tất cả tuần (Tuần 8–15)</option>
                 <option value="8">Tuần 8 (Khởi động)</option>
                 <option value="9">Tuần 9 (Chốt phân tích & Deploy)</option>
-                <option value="10">Tuần 10 (Chức năng chính)</option>
+                <option value="10">Tuần 10 (Chức năng cốt lõi)</option>
                 <option value="11">Tuần 11 (Kiểm tra giữa kỳ)</option>
-                <option value="12">Tuần 12 (Chấm công GPS & Lương)</option>
+                <option value="12">Tuần 12 (Điện nước & VietQR)</option>
                 <option value="13">Tuần 13 (Tích hợp thông suốt)</option>
-                <option value="14">Tuần 14 (Sửa lỗi & Release)</option>
+                <option value="14">Tuần 14 (Sửa lỗi & Release APK)</option>
                 <option value="15">Tuần 15 (Bảo vệ đồ án)</option>
               </select>
             </div>
             <div style="font-size:12px; color:var(--text-muted);">
-              💡 <em>Kéo thả thẻ task giữa các cột để đổi trạng thái nhanh</em>
+              <em>Kéo thả thẻ task giữa các cột để đổi trạng thái nhanh</em>
             </div>
           </div>
 
           <div class="kanban-board">
             <div class="kanban-col col-todo" data-status="todo">
               <div class="kanban-header">
-                <div class="kanban-title">⚪ Chưa bắt đầu</div>
+                <div class="kanban-title">
+                  <span class="status-indicator" style="background:#94A3B8;"></span> Chưa bắt đầu
+                </div>
                 <span id="count-todo" class="badge-count">0</span>
               </div>
-              <div id="kanban-cards-todo" class="kanban-cards"></div>
+              <div id="kanban-cards-todo" class="kanban-cards" data-status="todo"></div>
             </div>
 
             <div class="kanban-col col-in_progress" data-status="in_progress">
               <div class="kanban-header">
-                <div class="kanban-title">🔵 Đang thực hiện</div>
+                <div class="kanban-title">
+                  <span class="status-indicator" style="background:#3B82F6;"></span> Đang thực hiện
+                </div>
                 <span id="count-in_progress" class="badge-count">0</span>
               </div>
-              <div id="kanban-cards-in_progress" class="kanban-cards"></div>
+              <div id="kanban-cards-in_progress" class="kanban-cards" data-status="in_progress"></div>
             </div>
 
             <div class="kanban-col col-review" data-status="review">
               <div class="kanban-header">
-                <div class="kanban-title">🟡 Chờ review / Test</div>
+                <div class="kanban-title">
+                  <span class="status-indicator" style="background:#F59E0B;"></span> Chờ review / Test
+                </div>
                 <span id="count-review" class="badge-count">0</span>
               </div>
-              <div id="kanban-cards-review" class="kanban-cards"></div>
+              <div id="kanban-cards-review" class="kanban-cards" data-status="review"></div>
             </div>
 
             <div class="kanban-col col-done" data-status="done">
               <div class="kanban-header">
-                <div class="kanban-title">🟢 Hoàn thành</div>
+                <div class="kanban-title">
+                  <span class="status-indicator" style="background:#10B981;"></span> Hoàn thành
+                </div>
                 <span id="count-done" class="badge-count">0</span>
               </div>
-              <div id="kanban-cards-done" class="kanban-cards"></div>
+              <div id="kanban-cards-done" class="kanban-cards" data-status="done"></div>
             </div>
           </div>
         </div>
@@ -410,7 +481,7 @@
         <div id="team-tab-wbs" class="tab-content">
           <div class="filter-bar">
             <div class="filter-group">
-              <input type="text" id="search-task" class="text-input" placeholder="🔍 Tìm kiếm mã task, tên việc..." style="width:260px;" />
+              <input type="text" id="search-task" class="text-input" placeholder="Tìm kiếm mã task, tên việc..." style="width:260px;" />
               <select id="filter-status" class="select-input">
                 <option value="ALL">Tất cả trạng thái</option>
                 <option value="todo">Chưa bắt đầu</option>
@@ -455,7 +526,10 @@
               <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">Bộ Tiêu Chí Tự Kiểm Nghiệm Thu</h3>
               <div class="card" style="margin-bottom:16px;">
                 <div class="card-title">
-                  <span>📱 10 Tiêu Chí Android Admin (C.1)</span>
+                  <span style="display:flex; align-items:center; gap:6px;">
+                    <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                    10 Tiêu Chí Android Chủ Trọ & Quản Lý (C.1)
+                  </span>
                   <span style="font-size:11.5px; color:var(--text-muted);">TV02</span>
                 </div>
                 <div id="checklist-c1-container"></div>
@@ -463,7 +537,10 @@
 
               <div class="card" style="margin-bottom:16px;">
                 <div class="card-title">
-                  <span>💙 10 Tiêu Chí Flutter Client (C.2)</span>
+                  <span style="display:flex; align-items:center; gap:6px;">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.5-8.58 3.9a2 2 0 0 1-1.66 0L2.6 12.5"/><path d="m22 17.5-8.58 3.9a2 2 0 0 1-1.66 0L2.6 17.5"/></svg>
+                    10 Tiêu Chí Flutter Sinh Viên Thuê Trọ (C.2)
+                  </span>
                   <span style="font-size:11.5px; color:var(--text-muted);">TV03</span>
                 </div>
                 <div id="checklist-c2-container"></div>
@@ -475,7 +552,10 @@
         <!-- TEAM TAB 5: REPORTS -->
         <div id="team-tab-reports" class="tab-content">
           <div class="card">
-            <h3 class="card-title">📝 Trình Tạo Báo Cáo Tuần Tự Động (Markdown)</h3>
+            <h3 class="card-title">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+              Trình Tạo Báo Cáo Tuần Tự Động (Markdown)
+            </h3>
             <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:14px;">
               <div>
                 <label style="font-size:11.5px; font-weight:700;">Tuần Báo Cáo:</label><br/>
@@ -492,17 +572,23 @@
               </div>
               <div>
                 <label style="font-size:11.5px; font-weight:700;">Người Báo Cáo:</label><br/>
-                <select id="select-report-member" class="select-input" style="width:200px; margin-top:4px;">
+                <select id="select-report-member" class="select-input" style="width:220px; margin-top:4px;">
                   <option value="ALL">Toàn bộ nhóm (4 người)</option>
                   <option value="TV01">TV01 (Backend & Cloud)</option>
-                  <option value="TV02">TV02 (App Android)</option>
-                  <option value="TV03">TV03 (App Flutter)</option>
+                  <option value="TV02">TV02 (App Android Chủ Trọ)</option>
+                  <option value="TV03">TV03 (App Flutter Sinh Viên)</option>
                   <option value="TV04">TV04 (CSDL & QA)</option>
                 </select>
               </div>
               <div style="align-self:flex-end;">
-                <button id="btn-generate-report" class="btn btn-primary" style="margin-top:4px;">⚡ Tạo Báo Cáo</button>
-                <button id="btn-copy-report" class="btn btn-success" style="margin-top:4px;">📋 Sao Chép Markdown</button>
+                <button id="btn-generate-report" class="btn btn-primary" style="margin-top:4px;">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  Tạo Báo Cáo
+                </button>
+                <button id="btn-copy-report" class="btn btn-outline" style="margin-top:4px; border-color:var(--border-color);">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  Sao Chép Markdown
+                </button>
               </div>
             </div>
             <textarea id="report-output-text" class="form-control" rows="12" style="font-family:monospace; font-size:12px;" placeholder="Bấm 'Tạo Báo Cáo' để sinh nội dung..."></textarea>
@@ -519,7 +605,7 @@
     <div class="modal-content">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
         <h3 id="modal-title-text" style="font-size:15px; font-weight:700; color:var(--primary);">Cập Nhật Công Việc</h3>
-        <button id="btn-modal-close" style="background:none; border:none; font-size:18px; cursor:pointer;">&times;</button>
+        <button id="btn-modal-close" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-muted);">&times;</button>
       </div>
 
       <form id="form-edit-task">
@@ -534,8 +620,8 @@
             <label>Người chủ trì:</label>
             <select id="modal-owner" class="form-control" disabled>
               <option value="TV01">TV01 — Backend & Cloud</option>
-              <option value="TV02">TV02 — App Android</option>
-              <option value="TV03">TV03 — App Flutter</option>
+              <option value="TV02">TV02 — App Android Chủ Trọ</option>
+              <option value="TV03">TV03 — App Flutter Sinh Viên</option>
               <option value="TV04">TV04 — CSDL & QA</option>
             </select>
           </div>
@@ -563,7 +649,7 @@
 
         <div class="form-group">
           <label>Link Pull Request / Commit:</label>
-          <input type="url" id="modal-pr" class="form-control" placeholder="https://github.com/.../pull/1" />
+          <input type="url" id="modal-pr" class="form-control" placeholder="https://github.com/doubleD1302/nhomBaKhi/pull/1" />
         </div>
 
         <div class="form-group">
@@ -585,7 +671,8 @@
       <div class="modal-header">
         <div>
           <h2 style="font-size:17px; font-weight:800; display:flex; align-items:center; gap:8px;">
-            <span>☁️</span> Cấu Hình Đồng Bộ Đám Mây (Supabase Cloud)
+            <svg class="icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+            Cấu Hình Đồng Bộ Đám Mây (Supabase Cloud)
           </h2>
           <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">
             Dành cho 4 thành viên (TV01, TV02, TV03, TV04) đồng bộ tiến độ thời gian thực trên GitHub Pages
@@ -594,7 +681,7 @@
         <button id="btn-cloud-modal-close" class="modal-close">&times;</button>
       </div>
 
-      <div style="margin-bottom:16px; padding:12px 14px; border-radius:8px; background:var(--bg); border:1px solid var(--border-color);">
+      <div style="margin-bottom:16px; padding:12px 14px; border-radius:8px; background:var(--bg-main); border:1px solid var(--border-color);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <span style="font-size:12px; font-weight:700;">Trạng thái đồng bộ:</span>
           <span id="cloud-status-badge" class="badge" style="background:rgba(234,179,8,0.15); color:#FBBF24;">Chưa kết nối</span>
@@ -616,26 +703,25 @@
 
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;">
         <button type="button" id="btn-test-cloud" class="btn btn-outline" style="font-size:12.5px;">
-          🔄 Kiểm tra kết nối
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          Kiểm tra kết nối
         </button>
         <button type="button" id="btn-push-all-cloud" class="btn btn-outline" style="font-size:12.5px;" title="Tải tất cả 64 task từ trình duyệt lên Supabase">
-          ⬆️ Đẩy 64 task lên Cloud
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+          Đẩy 64 task lên Cloud
         </button>
         <button type="button" id="btn-pull-cloud" class="btn btn-outline" style="font-size:12.5px;" title="Lấy dữ liệu tiến độ mới nhất từ Supabase về">
-          ⬇️ Kéo dữ liệu từ Cloud
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Kéo dữ liệu từ Cloud
         </button>
       </div>
 
       <!-- Collapsible SQL Script Guide -->
       <details style="margin-top:18px; border-top:1px solid var(--border-color); padding-top:12px;">
         <summary style="font-size:12px; font-weight:700; cursor:pointer; color:var(--primary);">
-          📜 Hướng dẫn chuẩn bị Database trên Supabase (Chỉ cần 1 người chạy 1 lần)
+          Hướng dẫn cấu trúc Database trên Supabase
         </summary>
         <div style="margin-top:10px; font-size:11.5px; line-height:1.5; color:var(--text-muted);">
-          <ol style="padding-left:18px; margin:6px 0;">
-            <li>Đăng ký/đăng nhập <a href="https://supabase.com" target="_blank" style="color:var(--primary); text-decoration:underline;">supabase.com</a> và tạo một New Project miễn phí.</li>
-            <li>Vào mục <strong>SQL Editor</strong> &rarr; Dán đoạn SQL bên dưới &rarr; Bấm <strong>Run</strong>:</li>
-          </ol>
           <pre style="background:rgba(0,0,0,0.25); padding:10px; border-radius:6px; overflow-x:auto; font-family:monospace; font-size:11px; max-height:120px; user-select:all;">CREATE TABLE IF NOT EXISTS bang_cong_viec (
     task_id VARCHAR(10) PRIMARY KEY,
     status VARCHAR(20) DEFAULT 'todo',
@@ -650,7 +736,7 @@ ALTER TABLE bang_cong_viec ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Cho phep nhom doc ghi tien do" ON bang_cong_viec;
 CREATE POLICY "Cho phep nhom doc ghi tien do" ON bang_cong_viec FOR ALL USING (true) WITH CHECK (true);</pre>
           <div style="margin-top:6px;">
-            File đầy đủ lưu tại <code>docs/bang_cong_viec_supabase.sql</code> trong kho GitHub.
+            Bảng này lưu tiến độ 64 task và trạng thái khóa độc quyền 4 vai trò (ROLE_TV01..ROLE_TV04).
           </div>
         </div>
       </details>

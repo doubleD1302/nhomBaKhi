@@ -1,8 +1,8 @@
-// Dữ liệu quản lý dự án Đề tài 25 - Nền tảng việc làm bán thời gian cho sinh viên
+// Dữ liệu quản lý dự án Đề tài 25 - Hệ thống Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
 // INT4211 - Lập trình trên các thiết bị di động (HK261)
 
 window.PROJECT_DATA = {
-    title: "Nền tảng việc làm bán thời gian cho sinh viên",
+    title: "Hệ thống Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)",
     subject: "INT4211 – Lập trình trên các thiết bị di động (HK261)",
     topicId: 25,
     repoUrl: "https://github.com/doubleD1302/nhomBaKhi",
@@ -14,29 +14,28 @@ window.PROJECT_DATA = {
     members: [
   {
     "id": "TV01",
-    "defaultCode": "BK-TV01",
     "name": "Backend & Hạ Tầng Cloud",
     "shortTitle": "Backend & Cloud",
-    "role": "Phát triển máy chủ REST API, Xác thực JWT/bcrypt, Quản lý hồ sơ NTD, Tin tuyển dụng, Kiểm duyệt và Xử lý báo cáo lừa đảo, Triển khai Cloud Render 24/7 (Tuân thủ UC01, UC02, UC05, UC10, UC11, UC12, UC16-UC21).",
-    "avatarColor": "#1B365D",
-    "badgeBg": "#EBF1FA",
-    "badgeBorder": "#2E6B9E",
+    "role": "Phát triển máy chủ REST API Node.js/Express, xác thực JWT/bcrypt, quản lý danh mục phòng trọ, chốt chỉ số công tơ điện nước, tính toán hóa đơn tự động theo biểu phí lũy tiến, tích hợp cổng tạo mã VietQR chuyển khoản ngân hàng, triển khai Cloud Render 24/7.",
+    "avatarColor": "#0D9488",
+    "badgeBg": "#E6F4F1",
+    "badgeBorder": "#0F766E",
     "icon": "server",
     "plannedHours": 84,
     "backup": "TV04",
     "techStack": [
       "Node.js 20",
       "Express 4",
-      "JWT",
-      "bcrypt",
+      "JWT/bcrypt",
       "PostgreSQL pg",
+      "VietQR API",
       "Render Cloud",
       "Supabase Storage"
     ],
     "assignedTasksCount": 16,
     "deliverables": [
       "Module mã nguồn Backend Node.js/Express phụ trách",
-      "Tài liệu đặc tả hợp đồng API (api.md) chuẩn REST",
+      "Tài liệu đặc tả hợp đồng API (api.md) chuẩn REST phòng trọ",
       "URL máy chủ chạy online có HTTPS trên Render",
       "Mục 1, 4, 6 trong báo cáo tổng kết đồ án"
     ],
@@ -63,35 +62,34 @@ window.PROJECT_DATA = {
       },
       {
         "id": "tv01_5",
-        "text": "API duyệt NTD kèm giấy phép, địa chỉ và MST",
+        "text": "API duyệt thông tin Chủ trọ và danh mục phòng trọ",
         "done": false
       },
       {
         "id": "tv01_6",
-        "text": "API duyệt tin tuyển dụng theo bộ tiêu chí chống lừa đảo (từ chối có lý do)",
+        "text": "API chốt chỉ số công tơ điện nước và tính tiền lũy tiến",
         "done": false
       },
       {
         "id": "tv01_7",
-        "text": "API gắn cờ, gỡ tin vi phạm và khóa tài khoản NTD tái phạm",
+        "text": "API phát sinh mã thanh toán chuẩn VietQR tự động",
         "done": false
       },
       {
         "id": "tv01_8",
-        "text": "API sinh viên báo cáo lừa đảo và quản trị lưu kết luận hồ sơ",
+        "text": "API sinh viên phản ánh báo hỏng và quản lý sửa chữa",
         "done": false
       }
     ]
   },
   {
     "id": "TV02",
-    "defaultCode": "BK-TV02",
-    "name": "Ứng Dụng Android (Admin & NTD)",
-    "shortTitle": "App Android",
-    "role": "Toàn bộ App Android Java + XML Layout (minSdk 24), Phân quyền 2 vai trò QUAN_TRI và NHA_TUYEN_DUNG, 2 danh sách RecyclerView, Duyệt hồ sơ NTD/tin, Quản lý ca, Duyệt chấm công/lương, Biểu đồ thống kê (Tuân thủ Tiêu chuẩn C.1 và UC11-UC21).",
-    "avatarColor": "#2E6B9E",
-    "badgeBg": "#E8F3FA",
-    "badgeBorder": "#1E4E79",
+    "name": "Ứng Dụng Android (Chủ Trọ & Quản Lý)",
+    "shortTitle": "App Android Chủ Trọ",
+    "role": "Toàn bộ App Android Java + XML Layout (minSdk 24), Phân quyền QUAN_TRI và CHU_TRO, 2 danh sách RecyclerView phòng trọ & hóa đơn, giao diện chốt chỉ số điện nước, lập hóa đơn VietQR thu tiền trọ, duyệt hợp đồng đặt cọc, biểu đồ doanh thu MPAndroidChart (Tuân thủ Tiêu chuẩn C.1).",
+    "avatarColor": "#2563EB",
+    "badgeBg": "#EFF6FF",
+    "badgeBorder": "#1D4ED8",
     "icon": "smartphone",
     "plannedHours": 85,
     "backup": "TV03",
@@ -119,50 +117,49 @@ window.PROJECT_DATA = {
       },
       {
         "id": "tv02_2",
-        "text": "Màn hình đăng nhập phân quyền QUAN_TRI và NHA_TUYEN_DUNG",
+        "text": "Màn hình đăng nhập phân quyền QUAN_TRI và CHU_TRO",
         "done": false
       },
       {
         "id": "tv02_3",
-        "text": "Tối thiểu 2 danh sách dùng RecyclerView kèm ViewHolder/Adapter",
+        "text": "Tối thiểu 2 danh sách dùng RecyclerView phòng trọ & hóa đơn",
         "done": false
       },
       {
         "id": "tv02_4",
-        "text": "Màn hình duyệt NTD và duyệt tin tuyển dụng kèm lý do",
+        "text": "Màn hình quản lý danh sách phòng trọ & trạng thái phòng",
         "done": false
       },
       {
         "id": "tv02_5",
-        "text": "Màn hình quản lý ca làm và duyệt hồ sơ ứng tuyển của NTD",
+        "text": "Màn hình nhập chỉ số điện nước hàng tháng và tính tiền",
         "done": false
       },
       {
         "id": "tv02_6",
-        "text": "Màn hình xem bảng chấm công và duyệt tay khi GPS vượt 200m",
+        "text": "Màn hình xuất hóa đơn và mã VietQR thanh toán cho từng phòng",
         "done": false
       },
       {
         "id": "tv02_7",
-        "text": "Màn hình báo cáo thống kê vẽ biểu đồ (ngành nghề, lương TB, tin bị gỡ)",
+        "text": "Màn hình duyệt hợp đồng đặt cọc của sinh viên",
         "done": false
       },
       {
         "id": "tv02_8",
-        "text": "Giữ dữ liệu form khi xoay màn hình (onSaveInstanceState / ViewModel)",
+        "text": "Màn hình báo cáo thống kê vẽ biểu đồ doanh thu và công suất phòng",
         "done": false
       }
     ]
   },
   {
     "id": "TV03",
-    "defaultCode": "BK-TV03",
-    "name": "Ứng Dụng Flutter (Client Sinh Viên)",
-    "shortTitle": "App Flutter",
-    "role": "Toàn bộ App Flutter Dart, Phân hệ Sinh viên, Tạo hồ sơ cá nhân, Khung giờ rảnh theo tuần (có Undo SnackBar), Tìm việc đa tiêu chí & lọc phù hợp lịch rảnh, Nhận ca, Chấm công định vị GPS Haversine, Xem lương, Báo cáo lừa đảo (Tuân thủ Tiêu chuẩn C.2 và UC01-UC10).",
-    "avatarColor": "#087F8C",
-    "badgeBg": "#E6F5F7",
-    "badgeBorder": "#06616B",
+    "name": "Ứng Dụng Flutter (Sinh Viên Thuê Trọ)",
+    "shortTitle": "App Flutter Sinh Viên",
+    "role": "Toàn bộ App Flutter Dart (Material Design 3), Phân hệ Sinh viên, tạo hồ sơ, tìm kiếm phòng trọ theo bán kính trường đại học qua định vị GPS (công thức Haversine), lọc tiện ích phòng, gửi yêu cầu đặt cọc & hợp đồng, gửi phản ánh sửa chữa kèm Undo SnackBar (Tuân thủ C.2).",
+    "avatarColor": "#059669",
+    "badgeBg": "#ECFDF5",
+    "badgeBorder": "#047857",
     "icon": "layers",
     "plannedHours": 85,
     "backup": "TV02",
@@ -195,93 +192,92 @@ window.PROJECT_DATA = {
       },
       {
         "id": "tv03_3",
-        "text": "Màn hình hồ sơ sinh viên và thiết lập khung giờ rảnh theo thứ trong tuần",
+        "text": "Màn hình hồ sơ sinh viên và lưu vị trí trường đại học đang học",
         "done": false
       },
       {
         "id": "tv03_4",
-        "text": "Thao tác xóa khung giờ rảnh có Dialog xác nhận và SnackBar Undo (C.2)",
+        "text": "Tìm kiếm phòng trọ theo bán kính GPS (Haversine km gần trường)",
         "done": false
       },
       {
         "id": "tv03_5",
-        "text": "Tìm kiếm việc làm có bộ lọc khu vực, mức lương và phuHopLich=true",
+        "text": "Bộ lọc nâng cao theo khoảng giá, tiện ích phòng và loại phòng",
         "done": false
       },
       {
         "id": "tv03_6",
-        "text": "Chi tiết tin tuyển dụng hiển thị nhãn 'Đã xác minh'",
+        "text": "Chi tiết phòng trọ: ảnh, tiện ích, nội quy, bản đồ chỉ đường",
         "done": false
       },
       {
         "id": "tv03_7",
-        "text": "Màn hình nhận ca làm việc và xem lịch tuần của sinh viên",
+        "text": "Quy trình gửi yêu cầu đặt cọc giữ chỗ và xem hợp đồng mẫu",
         "done": false
       },
       {
         "id": "tv03_8",
-        "text": "Tích hợp GPS lấy tọa độ check-in/check-out gửi về server",
+        "text": "Thao tác gửi yêu cầu sửa chữa hỏng hóc có SnackBar Undo (C.2)",
         "done": false
       }
     ]
   },
   {
     "id": "TV04",
-    "defaultCode": "BK-TV04",
     "name": "Cơ Sở Dữ Liệu & Kiểm Thử QA",
     "shortTitle": "CSDL & Kiểm Thử QA",
-    "role": "Thiết kế & Quản trị CSDL PostgreSQL trên Supabase (ERD 14-21 bảng chuẩn theo ThietKe_De25), Nạp bộ dữ liệu mẫu (Seed) đủ 5 định mức, Backend Transaction nhận ca bằng khóa dòng chống overbooking, Backend tính khoảng cách GPS Haversine (200m), Backend tính lương theo kỳ, Điều phối kiểm thử hồi quy 25 ca.",
+    "role": "Thiết kế & Quản trị CSDL PostgreSQL trên Supabase (ERD chuẩn hóa phòng trọ, chủ trọ, sinh viên, hợp đồng, chỉ số điện nước, hóa đơn, báo hỏng), Nạp bộ dữ liệu mẫu (Seed Quota), Giao dịch khóa dòng SELECT ... FOR UPDATE chống trùng đặt cọc, Bộ 25 test case tích hợp.",
     "avatarColor": "#D97706",
-    "badgeBg": "#FEF6E8",
+    "badgeBg": "#FFFBEB",
     "badgeBorder": "#B45309",
     "icon": "database",
     "plannedHours": 86,
     "backup": "TV01",
     "techStack": [
-      "PostgreSQL 16",
+      "PostgreSQL 15+",
       "Supabase",
       "SQL Transactions",
-      "Haversine Math",
+      "SELECT FOR UPDATE",
       "Jest / Postman",
       "QA Test Suite"
     ],
     "assignedTasksCount": 16,
     "deliverables": [
-      "Script schema.sql chuẩn 12 bảng có khóa ngoại thật",
-      "Script seed.sql đạt đủ 5 định mức dữ liệu mẫu",
-      "Module backend Transaction nhận ca và tính lương",
+      "Script schema.sql chuẩn các bảng có khóa ngoại thật",
+      "Script seed.sql đạt đủ định mức dữ liệu mẫu phòng trọ",
+      "Module backend Transaction đặt cọc và chốt hóa đơn",
       "Bảng tổng hợp kết quả kiểm thử thực tế (≥25 ca)",
       "Mục 3, 7, 8 trong báo cáo cuối kỳ"
     ],
     "roleChecklist": [
       {
         "id": "tv04_1",
-        "text": "Thiết kế ERD 12 bảng và viết schema.sql chạy được từ đầu",
+        "text": "Thiết kế ERD chuẩn hóa và viết schema.sql chạy được từ đầu",
         "done": false
       },
       {
         "id": "tv04_2",
-        "text": "Xây dựng seed.sql đủ: 25 NTD, 80 tin, 200 SV, 300 ca, 500 chấm công",
+        "text": "Xây dựng seed.sql đủ: nhà trọ, phòng trọ, sinh viên, hợp đồng, hóa đơn",
         "done": false
       },
       {
         "id": "tv04_3",
-        "text": "Viết API nhận ca bọc trong Transaction có SELECT ... FOR UPDATE chống đầy/trùng",
+        "text": "Viết API đặt cọc bọc trong Transaction có SELECT ... FOR UPDATE chống trùng",
         "done": false
       },
       {
         "id": "tv04_4",
-        "text": "Viết API chấm công tính khoảng cách Haversine (ngưỡng 200m -> CAN_DUYET_TAY)",
+        "text": "Viết hàm tính lũy tiến tiền điện nước và phát sinh hóa đơn tự động",
         "done": false
       },
       {
         "id": "tv04_5",
-        "text": "Viết API tính lương theo kỳ bằng Transaction (giờ duyệt × đơn giá giờ)",
+        "text": "Kiểm thử API tìm kiếm bán kính GPS theo tọa độ trường đại học",
         "done": false
       },
       {
         "id": "tv04_6",
-        "text": "Xây dựng bộ kịch bản kiểm thử tích hợp xuyên suốt từ CSDL -> API -> 2 App",
+        "text": "Xây dựng bộ kịch bản kiểm thử tích hợp xuyên suốt CSDL -> API -> 2 App",
         "done": false
       },
       {
@@ -1975,28 +1971,28 @@ window.PROJECT_DATA = {
 ],
     techHighlights: [
   {
-    "title": "Chấm công GPS & Cơ chế duyệt tay (Ngưỡng 200m)",
-    "desc": "Sinh viên check-in/out gửi tọa độ. Server tính Haversine. Nếu khoảng cách >200m, server KHÔNG từ chối mà lưu cờ CAN_DUYET_TAY để Admin xem xét duyệt trên app Android.",
+    "title": "Chốt Chỉ Số Điện Nước & Tự Động Tính Hóa Đơn Kèm VietQR",
+    "desc": "Hệ thống lưu chỉ số công tơ điện nước theo tháng, tự động tính tổng tiền theo bậc lũy tiến và sinh mã chuẩn VietQR Napas 247 chuyển khoản ngân hàng ngay trong ứng dụng.",
+    "icon": "receipt",
+    "tag": "Điểm nhấn 1 · Tự Động Hóa"
+  },
+  {
+    "title": "Giao Thức Khóa Phòng Độc Quyền (Tránh Overbooking)",
+    "desc": "Ứng dụng Transaction với khóa dòng SELECT FOR UPDATE ở tầng PostgreSQL, bảo đảm cùng một phòng trọ không bao giờ bị 2 sinh viên đặt cọc giữ chỗ cùng thời điểm.",
+    "icon": "lock",
+    "tag": "Điểm nhấn 2 · An Toàn Giao Dịch"
+  },
+  {
+    "title": "Tìm Phòng Trọ Bán Kính Trường Đại Học Bằng GPS",
+    "desc": "Flutter tích hợp Geolocator tính khoảng cách Haversine từ vị trí trường (Bách Khoa, KHTN, KHXH&NV...) tới từng nhà trọ giúp sinh viên dễ dàng chọn phòng gần trường.",
     "icon": "map-pin",
-    "tag": "Điểm nhấn 1"
+    "tag": "Điểm nhấn 3 · Định Vị GPS"
   },
   {
-    "title": "Lọc việc làm phù hợp lịch học (Giao khoảng thời gian)",
-    "desc": "Bài toán Interval Overlap: So khớp khung giờ ca làm với khung giờ rảnh theo tuần của sinh viên. Ca phải nằm trọn trong giờ rảnh và không trùng với ca đã nhận.",
-    "icon": "calendar",
-    "tag": "Điểm nhấn 2"
-  },
-  {
-    "title": "Transaction an toàn khi nhận ca (Chống Overbooking)",
-    "desc": "Sử dụng Database Transaction với khóa dòng (SELECT ... FOR UPDATE) để ngăn chặn tranh chấp tài nguyên khi nhiều sinh viên cùng nhận suất cuối.",
-    "icon": "shield-check",
-    "tag": "Điểm nhấn 3"
-  },
-  {
-    "title": "Tính lương tự động theo kỳ (Lưu vết đơn giá)",
-    "desc": "Server tự động tổng hợp số giờ từ các lượt chấm công đã duyệt, nhân đơn giá giờ tại thời điểm làm việc, tính toán theo kỳ trong transaction chống nhân đôi dữ liệu.",
-    "icon": "dollar-sign",
-    "tag": "Điểm nhấn 4"
+    "title": "Hệ Thống Báo Sự Cố & Quản Lý Sửa Chữa Đa Nền Tảng",
+    "desc": "Sinh viên chụp ảnh hư hỏng (vòi nước, bóng đèn, điện lưới) gửi từ app Flutter, Chủ trọ nhận thông báo tức thời trên Android để cử thợ đến xử lý kịp thời.",
+    "icon": "wrench",
+    "tag": "Điểm nhấn 4 · Đa Nền Tảng"
   }
 ]
 };

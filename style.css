@@ -395,46 +395,59 @@ body {
   align-items: center;
   justify-content: center;
   padding: 30px 20px;
-  background: radial-gradient(circle at 50% 20%, #152B4A 0%, #0B1120 100%);
+  background: radial-gradient(circle at 50% 20%, #0F2A38 0%, #0B1120 100%);
   color: #FFFFFF;
 }
 
 .gateway-card {
-  max-width: 1050px;
+  max-width: 1080px;
   width: 100%;
-  background: rgba(21, 31, 50, 0.85);
-  backdrop-filter: blur(16px);
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-xl);
   padding: 36px 40px;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 .gateway-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
+}
+
+.gateway-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%);
+  color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.4);
 }
 
 .gateway-header h1 {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  margin-bottom: 8px;
-  background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 100%);
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #5EEAD4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gateway-header p {
-  font-size: 14px;
+  font-size: 13.5px;
   color: #94A3B8;
 }
 
 .gateway-mode-tabs {
   display: flex;
-  max-width: 440px;
-  margin: 0 auto 28px;
-  background: rgba(0, 0, 0, 0.3);
+  max-width: 480px;
+  margin: 0 auto 26px;
+  background: rgba(0, 0, 0, 0.35);
   padding: 4px;
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -443,7 +456,7 @@ body {
 .gateway-mode-tab {
   flex: 1;
   text-align: center;
-  padding: 9px 16px;
+  padding: 10px 16px;
   font-weight: 600;
   font-size: 13px;
   color: #94A3B8;
@@ -453,9 +466,25 @@ body {
 }
 
 .gateway-mode-tab.active {
-  background: #3B82F6;
+  background: #0D9488;
   color: #FFFFFF;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.4);
+}
+
+.gateway-info-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.gateway-security-notice {
+  background: rgba(13, 148, 136, 0.08);
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 16px;
 }
 
 .role-selection-grid {
@@ -469,25 +498,68 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  cursor: pointer;
+  padding: 18px;
   transition: all 0.2s ease;
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-.role-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #3B82F6;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+.role-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 10.5px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.3;
 }
 
-.role-card.selected {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 2px #3B82F6;
+.role-status-pill.claimed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.role-status-pill.available {
+  background: rgba(13, 148, 136, 0.15);
+  color: #5EEAD4;
+  border: 1px solid rgba(13, 148, 136, 0.35);
+}
+
+.role-card.is-claimed {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.25);
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.role-card.is-claimed:hover {
+  transform: none;
+  box-shadow: none;
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.role-card.is-available {
+  cursor: pointer;
+  border-color: rgba(45, 212, 191, 0.25);
+}
+
+.role-card.is-available:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #0D9488;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.25);
+}
+
+.role-card.is-available.selected {
+  background: rgba(13, 148, 136, 0.18);
+  border-color: #14B8A6;
+  box-shadow: 0 0 0 2px #0D9488;
 }
 
 .role-card-badge {
@@ -502,7 +574,7 @@ body {
 }
 
 .role-card h3 {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 700;
   margin-bottom: 6px;
   color: #FFFFFF;
@@ -535,28 +607,36 @@ body {
 .role-hours-footer {
   font-size: 11px;
   font-weight: 700;
-  color: #60A5FA;
+  color: #5EEAD4;
   display: flex;
   justify-content: space-between;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 10px;
 }
 
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  margin-right: 6px;
+}
+
 /* Digital Member Pass Card */
 .member-pass-modal {
-  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #0F203C 0%, #0B1120 100%);
+  border: 1px solid rgba(45, 212, 191, 0.3);
   border-radius: var(--radius-xl);
   padding: 28px;
   text-align: center;
   max-width: 480px;
   margin: 0 auto;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 .pass-code-box {
   background: rgba(0, 0, 0, 0.4);
-  border: 2px dashed #3B82F6;
+  border: 2px dashed #0D9488;
   border-radius: var(--radius-md);
   padding: 16px;
   margin: 18px 0;
@@ -568,10 +648,10 @@ body {
 
 .pass-code-val {
   font-family: monospace;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: 2px;
-  color: #60A5FA;
+  color: #2DD4BF;
 }
 
 /* Kanban */
