@@ -214,7 +214,9 @@
         personalStats,
         personalCommits,
         (taskId, status) => this.handleUpdateStatus(taskId, status),
-        (taskId) => this.openTaskModal(taskId)
+        (taskId) => this.openTaskModal(taskId),
+        () => this.openAddCommitModal(),
+        (memberId, idx) => this.handleDeleteCommit(memberId, idx)
       );
 
       // Render Team Dashboard
@@ -313,6 +315,59 @@
         const u = window.UserModel.currentUser;
         window.CloudSyncService.pushTask(updated, u ? u.name : '');
       }
+    }
+
+    openAddCommitModal() {
+      const user = window.UserModel.currentUser;
+      if (!user) return;
+
+      const memberTasks = window.ProjectModel.tasks.filter(t => t.owner === user.memberId);
+      const sel = document.getElementById('commit-select-task');
+      if (sel) {
+        sel.innerHTML = memberTasks.map(t => `<option value="${t.id}">${t.id} — ${t.name} (Tuần ${t.start})</option>`).join('');
+      }
+
+      // Generate a fresh random commit hash
+      const randomHash = Math.random().toString(16).substring(2, 9);
+      const hashInput = document.getElementById('commit-input-hash');
+      if (hashInput) hashInput.value = randomHash;
+
+      // Default message with first task
+      const firstTask = memberTasks[0];
+      const msgInput = document.getElementById('commit-input-msg');
+      if (msgInput && firstTask) {
+        msgInput.value = `[${firstTask.id}] ${firstTask.name}`;
+      }
+
+      document.getElementById('modal-add-commit')?.classList.add('active');
+    }
+
+    closeAddCommitModal() {
+      document.getElementById('modal-add-commit')?.classList.remove('active');
+    }
+
+    saveCommitFromModal() {
+      const user = window.UserModel.currentUser;
+      if (!user) return;
+
+      const hash = (document.getElementById('commit-input-hash')?.value || '').trim() || Math.random().toString(16).substring(2, 9);
+      const msg = (document.getElementById('commit-input-msg')?.value || '').trim();
+
+      if (!msg) {
+        alert("Vui lòng nhập thông điệp commit!");
+        return;
+      }
+
+      window.UserModel.addCommit(user.memberId, hash, msg);
+      this.closeAddCommitModal();
+      this.renderActiveView();
+      this.showToast(`Đã ghi nhận commit [${hash}] thành công!`);
+    }
+
+    handleDeleteCommit(memberId, index) {
+      window.UserModel.deleteCommit(memberId, index);
+      this.renderActiveView();
+      this.showToast("Đã xóa bản ghi commit!");
     }
 
     showToast(msg) {
@@ -507,18 +562,36 @@
         }
       });
 
-      // Add Commit
-      document.getElementById('btn-add-commit')?.addEventListener('click', () => {
-        const user = window.UserModel.currentUser;
-        if (!user) return;
-        const hash = prompt("Nhập mã hash commit hoặc mã PR (ví dụ: a1b2c3d hoặc PR #12):");
-        if (!hash) return;
-        const message = prompt("Nhập nội dung commit (ví dụ: [T002] Tinh toan tien dien nuoc va ma VietQR):");
-        if (!message) return;
+      // Add Commit Modal handlers
+      document.getElementById('btn-add-commit')?.addEventListener('click', () => this.openAddCommitModal());
+      document.getElementById('btn-card-add-commit')?.addEventListener('click', () => this.openAddCommitModal());
+      document.getElementById('btn-commit-modal-close')?.addEventListener('click', () => this.closeAddCommitModal());
+      document.getElementById('btn-cancel-commit-modal')?.addEventListener('click', () => this.closeAddCommitModal());
+      document.getElementById('modal-add-commit')?.addEventListener('click', (e) => {
+        if (e.target.id === 'modal-add-commit') this.closeAddCommitModal();
+      });
 
-        window.UserModel.addCommit(user.memberId, hash, message);
-        this.renderActiveView();
-        this.showToast("Đã ghi nhận commit thành công!");
+      // Quick random hash generator
+      document.getElementById('btn-gen-random-hash')?.addEventListener('click', () => {
+        const hash = Math.random().toString(16).substring(2, 9);
+        const input = document.getElementById('commit-input-hash');
+        if (input) input.value = hash;
+      });
+
+      // Task selector change auto-populates message
+      document.getElementById('commit-select-task')?.addEventListener('change', (e) => {
+        const taskId = e.target.value;
+        const task = window.ProjectModel.tasks.find(t => t.id === taskId);
+        const msgInput = document.getElementById('commit-input-msg');
+        if (msgInput && task) {
+          msgInput.value = `[${task.id}] ${task.name}`;
+        }
+      });
+
+      // Commit Form Submit
+      document.getElementById('form-add-commit')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.saveCommitFromModal();
       });
 
       // Filters

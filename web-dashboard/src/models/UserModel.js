@@ -202,6 +202,13 @@
       return entry;
     }
 
+    deleteCommit(memberId, index) {
+      if (!this.commits[memberId] || index < 0 || index >= this.commits[memberId].length) return false;
+      this.commits[memberId].splice(index, 1);
+      this.saveCommits();
+      return true;
+    }
+
     getCommits(memberId) {
       return this.commits[memberId] || [];
     }

@@ -269,18 +269,44 @@
           <!-- Role Workspace Studio -->
           <div id="role-specific-workspace-panel"></div>
 
-          <!-- Commit Activity Feed -->
-          <div class="card">
-            <div class="card-title">
-              <span>
-                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
-                Nhật Ký Commit Cá Nhân Trên GitHub
-              </span>
-              <span style="font-size:11.5px; color:var(--text-muted);">Căn cứ tính hệ số điểm (E.3)</span>
+          <!-- Commit Activity Feed (Nâng cấp chuẩn Portfolio & Minh chứng điểm E.3) -->
+          <div class="card commit-card-pro">
+            <div class="card-title commit-card-header">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="commit-header-icon">
+                  <svg class="icon icon-md" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
+                </span>
+                <div>
+                  <div style="font-size:14px; font-weight:800; color:var(--text-primary); letter-spacing:-0.2px;">Nhật Ký Commit Cá Nhân Trên GitHub</div>
+                  <div style="font-size:11px; color:var(--text-muted);">Căn cứ tính hệ số điểm cá nhân (Tiêu chí E.3 đồ án)</div>
+                </div>
+              </div>
+              <button id="btn-card-add-commit" class="btn btn-primary btn-sm btn-record-commit" title="Thêm commit mới đẩy lên GitHub">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>+ Ghi Nhận Commit</span>
+              </button>
             </div>
-            <div id="personal-commits-container"></div>
-            <div style="margin-top:12px; font-size:11.5px; color:var(--text-muted); line-height:1.4;">
-              <em>Lưu ý: Giảng viên sẽ kiểm tra trực tiếp commit của bạn khi bảo vệ. Mỗi commit cần mang thông điệp rõ ràng theo mã task (ví dụ: <code>[T002] Tinh toan tien dien nuoc va ma VietQR</code>).</em>
+
+            <!-- Commit Progress & Benchmark Meter -->
+            <div class="commit-meter-box">
+              <div class="commit-meter-header">
+                <span class="meter-label">Tiêu chuẩn Giảng viên: <strong>≥ 15 Commit rải đều 8 tuần</strong></span>
+                <span id="commit-meter-count" class="meter-count">0 / 15 (0%)</span>
+              </div>
+              <div class="commit-progress-track">
+                <div id="commit-meter-bar" class="commit-progress-fill" style="width:0%;"></div>
+              </div>
+              <div id="commit-meter-status" class="commit-meter-status status-alert">
+                Chưa có commit nào — Bấm '+ Ghi Nhận Commit' để lưu lịch sử làm việc!
+              </div>
+            </div>
+
+            <!-- List / Timeline of Commits -->
+            <div id="personal-commits-container" class="commit-feed-container"></div>
+
+            <div class="commit-footer-note">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" style="flex-shrink:0; margin-top:2px; color:#F59E0B;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Giảng viên sẽ đối soát trực tiếp commit của bạn trên repository khi chấm thi. Mỗi commit cần mang tiền tố <code>[Txxx]</code> (ví dụ: <code>[T002] Tinh toan tien dien nuoc va ma VietQR</code>).</span>
             </div>
           </div>
         </div>
@@ -666,6 +692,55 @@
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
           <button type="button" class="btn btn-outline" onclick="document.getElementById('modal-overlay').classList.remove('active')">Hủy</button>
           <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL GHI NHẬN COMMIT (GITHUB) ==================== -->
+  <div id="modal-add-commit" class="modal-overlay">
+    <div class="modal" style="max-width: 540px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size:16px; font-weight:800; display:flex; align-items:center; gap:8px; color:var(--primary);">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
+            Ghi Nhận Commit Cá Nhân (GitHub)
+          </h3>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+            Minh chứng điểm E.3 cá nhân · Mục tiêu ≥15 commit trong 8 tuần
+          </div>
+        </div>
+        <button type="button" id="btn-commit-modal-close" class="modal-close">&times;</button>
+      </div>
+
+      <form id="form-add-commit">
+        <div class="form-group">
+          <label style="font-weight:700; font-size:12px;">Mã Hash Commit hoặc PR # (GitHub):</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="commit-input-hash" class="form-control" placeholder="Ví dụ: a1b2c3d hoặc PR #12" style="font-family:monospace; font-weight:700;" required />
+            <button type="button" id="btn-gen-random-hash" class="btn btn-outline" style="font-size:11.5px; white-space:nowrap;" title="Tạo mã hash ngẫu nhiên cho commit vừa push">Tạo Hash Nhanh</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label style="font-weight:700; font-size:12px;">Chọn Đầu Việc (Task) Bạn Vừa Làm:</label>
+          <select id="commit-select-task" class="form-control">
+            <!-- Tự động điền 16 task của thành viên -->
+          </select>
+          <small style="color:var(--text-muted); font-size:11px;">Hệ thống sẽ tự động ghép tiền tố <code>[Txxx]</code> vào thông điệp bên dưới.</small>
+        </div>
+
+        <div class="form-group">
+          <label style="font-weight:700; font-size:12px;">Nội Dung / Thông Điệp Commit (Commit Message):</label>
+          <input type="text" id="commit-input-msg" class="form-control" placeholder="Ví dụ: [T002] Tinh toan tien dien nuoc va ma VietQR" required />
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; border-top:1px solid var(--border-color); padding-top:14px;">
+          <button type="button" class="btn btn-outline" id="btn-cancel-commit-modal">Hủy</button>
+          <button type="submit" class="btn btn-primary" style="display:flex; align-items:center; gap:6px;">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Lưu Vào Nhật Ký
+          </button>
         </div>
       </form>
     </div>

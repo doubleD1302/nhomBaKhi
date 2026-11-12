@@ -6,7 +6,7 @@
       this.currentFilter = 'ALL';
     }
 
-    render(user, member, stats, commits, onUpdateStatus, onEditTask, onAddCommit) {
+    render(user, member, stats, commits, onUpdateStatus, onEditTask, onAddCommit, onDeleteCommit) {
       if (!user || !member) return;
 
       // 1. Personal Hero Banner
@@ -66,7 +66,7 @@
       document.getElementById('personal-progress-fill').style.width = `${stats.percent}%`;
       document.getElementById('personal-stat-hours').textContent = `${stats.actualHours.toFixed(1)}h / ${member.plannedHours}h`;
 
-      // 4. Commit Tracker
+      // 4. Commit Tracker (Header Mini Widget)
       const commitCount = commits.length;
       document.getElementById('personal-stat-commit-count').textContent = `${commitCount}/15 commit`;
       const commitPct = Math.min(100, Math.round((commitCount / 15) * 100));
@@ -75,7 +75,7 @@
         ? 'Đạt chuẩn yêu cầu của Giảng viên (≥15 commit)' 
         : `Còn thiếu ${15 - commitCount} commit có ý nghĩa rải đều 8 tuần`;
 
-      this.renderCommitList(commits);
+      this.renderCommitList(commits, user.memberId, onDeleteCommit);
       this.renderRoleWorkspace(member);
       this.renderTaskList(member.id, onUpdateStatus, onEditTask);
     }
@@ -133,98 +133,497 @@
       `;
     }
 
-    renderCommitList(commits) {
+    renderCommitList(commits, memberId, onDeleteCommit) {
       const container = document.getElementById('personal-commits-container');
+      const meterCount = document.getElementById('commit-meter-count');
+      const meterBar = document.getElementById('commit-meter-bar');
+      const meterStatus = document.getElementById('commit-meter-status');
+
+      const count = (commits || []).length;
+      const pct = Math.min(100, Math.round((count / 15) * 100));
+
+      if (meterCount) meterCount.textContent = `${count} / 15 (${pct}%)`;
+      if (meterBar) meterBar.style.width = `${pct}%`;
+
+      if (meterStatus) {
+        if (count === 0) {
+          meterStatus.className = 'commit-meter-status status-alert';
+          meterStatus.innerHTML = `<strong>Chưa có commit nào</strong> — Bấm '<strong>+ Ghi Nhận Commit</strong>' bên trên để lưu lịch sử làm việc!`;
+        } else if (count < 15) {
+          meterStatus.className = 'commit-meter-status status-progress';
+          meterStatus.innerHTML = `Đã ghi nhận <strong>${count}/15</strong> commit — Cần thêm <strong>${15 - count}</strong> commit nữa để đạt chuẩn A+ (≥ 15 commit)`;
+        } else {
+          meterStatus.className = 'commit-meter-status status-success';
+          meterStatus.innerHTML = `<strong>Xuất sắc!</strong> Đã hoàn thành chỉ tiêu ${count} commit (Đạt chuẩn tối đa tiêu chí E.3 của Giảng viên).`;
+        }
+      }
+
       if (!container) return;
 
-      if (commits.length === 0) {
-        container.innerHTML = `<div style="font-size:12px; color:var(--text-muted); padding:10px 0;">Chưa có commit nào được ghi nhận. Hãy bấm nút '+ Ghi nhận commit' khi bạn đẩy code lên GitHub.</div>`;
+      if (!commits || commits.length === 0) {
+        container.innerHTML = `
+          <div class="commit-empty-box">
+            <div class="commit-empty-icon">
+              ${window.Icons.get('git-commit', 'icon-md')}
+            </div>
+            <div class="commit-empty-title">Chưa ghi nhận commit nào trên repository</div>
+            <div class="commit-empty-desc">
+              Giảng viên sẽ đối soát trực tiếp commit của từng cá nhân khi bảo vệ đồ án. Mỗi lần bạn push code lên GitHub, hãy bấm ghi nhận để tính điểm.
+            </div>
+            <button type="button" class="btn btn-outline btn-sm btn-empty-add-commit" style="margin-top:6px; font-size:11.5px; border-color:var(--indigo); color:var(--indigo);">
+              ${window.Icons.get('plus', 'icon-xs')} Thêm Commit Đầu Tiên
+            </button>
+          </div>
+        `;
+        container.querySelector('.btn-empty-add-commit')?.addEventListener('click', () => {
+          window.AppController?.openAddCommitModal?.();
+        });
         return;
       }
 
-      container.innerHTML = commits.slice(-5).reverse().map(c => `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border-color); font-size:12px;">
-          <div>
-            <span style="font-family:monospace; background:var(--primary-subtle); color:var(--primary); font-weight:700; padding:1px 6px; border-radius:3px;">${c.hash || 'commit'}</span>
-            <span style="margin-left:6px; font-weight:600;">${c.message}</span>
+      // Render reverse order (newest first)
+      const reversed = commits.map((c, i) => ({ ...c, originalIndex: i })).reverse();
+
+      container.innerHTML = reversed.map(c => {
+        // Extract [Txxx] task tag if present
+        const match = c.message.match(/\[(T\d{3})\]/i);
+        const taskTag = match ? match[1].toUpperCase() : null;
+        const cleanMsg = match ? c.message.replace(/\[T\d{3}\]\s*/i, '') : c.message;
+
+        return `
+          <div class="commit-timeline-item">
+            <div class="commit-item-main">
+              <span class="commit-hash-pill" title="Mã hash GitHub (Bấm để copy)">${c.hash || 'commit'}</span>
+              ${taskTag ? `<span class="commit-task-badge">${taskTag}</span>` : ''}
+              <span class="commit-msg-text" title="${c.message}">${cleanMsg}</span>
+            </div>
+            <div class="commit-meta">
+              <span class="commit-time-badge">${c.date || 'Hôm nay'}</span>
+              <button type="button" class="commit-delete-btn" data-index="${c.originalIndex}" title="Xóa commit này">
+                ${window.Icons.get('trash', 'icon-xs')}
+              </button>
+            </div>
           </div>
-          <span style="font-size:11px; color:var(--text-muted);">${c.date || ''}</span>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+
+      // Attach copy listeners
+      container.querySelectorAll('.commit-hash-pill').forEach(pill => {
+        pill.onclick = () => {
+          navigator.clipboard.writeText(pill.textContent.trim()).then(() => {
+            window.AppController?.showToast?.("Đã sao chép mã hash commit!");
+          });
+        };
+      });
+
+      // Attach delete listeners
+      container.querySelectorAll('.commit-delete-btn').forEach(btn => {
+        btn.onclick = () => {
+          const idx = parseInt(btn.dataset.index, 10);
+          if (confirm("Bạn có chắc chắn muốn xóa bản ghi commit này?")) {
+            if (onDeleteCommit) {
+              onDeleteCommit(memberId, idx);
+            }
+          }
+        };
+      });
     }
 
     renderRoleWorkspace(member) {
       const container = document.getElementById('role-specific-workspace-panel');
       if (!container) return;
 
+      const checklistItems = member.roleChecklist || [];
+      const doneCount = checklistItems.filter(i => i.done).length;
+      const totalCount = checklistItems.length;
+      const pct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+
+      let workspaceContent = '';
+
       if (member.id === 'TV01') {
-        container.innerHTML = `
-          <div class="card">
-            <div class="card-title">
-              <span>${window.Icons.get('server')} Trung Tâm Điều Hành Backend & Cloud Render (TV01)</span>
-              <span class="badge-status in_progress">Online HTTPS</span>
+        workspaceContent = `
+          <div class="studio-header">
+            <div class="studio-title-box">
+              <div class="studio-avatar-badge" style="background: linear-gradient(135deg, ${member.avatarColor} 0%, #0F766E 100%);">
+                ${window.Icons.get('server', 'icon-lg')}
+              </div>
+              <div>
+                <div class="studio-title-text">Trung Tâm Điều Hành Backend & Cloud Render (TV01)</div>
+                <div class="studio-sub-text">Node.js 20 / Express 4 · Supabase Pooler (IPv4 5432) · Render Cloud Hosting</div>
+              </div>
             </div>
-            <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
-              <p><strong>URL Render Web Service:</strong> <a href="${window.PROJECT_DATA.renderUrl}" target="_blank" style="color:var(--primary); font-weight:600;">${window.PROJECT_DATA.renderUrl}</a></p>
-              <p><strong>Endpoint Kiểm tra sức khỏe:</strong> <code>GET /health</code> (Đảm bảo trả về HTTP 200 OK)</p>
-              <p><strong>Nghiệp vụ cốt lõi:</strong> REST API quản lý danh mục phòng trọ, chốt chỉ số công tơ điện/nước, tự động tính tiền lũy tiến, sinh mã VietQR chuyển khoản ngân hàng và xác thực JWT phân quyền 3 tác nhân (SINH_VIEN, CHU_TRO, QUAN_TRI).</p>
+            <span class="studio-badge-live">
+              <span class="pulse-dot"></span>
+              Online HTTPS
+            </span>
+          </div>
+
+          <!-- Console & Environment Controls -->
+          <div class="studio-console-box">
+            <div class="studio-url-row">
+              <span class="studio-url-label">Render Cloud Web Service:</span>
+              <div class="studio-actions-row">
+                <a href="${window.PROJECT_DATA.renderUrl}" target="_blank" class="studio-btn studio-btn-primary">
+                  ${window.Icons.get('external-link', 'icon-xs')} Mở Dịch Vụ
+                </a>
+                <button type="button" id="btn-copy-render-url" class="studio-btn studio-btn-outline">
+                  ${window.Icons.get('copy', 'icon-xs')} Sao Chép URL
+                </button>
+                <button type="button" id="btn-ping-health" class="studio-btn studio-btn-accent">
+                  ${window.Icons.get('activity', 'icon-xs')} Ping /health
+                </button>
+              </div>
             </div>
-            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist Nhiệm Vụ Backend & Deploy:</h4>
-            <div id="role-checklist-container"></div>
+            <div>
+              <span class="studio-url-badge">${window.PROJECT_DATA.renderUrl}</span>
+            </div>
+            <div id="studio-ping-result" class="studio-ping-result">
+              <span id="studio-ping-text"></span>
+            </div>
+            <div style="font-size:11.5px; color:var(--text-muted); display:flex; align-items:center; gap:8px;">
+              <span>Healthcheck Spec:</span>
+              <span class="method-badge get">GET</span>
+              <code>/health</code>
+              <span>&rarr; Đảm bảo HTTP 200 OK & { status: "ok" }</span>
+            </div>
+          </div>
+
+          <!-- Core Feature Badges Grid -->
+          <div class="studio-features-grid">
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('building', 'icon-xs')} Danh Mục Phòng & Cọc
+              </div>
+              <div class="studio-feature-desc">REST API CRUD phòng trọ, chống trùng lặp giữ chỗ overbooking.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('zap', 'icon-xs')} Điện Nước Lũy Tiến
+              </div>
+              <div class="studio-feature-desc">Thuật toán bậc thang chốt chỉ số công tơ điện và tiền nước theo đầu người.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('credit-card', 'icon-xs')} VietQR Chuẩn NapAS
+              </div>
+              <div class="studio-feature-desc">Tự động sinh mã VietQR chuyển khoản ngân hàng chính xác tiền hóa đơn.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('shield', 'icon-xs')} JWT & Bcrypt Bảo Mật
+              </div>
+              <div class="studio-feature-desc">Phân quyền 3 tác nhân: SINH_VIEN, CHU_TRO, QUAN_TRI không lộ mật khẩu.</div>
+            </div>
+          </div>
+
+          <!-- Checklist Section -->
+          <div class="studio-checklist-box">
+            <div class="studio-checklist-header">
+              <span class="studio-checklist-title">
+                ${window.Icons.get('check-square', 'icon-xs')} Checklist 8 Tiêu Chuẩn Backend & Triển Khai:
+              </span>
+              <span id="role-checklist-count-badge" class="studio-checklist-counter">${doneCount}/${totalCount} (${pct}%)</span>
+            </div>
+            <div class="studio-checklist-bar">
+              <div id="role-checklist-bar-fill" class="studio-checklist-bar-fill" style="width:${pct}%;"></div>
+            </div>
+            <div id="role-checklist-container" class="studio-checklist-list"></div>
           </div>
         `;
       } else if (member.id === 'TV02') {
-        container.innerHTML = `
-          <div class="card">
-            <div class="card-title">
-              <span>${window.Icons.get('smartphone')} Ứng Dụng Android Chủ Trọ & Quản Lý Tòa Nhà (TV02)</span>
-              <span class="badge-status in_progress">Java + XML Layout (minSdk 24)</span>
+        workspaceContent = `
+          <div class="studio-header">
+            <div class="studio-title-box">
+              <div class="studio-avatar-badge" style="background: linear-gradient(135deg, ${member.avatarColor} 0%, #1D4ED8 100%);">
+                ${window.Icons.get('smartphone', 'icon-lg')}
+              </div>
+              <div>
+                <div class="studio-title-text">Ứng Dụng Android Chủ Trọ & Quản Lý Tòa Nhà (TV02)</div>
+                <div class="studio-sub-text">Android Studio · Java · XML Layout · Retrofit 2 · MPAndroidChart · minSdk 24</div>
+              </div>
             </div>
-            <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
-              <p><strong>Stack kỹ thuật:</strong> Android Studio, Java, XML Layout, Retrofit 2 + Gson, MPAndroidChart, minSdk 24.</p>
-              <p><strong>Quy định bắt buộc:</strong> Tên app, Package ID và log TAG phải chứa mã nhóm <code>nhomBaKhi</code>.</p>
-              <p><strong>Nghiệp vụ chính:</strong> Danh mục phòng trọ (RecyclerView), màn hình nhập số điện nước định kỳ, xuất hóa đơn thu tiền tích hợp VietQR, quản lý hợp đồng thuê và biểu đồ doanh thu theo tháng.</p>
+            <span class="studio-badge-live">
+              <span class="pulse-dot"></span>
+              minSdk 24
+            </span>
+          </div>
+
+          <div class="studio-console-box">
+            <div class="studio-url-row">
+              <span class="studio-url-label">Quy chuẩn Mã Nguồn & Định Danh:</span>
+              <div class="studio-actions-row">
+                <button type="button" id="btn-copy-pkg-tv02" class="studio-btn studio-btn-outline">
+                  ${window.Icons.get('copy', 'icon-xs')} Sao Chép Package ID
+                </button>
+              </div>
             </div>
-            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist 10 Tiêu Chí C.1 (Android Admin & Chủ Trọ):</h4>
-            <div id="role-checklist-container"></div>
+            <div>
+              <span class="studio-url-badge">com.nhombakhi.smarttro.admin</span>
+            </div>
+            <div style="font-size:11.5px; color:var(--text-muted);">
+              Quy định bắt buộc: Tên app, Package ID và log TAG phải mang mã nhóm <code>nhomBaKhi</code>.
+            </div>
+          </div>
+
+          <div class="studio-features-grid">
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('layout', 'icon-xs')} RecyclerView 2 Danh Mục
+              </div>
+              <div class="studio-feature-desc">Danh sách phòng trọ & hóa đơn với ViewHolder tối ưu mượt mà.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('zap', 'icon-xs')} Chốt Số Điện Nước
+              </div>
+              <div class="studio-feature-desc">Giao diện nhập chỉ số công tơ định kỳ có validation và tính tức thì.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('credit-card', 'icon-xs')} Hóa Đơn & Mã VietQR
+              </div>
+              <div class="studio-feature-desc">Xuất hóa đơn thanh toán tiền phòng tích hợp hiển thị mã QR thu tiền.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('bar-chart', 'icon-xs')} Biểu Đồ MPAndroidChart
+              </div>
+              <div class="studio-feature-desc">Thống kê doanh thu theo tháng và công nợ trực quan bằng biểu đồ cột.</div>
+            </div>
+          </div>
+
+          <div class="studio-checklist-box">
+            <div class="studio-checklist-header">
+              <span class="studio-checklist-title">
+                ${window.Icons.get('check-square', 'icon-xs')} Checklist 10 Tiêu Chí C.1 (Android Admin & Chủ Trọ):
+              </span>
+              <span id="role-checklist-count-badge" class="studio-checklist-counter">${doneCount}/${totalCount} (${pct}%)</span>
+            </div>
+            <div class="studio-checklist-bar">
+              <div id="role-checklist-bar-fill" class="studio-checklist-bar-fill" style="width:${pct}%;"></div>
+            </div>
+            <div id="role-checklist-container" class="studio-checklist-list"></div>
           </div>
         `;
       } else if (member.id === 'TV03') {
-        container.innerHTML = `
-          <div class="card">
-            <div class="card-title">
-              <span>${window.Icons.get('layers')} Ứng Dụng Flutter Cho Sinh Viên Thuê Trọ (TV03)</span>
-              <span class="badge-status in_progress">Flutter 3.35+ Dart (Material 3)</span>
+        workspaceContent = `
+          <div class="studio-header">
+            <div class="studio-title-box">
+              <div class="studio-avatar-badge" style="background: linear-gradient(135deg, ${member.avatarColor} 0%, #0284C7 100%);">
+                ${window.Icons.get('layers', 'icon-lg')}
+              </div>
+              <div>
+                <div class="studio-title-text">Ứng Dụng Flutter Cho Sinh Viên Thuê Trọ (TV03)</div>
+                <div class="studio-sub-text">Flutter 3.35+ · Dart 3 · Material 3 · Geolocator GPS · SharedPreferences</div>
+              </div>
             </div>
-            <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
-              <p><strong>Stack kỹ thuật:</strong> Flutter 3.35+, Dart 3, Material 3, Geolocator GPS, Package Http/Dio, SharedPreferences.</p>
-              <p><strong>Điểm nhấn nghiệp vụ:</strong> Tìm kiếm phòng trọ theo bán kính trường đại học qua định vị GPS (công thức Haversine), bộ lọc tiện ích phòng, gửi yêu cầu đặt cọc & hợp đồng thuê, gửi phản ánh sửa chữa hỏng hóc kèm <strong>Undo SnackBar</strong>.</p>
-              <p><strong>Chất lượng mã nguồn:</strong> Lệnh <code>flutter analyze</code> phải sạch 0 errors.</p>
+            <span class="studio-badge-live">
+              <span class="pulse-dot"></span>
+              Material 3
+            </span>
+          </div>
+
+          <div class="studio-console-box">
+            <div class="studio-url-row">
+              <span class="studio-url-label">Chất lượng Mã Nguồn & Tiêu Chuẩn:</span>
+              <div class="studio-actions-row">
+                <button type="button" id="btn-copy-cmd-tv03" class="studio-btn studio-btn-outline">
+                  ${window.Icons.get('copy', 'icon-xs')} Copy Lệnh Analyze
+                </button>
+              </div>
             </div>
-            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Checklist 10 Tiêu Chí C.2 (Flutter Client Sinh Viên):</h4>
-            <div id="role-checklist-container"></div>
+            <div>
+              <span class="studio-url-badge">flutter analyze --fatal-infos</span>
+            </div>
+            <div style="font-size:11.5px; color:var(--text-muted);">
+              Yêu cầu đồ án: Mã nguồn Dart phải sạch 100% (0 errors, 0 warnings).
+            </div>
+          </div>
+
+          <div class="studio-features-grid">
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('navigation', 'icon-xs')} GPS Haversine Bán Kính
+              </div>
+              <div class="studio-feature-desc">Tìm phòng trọ theo khoảng cách thực tế quanh trường đại học.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('filter', 'icon-xs')} Bộ Lọc Tiện Ích Phòng
+              </div>
+              <div class="studio-feature-desc">Lọc giá, máy lạnh, gác lửng, ban công, giờ giấc tự do không chung chủ.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('file-text', 'icon-xs')} Đặt Cọc & Hợp Đồng
+              </div>
+              <div class="studio-feature-desc">Gửi yêu cầu giữ phòng trực tuyến kèm xác nhận điều khoản hợp đồng.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('refresh-cw', 'icon-xs')} Báo Hỏng & Undo SnackBar
+              </div>
+              <div class="studio-feature-desc">Gửi phản ánh sửa chữa cho chủ trọ, tích hợp thanh Undo SnackBar hoàn tác.</div>
+            </div>
+          </div>
+
+          <div class="studio-checklist-box">
+            <div class="studio-checklist-header">
+              <span class="studio-checklist-title">
+                ${window.Icons.get('check-square', 'icon-xs')} Checklist 10 Tiêu Chí C.2 (Flutter Sinh Viên):
+              </span>
+              <span id="role-checklist-count-badge" class="studio-checklist-counter">${doneCount}/${totalCount} (${pct}%)</span>
+            </div>
+            <div class="studio-checklist-bar">
+              <div id="role-checklist-bar-fill" class="studio-checklist-bar-fill" style="width:${pct}%;"></div>
+            </div>
+            <div id="role-checklist-container" class="studio-checklist-list"></div>
           </div>
         `;
       } else if (member.id === 'TV04') {
-        container.innerHTML = `
-          <div class="card">
-            <div class="card-title">
-              <span>${window.Icons.get('database')} Cơ Sở Dữ Liệu PostgreSQL & Kiểm Thử QA (TV04)</span>
-              <span class="badge-status in_progress">Supabase PostgreSQL 15+</span>
+        workspaceContent = `
+          <div class="studio-header">
+            <div class="studio-title-box">
+              <div class="studio-avatar-badge" style="background: linear-gradient(135deg, ${member.avatarColor} 0%, #4338CA 100%);">
+                ${window.Icons.get('database', 'icon-lg')}
+              </div>
+              <div>
+                <div class="studio-title-text">Cơ Sở Dữ Liệu PostgreSQL & Kiểm Thử QA (TV04)</div>
+                <div class="studio-sub-text">Supabase PostgreSQL 15+ · Session Mode IPv4 5432 · 25 Integration Tests</div>
+              </div>
             </div>
-            <div style="font-size:12.5px; line-height:1.6; margin-bottom:14px;">
-              <p><strong>Kết nối CSDL:</strong> Supabase Pooler Session mode IPv4 (cổng 5432).</p>
-              <p><strong>Core Logic 1:</strong> Giao dịch đặt cọc / giữ phòng bọc trong Transaction có khóa dòng <code>SELECT ... FOR UPDATE</code> chống overbooking cùng 1 phòng trọ.</p>
-              <p><strong>Core Logic 2:</strong> Công thức tính toán lũy tiến hóa đơn điện nước và định mức sinh hoạt.</p>
-              <p><strong>Kiểm thử QA:</strong> Bộ 25 test case xuyên suốt tích hợp từ Database -> API -> 2 ứng dụng di động.</p>
+            <span class="studio-badge-live">
+              <span class="pulse-dot"></span>
+              PostgreSQL 15
+            </span>
+          </div>
+
+          <div class="studio-console-box">
+            <div class="studio-url-row">
+              <span class="studio-url-label">Kết Nối Supabase Pooler IPv4:</span>
+              <div class="studio-actions-row">
+                <button type="button" id="btn-copy-db-host" class="studio-btn studio-btn-outline">
+                  ${window.Icons.get('copy', 'icon-xs')} Sao Chép Host DB
+                </button>
+              </div>
             </div>
-            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Tiến Độ Dữ Liệu Mẫu (Seed Quota) & Test Case:</h4>
-            <div id="role-checklist-container"></div>
+            <div>
+              <span class="studio-url-badge">aws-0-ap-northeast-2.pooler.supabase.com:5432</span>
+            </div>
+            <div style="font-size:11.5px; color:var(--text-muted);">
+              Định mức dữ liệu mẫu: &ge;25 Chủ trọ · &ge;80 Phòng · &ge;200 Sinh viên · &ge;300 Hóa đơn.
+            </div>
+          </div>
+
+          <div class="studio-features-grid">
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('lock', 'icon-xs')} Khóa Dòng FOR UPDATE
+              </div>
+              <div class="studio-feature-desc">Transaction CSDL chống tình trạng overbooking khi 2 người cùng giữ phòng.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('zap', 'icon-xs')} Công Thức Điện Nước
+              </div>
+              <div class="studio-feature-desc">Hàm tính toán lũy tiến hóa đơn và định mức lưu trữ CSDL chuẩn xác.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('database', 'icon-xs')} 12 Bảng CSDL Chuẩn Hóa
+              </div>
+              <div class="studio-feature-desc">Mô hình quan hệ 3NF với ràng buộc khóa ngoại (FK) chặt chẽ.</div>
+            </div>
+            <div class="studio-feature-card">
+              <div class="studio-feature-title">
+                ${window.Icons.get('check-circle', 'icon-xs')} 25 Kịch Bản Kiểm Thử QA
+              </div>
+              <div class="studio-feature-desc">Test case xuyên suốt tích hợp từ Database -> API -> 2 ứng dụng di động.</div>
+            </div>
+          </div>
+
+          <div class="studio-checklist-box">
+            <div class="studio-checklist-header">
+              <span class="studio-checklist-title">
+                ${window.Icons.get('check-square', 'icon-xs')} Tiến Độ Dữ Liệu Mẫu & Test Case (TV04):
+              </span>
+              <span id="role-checklist-count-badge" class="studio-checklist-counter">${doneCount}/${totalCount} (${pct}%)</span>
+            </div>
+            <div class="studio-checklist-bar">
+              <div id="role-checklist-bar-fill" class="studio-checklist-bar-fill" style="width:${pct}%;"></div>
+            </div>
+            <div id="role-checklist-container" class="studio-checklist-list"></div>
           </div>
         `;
       }
 
+      container.innerHTML = `<div class="card studio-card-pro">${workspaceContent}</div>`;
+
+      // Render interactive checklist
       this.renderChecklistItems(member);
+
+      // Event listeners for quick actions inside studio
+      document.getElementById('btn-copy-render-url')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.PROJECT_DATA.renderUrl).then(() => {
+          window.AppController?.showToast?.("Đã sao chép URL Render Web Service!");
+        });
+      });
+
+      document.getElementById('btn-copy-pkg-tv02')?.addEventListener('click', () => {
+        navigator.clipboard.writeText("com.nhombakhi.smarttro.admin").then(() => {
+          window.AppController?.showToast?.("Đã sao chép Package ID Android!");
+        });
+      });
+
+      document.getElementById('btn-copy-cmd-tv03')?.addEventListener('click', () => {
+        navigator.clipboard.writeText("flutter analyze --fatal-infos").then(() => {
+          window.AppController?.showToast?.("Đã sao chép lệnh flutter analyze!");
+        });
+      });
+
+      document.getElementById('btn-copy-db-host')?.addEventListener('click', () => {
+        navigator.clipboard.writeText("aws-0-ap-northeast-2.pooler.supabase.com").then(() => {
+          window.AppController?.showToast?.("Đã sao chép Host CSDL Supabase!");
+        });
+      });
+
+      // Live Ping /health button
+      document.getElementById('btn-ping-health')?.addEventListener('click', async () => {
+        const pingBtn = document.getElementById('btn-ping-health');
+        const resultBox = document.getElementById('studio-ping-result');
+        const textSpan = document.getElementById('studio-ping-text');
+        if (!pingBtn || !resultBox || !textSpan) return;
+
+        pingBtn.innerHTML = `${window.Icons.get('refresh-cw', 'spin icon-xs')} Đang kiểm tra...`;
+        resultBox.className = 'studio-ping-result active';
+        textSpan.textContent = 'Đang gửi yêu cầu GET /health...';
+
+        const startTime = Date.now();
+        try {
+          const res = await fetch(`${window.PROJECT_DATA.renderUrl}/health`, { method: 'GET', mode: 'cors' });
+          const latency = Date.now() - startTime;
+          if (res.ok) {
+            resultBox.style.background = 'rgba(16, 185, 129, 0.12)';
+            resultBox.style.color = '#059669';
+            resultBox.style.borderColor = 'rgba(16, 185, 129, 0.25)';
+            textSpan.innerHTML = `<strong>● HTTP 200 OK</strong> — Độ trễ: <strong>${latency}ms</strong> — Web Service hoạt động ổn định!`;
+          } else {
+            resultBox.style.background = 'rgba(239, 68, 68, 0.12)';
+            resultBox.style.color = '#DC2626';
+            resultBox.style.borderColor = 'rgba(239, 68, 68, 0.25)';
+            textSpan.innerHTML = `<strong>● HTTP ${res.status}</strong> — Độ trễ: ${latency}ms`;
+          }
+        } catch (e) {
+          const latency = Date.now() - startTime;
+          // In case of CORS or cold boot on free Render tier
+          resultBox.style.background = 'rgba(59, 130, 246, 0.12)';
+          resultBox.style.color = '#2563EB';
+          resultBox.style.borderColor = 'rgba(59, 130, 246, 0.25)';
+          textSpan.innerHTML = `<strong>● Web Service Standby</strong> — Render server đang thức dậy (Cold boot ~30s) hoặc bảo vệ CORS.`;
+        }
+
+        pingBtn.innerHTML = `${window.Icons.get('activity', 'icon-xs')} Ping /health`;
+      });
     }
 
     renderChecklistItems(member) {
@@ -233,16 +632,34 @@
       const items = member.roleChecklist || [];
 
       container.innerHTML = items.map((it, idx) => `
-        <div style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px solid var(--border-color); font-size:12.5px;">
-          <input type="checkbox" id="rc_${idx}" ${it.done ? 'checked' : ''} style="margin-top:3px;" />
-          <label for="rc_${idx}" style="cursor:pointer; flex:1;">${it.text}</label>
+        <div class="studio-check-item ${it.done ? 'is-done' : ''}">
+          <input type="checkbox" id="rc_${idx}" ${it.done ? 'checked' : ''} />
+          <label for="rc_${idx}">${it.text}</label>
         </div>
       `).join('');
 
       container.querySelectorAll('input').forEach((cb, idx) => {
         cb.onchange = (e) => {
           items[idx].done = e.target.checked;
+          const parentItem = cb.closest('.studio-check-item');
+          if (parentItem) {
+            if (e.target.checked) parentItem.classList.add('is-done');
+            else parentItem.classList.remove('is-done');
+          }
+
+          // Update progress bar
+          const done = items.filter(x => x.done).length;
+          const total = items.length;
+          const pct = Math.round((done / total) * 100);
+
+          const countBadge = document.getElementById('role-checklist-count-badge');
+          if (countBadge) countBadge.textContent = `${done}/${total} (${pct}%)`;
+
+          const barFill = document.getElementById('role-checklist-bar-fill');
+          if (barFill) barFill.style.width = `${pct}%`;
+
           window.ProjectModel.save();
+          window.AppController?.showToast?.(e.target.checked ? "Đã đánh dấu hoàn thành mục tiêu!" : "Đã hủy đánh dấu mục tiêu.");
         };
       });
     }
