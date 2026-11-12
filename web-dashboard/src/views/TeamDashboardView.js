@@ -113,24 +113,6 @@
           container.appendChild(card);
         });
       }
-
-      // 3. Tech Highlights
-      const thContainer = document.getElementById('tech-highlights-container');
-      if (thContainer) {
-        thContainer.innerHTML = techHighlights.map(th => `
-          <div class="card tech-card-pro" style="border-left:4px solid var(--accent);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span class="tech-tag-pro">
-                ${th.tag}
-              </span>
-            </div>
-            <h4 style="font-size:13.5px; font-weight:700; margin-bottom:6px; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
-              ${window.Icons.get(th.icon || 'sparkles', 'icon-sm text-teal')} ${th.title}
-            </h4>
-            <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">${th.desc}</p>
-          </div>
-        `).join('');
-      }
     }
   }
 
