@@ -1510,3 +1510,652 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+/* ==============================================================================
+   5. NÂNG CẤP STUDIO ĐIỀU HÀNH KỸ THUẬT & NHẬT KÝ COMMIT GITHUB (PRO UI)
+   ============================================================================== */
+
+/* Studio Card Pro */
+.studio-card-pro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.studio-card-pro:hover {
+  border-color: rgba(13, 148, 136, 0.35);
+  box-shadow: var(--shadow-md);
+}
+
+.studio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.studio-title-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studio-avatar-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.studio-title-text {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.studio-sub-text {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.studio-badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  white-space: nowrap;
+}
+
+.studio-badge-live .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse-ring 2s infinite;
+}
+
+/* Studio Console & Environment Box */
+.studio-console-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.studio-url-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.studio-url-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.studio-url-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--primary);
+  border: 1px solid var(--border-color);
+  word-break: break-all;
+}
+
+[data-theme="dark"] .studio-url-badge {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.studio-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.studio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.studio-btn-primary {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+.studio-btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.studio-btn-outline {
+  background: transparent;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.studio-btn-outline:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.studio-btn-accent {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #3B82F6;
+}
+
+.studio-btn-accent:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.studio-ping-result {
+  font-size: 11px;
+  font-family: monospace;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.studio-ping-result.active {
+  display: inline-flex;
+}
+
+/* Method badge: GET, POST */
+.method-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: monospace;
+}
+
+.method-badge.get {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+}
+
+.method-badge.post {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563EB;
+}
+
+/* Studio Core Capabilities Grid */
+.studio-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .studio-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.studio-feature-card {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.15s;
+}
+
+.studio-feature-card:hover {
+  border-color: var(--primary);
+}
+
+.studio-feature-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.studio-feature-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Studio Checklist Box */
+.studio-checklist-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.studio-checklist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.studio-checklist-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.studio-checklist-counter {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-subtle);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.studio-checklist-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+
+.studio-checklist-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary) 0%, #10B981 100%);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio-checklist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.studio-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.studio-check-item:hover {
+  background: var(--bg-hover);
+  border-color: rgba(13, 148, 136, 0.3);
+}
+
+.studio-check-item.is-done {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.studio-check-item.is-done label {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.studio-check-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.studio-check-item label {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex: 1;
+  user-select: none;
+}
+
+/* ==============================================================================
+   COMMIT ACTIVITY FEED & GOAL METER (RIGHT CARD)
+   ============================================================================== */
+
+.commit-card-pro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.commit-card-pro:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: var(--shadow-md);
+}
+
+.commit-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.commit-header-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #6366F1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-record-commit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--primary) 0%, #0F766E 100%);
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-record-commit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.35);
+}
+
+/* Commit Progress Meter Box */
+.commit-meter-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commit-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+}
+
+.meter-label {
+  color: var(--text-secondary);
+}
+
+.meter-count {
+  font-weight: 800;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--indigo);
+}
+
+.commit-progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+
+.commit-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--indigo) 0%, #8B5CF6 100%);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.commit-meter-status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+.commit-meter-status.status-alert {
+  background: rgba(239, 68, 68, 0.08);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.commit-meter-status.status-progress {
+  background: rgba(245, 158, 11, 0.08);
+  color: #D97706;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.commit-meter-status.status-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Commit Feed / Timeline */
+.commit-feed-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.commit-empty-box {
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-main);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.commit-empty-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366F1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.commit-empty-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.commit-empty-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  max-width: 360px;
+  line-height: 1.45;
+}
+
+.commit-timeline-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  transition: all 0.15s ease;
+}
+
+.commit-timeline-item:hover {
+  border-color: var(--indigo);
+  background: var(--bg-hover);
+  transform: translateX(2px);
+}
+
+.commit-item-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.commit-hash-pill {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #6366F1;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.commit-hash-pill:hover {
+  background: #6366F1;
+  color: #FFFFFF;
+}
+
+.commit-task-badge {
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(13, 148, 136, 0.12);
+  color: #0D9488;
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  flex-shrink: 0;
+}
+
+.commit-msg-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commit-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.commit-time-badge {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.commit-delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.commit-delete-btn:hover {
+  color: #EF4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.commit-footer-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
