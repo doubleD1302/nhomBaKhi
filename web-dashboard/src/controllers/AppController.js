@@ -14,10 +14,95 @@
     init() {
       window.ProjectModel.init();
       window.UserModel.init();
+      window.CloudSyncService.init();
 
       this.setupTheme();
       this.setupEventListeners();
+      this.setupCloudSync();
       this.checkAuthAndRender();
+    }
+
+    setupCloudSync() {
+      window.CloudSyncService.onStatusChange(() => this.updateCloudStatusUI());
+      this.updateCloudStatusUI();
+
+      // Tự động kiểm tra và kéo dữ liệu mới nhất khi khởi động nếu đã có cấu hình
+      if (window.CloudSyncService.isConfigured()) {
+        setTimeout(async () => {
+          const res = await window.CloudSyncService.pullTasks();
+          if (res.success && res.data && res.data.length > 0) {
+            const count = window.ProjectModel.applyRemoteSync(res.data);
+            if (count > 0) {
+              this.renderActiveView();
+              this.showToast(`Đã đồng bộ ${count} task mới nhất từ Supabase Cloud!`);
+            }
+          }
+        }, 1200);
+      }
+    }
+
+    updateCloudStatusUI() {
+      const status = window.CloudSyncService.status;
+      const dotEl = document.getElementById('cloud-status-dot');
+      const textEl = document.getElementById('cloud-status-text');
+      const badgeEl = document.getElementById('cloud-status-badge');
+      const lastSyncEl = document.getElementById('cloud-last-sync');
+
+      if (!dotEl || !textEl) return;
+
+      dotEl.className = 'cloud-dot';
+      let statusLabel = 'Chưa kết nối';
+      let badgeBg = 'rgba(234,179,8,0.15)';
+      let badgeColor = '#FBBF24';
+
+      if (status === 'connected') {
+        dotEl.classList.add('dot-green');
+        textEl.textContent = 'Cloud: Online';
+        statusLabel = 'Đã kết nối Supabase';
+        badgeBg = 'rgba(16,185,129,0.15)';
+        badgeColor = '#34D399';
+      } else if (status === 'syncing') {
+        dotEl.classList.add('dot-blue');
+        textEl.textContent = 'Đang đồng bộ...';
+        statusLabel = 'Đang đồng bộ dữ liệu...';
+        badgeBg = 'rgba(59,130,246,0.15)';
+        badgeColor = '#60A5FA';
+      } else if (status === 'error') {
+        dotEl.classList.add('dot-red');
+        textEl.textContent = 'Cloud: Lỗi';
+        statusLabel = 'Lỗi kết nối';
+        badgeBg = 'rgba(239,68,68,0.15)';
+        badgeColor = '#F87171';
+      } else {
+        dotEl.classList.add('dot-yellow');
+        textEl.textContent = 'Cloud: Cục bộ';
+        statusLabel = 'Chế độ Cục bộ (Offline)';
+        badgeBg = 'rgba(234,179,8,0.15)';
+        badgeColor = '#FBBF24';
+      }
+
+      if (badgeEl) {
+        badgeEl.textContent = statusLabel;
+        badgeEl.style.background = badgeBg;
+        badgeEl.style.color = badgeColor;
+      }
+
+      if (lastSyncEl && window.CloudSyncService.lastSyncTime) {
+        lastSyncEl.textContent = `Lần đồng bộ gần nhất: ${window.CloudSyncService.lastSyncTime.toLocaleTimeString('vi-VN')} (${window.CloudSyncService.lastSyncTime.toLocaleDateString('vi-VN')})`;
+      }
+    }
+
+    openCloudModal() {
+      const urlInput = document.getElementById('input-supabase-url');
+      const keyInput = document.getElementById('input-supabase-key');
+      if (urlInput) urlInput.value = window.CloudSyncService.url;
+      if (keyInput) keyInput.value = window.CloudSyncService.anonKey;
+      this.updateCloudStatusUI();
+      document.getElementById('modal-cloud-sync')?.classList.add('active');
+    }
+
+    closeCloudModal() {
+      document.getElementById('modal-cloud-sync')?.classList.remove('active');
     }
 
     setupTheme() {
