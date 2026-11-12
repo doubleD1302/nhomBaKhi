@@ -28,6 +28,7 @@
         // HỖ TRỢ CHÉO: Cập nhật hiển thị Tên và MSSV của người nhận vai trò dự phòng (TV04, TV01,...)
         const backupId = member.backup;
         const backupClaim = window.UserModel ? window.UserModel.isRoleClaimed(backupId) : { isClaimed: false };
+        const backupMember = window.ProjectModel.members.find(m => m.id === backupId) || { name: backupId, shortTitle: backupId };
 
         let backupHtml = '';
         if (backupClaim.isClaimed && backupClaim.owner) {
@@ -42,7 +43,7 @@
           backupHtml = `
             <span class="hero-chip chip-vacant" title="Vai trò này hiện chưa có thành viên nào nhận trên Cloud">
               ${window.Icons.get('users', 'icon-sm')} 
-              Hỗ trợ chéo: <strong>${backupId}</strong> 
+              Hỗ trợ chéo: <strong>${backupId} · ${backupMember.shortTitle || backupMember.name}</strong> 
               <span class="backup-vacant-chip">(Chưa có người nhận)</span>
             </span>
           `;

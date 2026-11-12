@@ -4,6 +4,7 @@
   class AppController {
     constructor() {
       this.currentView = 'PERSONAL'; // 'PERSONAL' | 'TEAM'
+      this.activeMainTab = 'tab-urgent';
       this.filters = {
         member: 'ALL',
         week: 'ALL',
@@ -199,6 +200,26 @@
       document.getElementById('header-user-code').textContent = user.accessCode;
     }
 
+    switchMainTab(tabId) {
+      if (!tabId) tabId = 'tab-urgent';
+      this.activeMainTab = tabId;
+
+      document.querySelectorAll('.app-nav-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tabId);
+      });
+
+      document.querySelectorAll('.app-tab-pane').forEach(p => {
+        p.classList.toggle('active', p.id === tabId);
+      });
+
+      const btnToggle = document.getElementById('btn-toggle-view');
+      if (btnToggle) {
+        btnToggle.innerHTML = (tabId === 'tab-team' || tabId === 'tab-kanban')
+          ? `${window.Icons.get('user-check')} Về Việc Của Tôi`
+          : `${window.Icons.get('users')} Xem Đội Ngũ Toàn Nhóm`;
+      }
+    }
+
     renderActiveView() {
       const user = window.UserModel.currentUser;
       if (!user) return;
@@ -253,6 +274,18 @@
         (i, val) => { window.ProjectModel.criteriaC1[i].completed = val; window.ProjectModel.save(); },
         (i, val) => { window.ProjectModel.criteriaC2[i].completed = val; window.ProjectModel.save(); }
       );
+
+      // Cập nhật các badge số liệu trên thanh Tabs
+      const myTasks = (window.ProjectModel.tasks || []).filter(t => t.owner === user.memberId);
+      const myDone = myTasks.filter(t => t.status === 'done').length;
+      const badgeMyTasks = document.getElementById('tab-badge-my-tasks');
+      if (badgeMyTasks) badgeMyTasks.textContent = `${myDone}/${myTasks.length}`;
+
+      const badgeCommits = document.getElementById('tab-badge-commits');
+      if (badgeCommits) badgeCommits.textContent = `${personalCommits.length}/15`;
+
+      // Giữ nguyên tab đang chọn hiện tại
+      this.switchMainTab(this.activeMainTab || 'tab-urgent');
     }
 
     renderTeamViews() {
@@ -481,27 +514,20 @@
         }
       });
 
-      // Toggle View (Personal vs Team)
-      document.getElementById('btn-toggle-view')?.addEventListener('click', () => {
-        this.currentView = (this.currentView === 'PERSONAL') ? 'TEAM' : 'PERSONAL';
-        const btn = document.getElementById('btn-toggle-view');
-        btn.innerHTML = this.currentView === 'PERSONAL'
-          ? `${window.Icons.get('users')} Xem Bảng Toàn Đội`
-          : `${window.Icons.get('user-check')} Về Dashboard Của Tôi`;
-
-        document.getElementById('view-personal').style.display = (this.currentView === 'PERSONAL') ? 'block' : 'none';
-        document.getElementById('view-team').style.display = (this.currentView === 'TEAM') ? 'block' : 'none';
+      // Main App Modular Navigation Tabs (8 Tabs Độc Lập)
+      document.querySelectorAll('.app-nav-tab').forEach(tabBtn => {
+        tabBtn.addEventListener('click', () => {
+          this.switchMainTab(tabBtn.dataset.tab);
+        });
       });
 
-      // Team Nav Tabs
-      document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.onclick = () => {
-          document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-          tab.classList.add('active');
-          const targetEl = document.getElementById(tab.dataset.target);
-          if (targetEl) targetEl.classList.add('active');
-        };
+      // Quick Switch Button trên Header (Chuyển nhanh giữa Việc của tôi & Toàn đội)
+      document.getElementById('btn-toggle-view')?.addEventListener('click', () => {
+        if (this.activeMainTab === 'tab-team' || this.activeMainTab === 'tab-kanban') {
+          this.switchMainTab('tab-personal-tasks');
+        } else {
+          this.switchMainTab('tab-team');
+        }
       });
 
       // Theme toggle
