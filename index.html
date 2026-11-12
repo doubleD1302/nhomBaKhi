@@ -131,6 +131,12 @@
             <span id="header-user-code" class="user-session-code"></span>
           </div>
 
+          <!-- Cloud Sync Pill / Button -->
+          <button id="btn-cloud-sync" class="btn btn-header btn-cloud-status" title="Cấu hình đồng bộ Supabase Cloud">
+            <span id="cloud-status-dot" class="cloud-dot dot-yellow"></span>
+            <span id="cloud-status-text">Cloud Sync</span>
+          </button>
+
           <!-- Switch View Button -->
           <button id="btn-toggle-view" class="btn btn-header">
             👥 Xem Bảng Toàn Đội
@@ -573,6 +579,89 @@
     </div>
   </div>
 
+  <!-- ==================== CLOUD SYNC CONFIG MODAL ==================== -->
+  <div id="modal-cloud-sync" class="modal-overlay">
+    <div class="modal" style="max-width: 620px;">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size:17px; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>☁️</span> Cấu Hình Đồng Bộ Đám Mây (Supabase Cloud)
+          </h2>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">
+            Dành cho 4 thành viên (TV01, TV02, TV03, TV04) đồng bộ tiến độ thời gian thực trên GitHub Pages
+          </div>
+        </div>
+        <button id="btn-cloud-modal-close" class="modal-close">&times;</button>
+      </div>
+
+      <div style="margin-bottom:16px; padding:12px 14px; border-radius:8px; background:var(--bg); border:1px solid var(--border-color);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:12px; font-weight:700;">Trạng thái đồng bộ:</span>
+          <span id="cloud-status-badge" class="badge" style="background:rgba(234,179,8,0.15); color:#FBBF24;">Chưa kết nối</span>
+        </div>
+        <div id="cloud-last-sync" style="font-size:11.5px; color:var(--text-muted);">Lần đồng bộ gần nhất: Chưa thực hiện</div>
+      </div>
+
+      <div class="form-group">
+        <label style="font-weight:700; font-size:12px;">Supabase Project URL:</label>
+        <input type="url" id="input-supabase-url" class="form-control" value="https://ffcmzleqrddcqrznmwqu.supabase.co" placeholder="https://ffcmzleqrddcqrznmwqu.supabase.co" style="font-family:monospace; font-size:13px;" />
+        <small style="color:var(--text-muted); font-size:11px;">Dự án: <strong>nhomBaKhi-dashboard</strong> (Seoul ap-northeast-2)</small>
+      </div>
+
+      <div class="form-group">
+        <label style="font-weight:700; font-size:12px;">Supabase Anon Public API Key:</label>
+        <input type="password" id="input-supabase-key" class="form-control" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="font-family:monospace; font-size:12px;" />
+        <small style="color:var(--text-muted); font-size:11px;">Lấy từ: Supabase Dashboard &rarr; Project Settings &rarr; Data API &rarr; Project API keys (anon public)</small>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;">
+        <button type="button" id="btn-test-cloud" class="btn btn-outline" style="font-size:12.5px;">
+          🔄 Kiểm tra kết nối
+        </button>
+        <button type="button" id="btn-push-all-cloud" class="btn btn-outline" style="font-size:12.5px;" title="Tải tất cả 64 task từ trình duyệt lên Supabase">
+          ⬆️ Đẩy 64 task lên Cloud
+        </button>
+        <button type="button" id="btn-pull-cloud" class="btn btn-outline" style="font-size:12.5px;" title="Lấy dữ liệu tiến độ mới nhất từ Supabase về">
+          ⬇️ Kéo dữ liệu từ Cloud
+        </button>
+      </div>
+
+      <!-- Collapsible SQL Script Guide -->
+      <details style="margin-top:18px; border-top:1px solid var(--border-color); padding-top:12px;">
+        <summary style="font-size:12px; font-weight:700; cursor:pointer; color:var(--primary);">
+          📜 Hướng dẫn chuẩn bị Database trên Supabase (Chỉ cần 1 người chạy 1 lần)
+        </summary>
+        <div style="margin-top:10px; font-size:11.5px; line-height:1.5; color:var(--text-muted);">
+          <ol style="padding-left:18px; margin:6px 0;">
+            <li>Đăng ký/đăng nhập <a href="https://supabase.com" target="_blank" style="color:var(--primary); text-decoration:underline;">supabase.com</a> và tạo một New Project miễn phí.</li>
+            <li>Vào mục <strong>SQL Editor</strong> &rarr; Dán đoạn SQL bên dưới &rarr; Bấm <strong>Run</strong>:</li>
+          </ol>
+          <pre style="background:rgba(0,0,0,0.25); padding:10px; border-radius:6px; overflow-x:auto; font-family:monospace; font-size:11px; max-height:120px; user-select:all;">CREATE TABLE IF NOT EXISTS bang_cong_viec (
+    task_id VARCHAR(10) PRIMARY KEY,
+    status VARCHAR(20) DEFAULT 'todo',
+    progress_percent INT DEFAULT 0,
+    actual_hours NUMERIC(5,2) DEFAULT 0,
+    pr_link TEXT DEFAULT '',
+    notes TEXT DEFAULT '',
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_by VARCHAR(50) DEFAULT ''
+);
+ALTER TABLE bang_cong_viec ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Cho phep nhom doc ghi tien do" ON bang_cong_viec;
+CREATE POLICY "Cho phep nhom doc ghi tien do" ON bang_cong_viec FOR ALL USING (true) WITH CHECK (true);</pre>
+          <div style="margin-top:6px;">
+            File đầy đủ lưu tại <code>docs/bang_cong_viec_supabase.sql</code> trong kho GitHub.
+          </div>
+        </div>
+      </details>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px; border-top:1px solid var(--border-color); padding-top:14px;">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('modal-cloud-sync').classList.remove('active')">Đóng</button>
+        <button type="button" id="btn-save-cloud-config" class="btn btn-primary">Lưu Cấu Hình</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
 
@@ -581,6 +670,7 @@
   <script src="src/views/Icons.js"></script>
   <script src="src/models/ProjectModel.js"></script>
   <script src="src/models/UserModel.js"></script>
+  <script src="src/models/CloudSyncService.js"></script>
   <script src="src/views/GatewayView.js"></script>
   <script src="src/views/PersonalDashboardView.js"></script>
   <script src="src/views/TeamDashboardView.js"></script>

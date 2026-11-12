@@ -134,6 +134,30 @@
       localStorage.removeItem(STORAGE_KEY);
       this.init();
     }
+
+    applyRemoteSync(remoteRecords) {
+      if (!Array.isArray(remoteRecords) || remoteRecords.length === 0) return 0;
+      let updatedCount = 0;
+      for (const record of remoteRecords) {
+        const t = this.tasks.find(x => x.id === record.task_id);
+        if (t) {
+          if (record.status) t.status = record.status;
+          if (record.progress_percent !== undefined && record.progress_percent !== null) {
+            t.progressPercent = parseInt(record.progress_percent, 10);
+          }
+          if (record.actual_hours !== undefined && record.actual_hours !== null) {
+            t.actualHours = parseFloat(record.actual_hours);
+          }
+          if (record.pr_link !== undefined) t.prLink = record.pr_link;
+          if (record.notes !== undefined) t.notes = record.notes;
+          if (record.updated_at) t.updatedAt = record.updated_at;
+          if (record.updated_by) t.updatedBy = record.updated_by;
+          updatedCount++;
+        }
+      }
+      this.save();
+      return updatedCount;
+    }
   }
 
   window.ProjectModel = new ProjectModel();
