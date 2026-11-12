@@ -49,9 +49,11 @@
       document.getElementById('pass-role-title').textContent = `${member.id} — ${member.name}`;
       document.getElementById('pass-code-display').textContent = user.accessCode;
 
-      passModal.style.display = 'block';
+      passModal.classList.add('active');
+      passModal.style.display = 'flex';
 
       document.getElementById('btn-enter-dashboard-with-pass').onclick = () => {
+        passModal.classList.remove('active');
         passModal.style.display = 'none';
         if (onEnterDashboard) onEnterDashboard();
       };
