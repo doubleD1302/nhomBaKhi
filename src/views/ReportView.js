@@ -12,7 +12,7 @@
       const inProg = targetTasks.filter(t => t.status === 'in_progress');
       const todo = targetTasks.filter(t => t.status === 'todo');
 
-      let md = `# BÁO CÁO TIẾN ĐỘ TUẦN ${week} — NHÓM BA KHỈ\n`;
+      let md = `# BÁO CÁO TIẾN ĐỘ TUẦN ${week} — NHÓM BÁ KHÍ\n`;
       md += `**Đề tài 25: Hệ thống Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro) · INT4211**\n`;
       md += `**Người báo cáo:** ${memberId === 'ALL' ? 'Toàn bộ nhóm 4 thành viên' : memberId}\n`;
       md += `**Thời điểm xuất:** ${new Date().toLocaleDateString('vi-VN')}\n\n`;
