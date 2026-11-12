@@ -186,37 +186,54 @@
     <!-- Main Container -->
     <main class="container">
 
-      <!-- ==================== TOP 5 CÔNG VIỆC CẦN LÀM NHẤT & KIỂM SOÁT PHỤ THUỘC (TUẦN 9) ==================== -->
-      <div id="urgent-tasks-hub-container"></div>
+      <!-- ==================== MAIN MODULAR NAVIGATION TABS (8 TABS ĐỘC LẬP) ==================== -->
+      <nav class="main-app-nav-tabs" id="main-app-nav-tabs">
+        <button class="app-nav-tab active" data-tab="tab-urgent" id="nav-btn-urgent">
+          <span class="tab-icon">🚨</span>
+          <span class="tab-label">Việc Khẩn Cấp (Tuần 9)</span>
+          <span class="tab-badge badge-urgent">Top 5</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-personal-tasks" id="nav-btn-personal-tasks">
+          <span class="tab-icon">📋</span>
+          <span class="tab-label">16 Việc Của Tôi</span>
+          <span class="tab-badge" id="tab-badge-my-tasks">16</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-studio" id="nav-btn-studio">
+          <span class="tab-icon">⚡</span>
+          <span class="tab-label">Studio & Commit Git</span>
+          <span class="tab-badge" id="tab-badge-commits">0/15</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-team" id="nav-btn-team">
+          <span class="tab-icon">👥</span>
+          <span class="tab-label">Đội Ngũ 4 Thành Viên</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-kanban" id="nav-btn-kanban">
+          <span class="tab-icon">📊</span>
+          <span class="tab-label">Bảng Kanban (64 Task)</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-wbs" id="nav-btn-wbs">
+          <span class="tab-icon">📑</span>
+          <span class="tab-label">Tra Cứu WBS</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-milestones" id="nav-btn-milestones">
+          <span class="tab-icon">🎯</span>
+          <span class="tab-label">Mốc & Nghiệm Thu</span>
+        </button>
+        <button class="app-nav-tab" data-tab="tab-reports" id="nav-btn-reports">
+          <span class="tab-icon">📝</span>
+          <span class="tab-label">Báo Cáo Tuần</span>
+        </button>
+      </nav>
 
-      <!-- ==================== VIEW 1: PERSONAL DASHBOARD ==================== -->
-      <section id="view-personal">
-        <!-- Personal Hero Banner -->
-        <div id="personal-hero-banner" class="card" style="color:white; margin-bottom:20px; border:none; padding:24px 28px;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
-            <div style="display:flex; align-items:center; gap:16px;">
-              <div id="personal-hero-icon" style="width:54px; height:54px; border-radius:12px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center;"></div>
-              <div>
-                <div style="font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; opacity:0.85;">DASHBOARD CÁ NHÂN HÓA</div>
-                <h2 id="personal-hero-role" style="font-size:20px; font-weight:800; letter-spacing:-0.3px;"></h2>
-                <p id="personal-hero-desc" style="font-size:12.5px; opacity:0.9; max-width:750px; margin-top:4px; line-height:1.45;"></p>
-                <div style="display:flex; gap:18px; margin-top:10px; font-size:12px;">
-                  <span id="personal-hero-backup"></span>
-                  <span id="personal-hero-hours"></span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <button id="btn-add-commit" class="btn btn-header" style="background:rgba(255,255,255,0.2); font-size:12px;">
-                <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
-                Ghi Nhận Commit Mới
-              </button>
-            </div>
-          </div>
-        </div>
+      <!-- ==================== TAB 1: VIỆC KHẨN CẤP (TUẦN 9) ==================== -->
+      <section id="tab-urgent" class="app-tab-pane active">
+        <div id="urgent-tasks-hub-container"></div>
+      </section>
 
+      <!-- ==================== TAB 2: 16 VIỆC CỦA TÔI ==================== -->
+      <section id="tab-personal-tasks" class="app-tab-pane">
         <!-- Personal KPI Grid -->
-        <div class="grid-4">
+        <div class="grid-4" style="margin-bottom:20px;">
           <div class="card stat-box">
             <div class="stat-icon primary">
               <svg class="icon icon-lg" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
@@ -254,7 +271,7 @@
 
           <div class="card stat-box">
             <div class="stat-icon indigo">
-              <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="3" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>
             </div>
             <div>
               <div id="personal-stat-commit-count" class="stat-val">0/15</div>
@@ -267,7 +284,32 @@
           </div>
         </div>
 
-        <!-- Commit Log & Role Focus Studio Layout -->
+        <!-- Personal 16 Tasks Table -->
+        <div style="margin-top:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:15px; font-weight:700;">Danh Sách 16 Đầu Việc Của Riêng Bạn (Tuần 8 → Tuần 15)</h3>
+          <span style="font-size:12px; color:var(--text-muted);">Đánh dấu tick xong hoặc chọn trạng thái để cập nhật</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:40px; text-align:center;">Xong</th>
+                <th style="width:70px; text-align:center;">Mã</th>
+                <th>Tên công việc & Sản phẩm cần bàn giao (DoD)</th>
+                <th style="width:90px; text-align:center;">Tuần</th>
+                <th style="width:80px; text-align:center;">Giờ KH</th>
+                <th style="width:130px; text-align:center;">Trạng thái</th>
+                <th style="width:70px; text-align:center;">PR/Git</th>
+                <th style="width:80px; text-align:center;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="personal-tasks-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: STUDIO & COMMIT GIT ==================== -->
+      <section id="tab-studio" class="app-tab-pane">
         <div class="grid-2">
           <!-- Role Workspace Studio -->
           <div id="role-specific-workspace-panel"></div>
@@ -313,325 +355,300 @@
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- Personal 16 Tasks Table -->
-        <div style="margin-top:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-          <h3 style="font-size:15px; font-weight:700;">Danh Sách 16 Đầu Việc Của Riêng Bạn (Tuần 8 → Tuần 15)</h3>
-          <span style="font-size:12px; color:var(--text-muted);">Đánh dấu tick xong hoặc chọn trạng thái để cập nhật</span>
+      <!-- ==================== TAB 4: ĐỘI NGŨ 4 THÀNH VIÊN ==================== -->
+      <section id="tab-team" class="app-tab-pane">
+        <!-- Personal Hero Banner -->
+        <div id="personal-hero-banner" class="card" style="color:white; margin-bottom:20px; border:none; padding:24px 28px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div id="personal-hero-icon" style="width:54px; height:54px; border-radius:12px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center;"></div>
+              <div>
+                <div style="font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; opacity:0.85;">DASHBOARD CÁ NHÂN HÓA</div>
+                <h2 id="personal-hero-role" style="font-size:20px; font-weight:800; letter-spacing:-0.3px;"></h2>
+                <p id="personal-hero-desc" style="font-size:12.5px; opacity:0.9; max-width:750px; margin-top:4px; line-height:1.45;"></p>
+                <div style="display:flex; gap:18px; margin-top:10px; font-size:12px;">
+                  <span id="personal-hero-backup"></span>
+                  <span id="personal-hero-hours"></span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button id="btn-add-commit" class="btn btn-header" style="background:rgba(255,255,255,0.2); font-size:12px;">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Ghi Nhận Commit Mới
+              </button>
+            </div>
+          </div>
         </div>
+
+        <div id="team-roster-mini-strip" class="team-roster-bar"></div>
+
+        <div class="alert-box" style="margin-top:20px;">
+          <div class="alert-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+          </div>
+          <div>
+            <div style="font-weight:700; font-size:13.5px;">MỐC KIỂM TRA GIỮA KỲ — TUẦN 11 (1.0 ĐIỂM, KHÔNG NỘP BÙ)</div>
+            <div style="font-size:12.5px; line-height:1.45; margin-top:2px;">
+              Backend phải deploy online có HTTPS trên Render + Ít nhất 3 API phòng trọ thật + 2 màn hình mỗi app kết nối CSDL chung.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card stat-box">
+            <div class="stat-icon primary">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            </div>
+            <div>
+              <div id="stat-percent-done" class="stat-val">0%</div>
+              <div class="stat-label">Tiến độ toàn đội</div>
+              <div class="progress-bar-bg" style="width:140px;">
+                <div id="progress-bar-overall" class="progress-bar-fill" style="width:0%; background:var(--primary);"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card stat-box">
+            <div class="stat-icon emerald">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            </div>
+            <div>
+              <div id="stat-task-count" class="stat-val">0/64</div>
+              <div class="stat-label">Công việc đã xong</div>
+              <div id="stat-task-sub" style="font-size:11px; color:var(--text-muted); margin-top:4px;">0 đang làm · 64 chưa làm</div>
+            </div>
+          </div>
+
+          <div class="card stat-box">
+            <div class="stat-icon amber">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div id="stat-hours-done" class="stat-val">0h</div>
+              <div class="stat-label">Thời lượng hoàn thành</div>
+              <div id="stat-hours-sub" style="font-size:11px; color:var(--text-muted); margin-top:4px;">Kế hoạch: 340h · Năng lực: 384h</div>
+            </div>
+          </div>
+
+          <div class="card stat-box">
+            <div class="stat-icon accent">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="stat-val">4 Thành Viên</div>
+              <div class="stat-label">Cân bằng 16 task/người</div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">TV01 · TV02 · TV03 · TV04</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:15px; font-weight:700;">Tiến Độ 4 Thành Viên (Bấm thẻ để lọc nhanh)</h3>
+          <span style="font-size:12px; color:var(--text-muted);">Mỗi người 16 task (~25% tổng khối lượng đồ án)</span>
+        </div>
+        <div id="dashboard-member-cards" class="grid-4"></div>
+
+        <div style="margin-top:16px; margin-bottom:12px;">
+          <h3 style="font-size:15px; font-weight:700;">4 Điểm Nhấn Kỹ Thuật Đề Tài 25</h3>
+        </div>
+        <div id="tech-highlights-container" class="grid-2"></div>
+      </section>
+
+      <!-- ==================== TAB 5: BẢNG KANBAN (64 TASK) ==================== -->
+      <section id="tab-kanban" class="app-tab-pane">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label style="font-weight:700; font-size:12px;">Lọc Thành viên:</label>
+            <select id="filter-member" class="select-input">
+              <option value="ALL">Tất cả thành viên (4 người)</option>
+              <option value="TV01">TV01 — Backend & Cloud</option>
+              <option value="TV02">TV02 — App Android Chủ Trọ</option>
+              <option value="TV03">TV03 — App Flutter Sinh Viên</option>
+              <option value="TV04">TV04 — CSDL & QA</option>
+            </select>
+
+            <label style="font-weight:700; font-size:12px; margin-left:10px;">Lọc Tuần:</label>
+            <select id="filter-week" class="select-input">
+              <option value="ALL">Tất cả tuần (Tuần 8–15)</option>
+              <option value="8">Tuần 8 (Khởi động)</option>
+              <option value="9">Tuần 9 (Chốt phân tích & Deploy)</option>
+              <option value="10">Tuần 10 (Chức năng cốt lõi)</option>
+              <option value="11">Tuần 11 (Kiểm tra giữa kỳ)</option>
+              <option value="12">Tuần 12 (Điện nước & VietQR)</option>
+              <option value="13">Tuần 13 (Tích hợp thông suốt)</option>
+              <option value="14">Tuần 14 (Sửa lỗi & Release APK)</option>
+              <option value="15">Tuần 15 (Bảo vệ đồ án)</option>
+            </select>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted);">
+            <em>Kéo thả thẻ task giữa các cột để đổi trạng thái nhanh</em>
+          </div>
+        </div>
+
+        <div class="kanban-board">
+          <div class="kanban-col col-todo" data-status="todo">
+            <div class="kanban-header">
+              <div class="kanban-title">
+                <span class="status-indicator" style="background:#94A3B8;"></span> Chưa bắt đầu
+              </div>
+              <span id="count-todo" class="badge-count">0</span>
+            </div>
+            <div id="kanban-cards-todo" class="kanban-cards" data-status="todo"></div>
+          </div>
+
+          <div class="kanban-col col-in_progress" data-status="in_progress">
+            <div class="kanban-header">
+              <div class="kanban-title">
+                <span class="status-indicator" style="background:#3B82F6;"></span> Đang thực hiện
+              </div>
+              <span id="count-in_progress" class="badge-count">0</span>
+            </div>
+            <div id="kanban-cards-in_progress" class="kanban-cards" data-status="in_progress"></div>
+          </div>
+
+          <div class="kanban-col col-review" data-status="review">
+            <div class="kanban-header">
+              <div class="kanban-title">
+                <span class="status-indicator" style="background:#F59E0B;"></span> Chờ review / Test
+              </div>
+              <span id="count-review" class="badge-count">0</span>
+            </div>
+            <div id="kanban-cards-review" class="kanban-cards" data-status="review"></div>
+          </div>
+
+          <div class="kanban-col col-done" data-status="done">
+            <div class="kanban-header">
+              <div class="kanban-title">
+                <span class="status-indicator" style="background:#10B981;"></span> Hoàn thành
+              </div>
+              <span id="count-done" class="badge-count">0</span>
+            </div>
+            <div id="kanban-cards-done" class="kanban-cards" data-status="done"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 6: TRA CỨU WBS ==================== -->
+      <section id="tab-wbs" class="app-tab-pane">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <input type="text" id="search-task" class="text-input" placeholder="Tìm kiếm mã task, tên việc..." style="width:260px;" />
+            <select id="filter-status" class="select-input">
+              <option value="ALL">Tất cả trạng thái</option>
+              <option value="todo">Chưa bắt đầu</option>
+              <option value="in_progress">Đang làm</option>
+              <option value="review">Chờ review</option>
+              <option value="done">Hoàn thành</option>
+            </select>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted);">
+            Đường cơ sở: 64 Task · 340 giờ kế hoạch · 8 tuần
+          </div>
+        </div>
+
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
                 <th style="width:40px; text-align:center;">Xong</th>
                 <th style="width:70px; text-align:center;">Mã</th>
-                <th>Tên công việc & Sản phẩm cần bàn giao (DoD)</th>
+                <th>Tên công việc & Tiêu chí hoàn thành (DoD)</th>
+                <th style="width:80px; text-align:center;">Chủ trì</th>
                 <th style="width:90px; text-align:center;">Tuần</th>
-                <th style="width:80px; text-align:center;">Giờ KH</th>
+                <th style="width:70px; text-align:center;">Giờ KH</th>
                 <th style="width:130px; text-align:center;">Trạng thái</th>
                 <th style="width:70px; text-align:center;">PR/Git</th>
                 <th style="width:80px; text-align:center;">Thao tác</th>
               </tr>
             </thead>
-            <tbody id="personal-tasks-table-body"></tbody>
+            <tbody id="wbs-table-body"></tbody>
           </table>
         </div>
       </section>
 
-      <!-- ==================== VIEW 2: TEAM WORKSPACE ==================== -->
-      <section id="view-team" style="display:none;">
-        <!-- Team Sub-Nav Tabs -->
-        <nav class="nav-tabs" style="margin-top:0; margin-bottom:20px;">
-          <div class="nav-tab active" data-target="team-tab-overview">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-            Tổng Quan Toàn Đội
+      <!-- ==================== TAB 7: MỐC & TIÊU CHÍ NGHIỆM THU ==================== -->
+      <section id="tab-milestones" class="app-tab-pane">
+        <div class="grid-2">
+          <div>
+            <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">5 Mốc Tiến Độ Chính Thức (Tuần 8 → Tuần 15)</h3>
+            <div id="milestones-timeline" class="timeline"></div>
           </div>
-          <div class="nav-tab" data-target="team-tab-kanban">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M6 5v11"/><path d="M12 5v6"/><path d="M18 5v14"/></svg>
-            Bảng Kanban (64 Task)
-          </div>
-          <div class="nav-tab" data-target="team-tab-wbs">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="5" width="6" height="6" rx="1"/><path d="m3 17 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>
-            Danh Sách WBS Chi Tiết
-          </div>
-          <div class="nav-tab" data-target="team-tab-milestones">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-            Mốc & Tiêu Chí Nghiệm Thu
-          </div>
-          <div class="nav-tab" data-target="team-tab-reports">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-            Tạo Báo Cáo Tuần
-          </div>
-        </nav>
-
-        <!-- TEAM TAB 1: OVERVIEW -->
-        <div id="team-tab-overview" class="tab-content active">
-          <div class="alert-box">
-            <div class="alert-icon">
-              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
-            </div>
-            <div>
-              <div style="font-weight:700; font-size:13.5px;">MỐC KIỂM TRA GIỮA KỲ — TUẦN 11 (1.0 ĐIỂM, KHÔNG NỘP BÙ)</div>
-              <div style="font-size:12.5px; line-height:1.45; margin-top:2px;">
-                Backend phải deploy online có HTTPS trên Render + Ít nhất 3 API phòng trọ thật + 2 màn hình mỗi app kết nối CSDL chung.
+          <div>
+            <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">Bộ Tiêu Chí Tự Kiểm Nghiệm Thu</h3>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="card-title">
+                <span style="display:flex; align-items:center; gap:6px;">
+                  <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                  10 Tiêu Chí Android Chủ Trọ & Quản Lý (C.1)
+                </span>
+                <span style="font-size:11.5px; color:var(--text-muted);">TV02</span>
               </div>
-            </div>
-          </div>
-
-          <div class="grid-4">
-            <div class="card stat-box">
-              <div class="stat-icon primary">
-                <svg class="icon icon-lg" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-              </div>
-              <div>
-                <div id="stat-percent-done" class="stat-val">0%</div>
-                <div class="stat-label">Tiến độ toàn đội</div>
-                <div class="progress-bar-bg" style="width:140px;">
-                  <div id="progress-bar-overall" class="progress-bar-fill" style="width:0%; background:var(--primary);"></div>
-                </div>
-              </div>
+              <div id="checklist-c1-container"></div>
             </div>
 
-            <div class="card stat-box">
-              <div class="stat-icon emerald">
-                <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="card-title">
+                <span style="display:flex; align-items:center; gap:6px;">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.5-8.58 3.9a2 2 0 0 1-1.66 0L2.6 12.5"/><path d="m22 17.5-8.58 3.9a2 2 0 0 1-1.66 0L2.6 17.5"/></svg>
+                  10 Tiêu Chí Flutter Sinh Viên Thuê Trọ (C.2)
+                </span>
+                <span style="font-size:11.5px; color:var(--text-muted);">TV03</span>
               </div>
-              <div>
-                <div id="stat-task-count" class="stat-val">0/64</div>
-                <div class="stat-label">Công việc đã xong</div>
-                <div id="stat-task-sub" style="font-size:11px; color:var(--text-muted); margin-top:4px;">0 đang làm · 64 chưa làm</div>
-              </div>
+              <div id="checklist-c2-container"></div>
             </div>
-
-            <div class="card stat-box">
-              <div class="stat-icon amber">
-                <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div>
-                <div id="stat-hours-done" class="stat-val">0h</div>
-                <div class="stat-label">Thời lượng hoàn thành</div>
-                <div id="stat-hours-sub" style="font-size:11px; color:var(--text-muted); margin-top:4px;">Kế hoạch: 340h · Năng lực: 384h</div>
-              </div>
-            </div>
-
-            <div class="card stat-box">
-              <div class="stat-icon accent">
-                <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <div>
-                <div class="stat-val">4 Thành Viên</div>
-                <div class="stat-label">Cân bằng 16 task/người</div>
-                <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">TV01 · TV02 · TV03 · TV04</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="font-size:15px; font-weight:700;">Tiến Độ 4 Thành Viên (Bấm thẻ để lọc nhanh)</h3>
-            <span style="font-size:12px; color:var(--text-muted);">Mỗi người 16 task (~25% tổng khối lượng đồ án)</span>
-          </div>
-          <div id="dashboard-member-cards" class="grid-4"></div>
-
-          <div style="margin-top:16px; margin-bottom:12px;">
-            <h3 style="font-size:15px; font-weight:700;">4 Điểm Nhấn Kỹ Thuật Đề Tài 25</h3>
-          </div>
-          <div id="tech-highlights-container" class="grid-2"></div>
-        </div>
-
-        <!-- TEAM TAB 2: KANBAN -->
-        <div id="team-tab-kanban" class="tab-content">
-          <div class="filter-bar">
-            <div class="filter-group">
-              <label style="font-weight:700; font-size:12px;">Lọc Thành viên:</label>
-              <select id="filter-member" class="select-input">
-                <option value="ALL">Tất cả thành viên (4 người)</option>
-                <option value="TV01">TV01 — Backend & Cloud</option>
-                <option value="TV02">TV02 — App Android Chủ Trọ</option>
-                <option value="TV03">TV03 — App Flutter Sinh Viên</option>
-                <option value="TV04">TV04 — CSDL & QA</option>
-              </select>
-
-              <label style="font-weight:700; font-size:12px; margin-left:10px;">Lọc Tuần:</label>
-              <select id="filter-week" class="select-input">
-                <option value="ALL">Tất cả tuần (Tuần 8–15)</option>
-                <option value="8">Tuần 8 (Khởi động)</option>
-                <option value="9">Tuần 9 (Chốt phân tích & Deploy)</option>
-                <option value="10">Tuần 10 (Chức năng cốt lõi)</option>
-                <option value="11">Tuần 11 (Kiểm tra giữa kỳ)</option>
-                <option value="12">Tuần 12 (Điện nước & VietQR)</option>
-                <option value="13">Tuần 13 (Tích hợp thông suốt)</option>
-                <option value="14">Tuần 14 (Sửa lỗi & Release APK)</option>
-                <option value="15">Tuần 15 (Bảo vệ đồ án)</option>
-              </select>
-            </div>
-            <div style="font-size:12px; color:var(--text-muted);">
-              <em>Kéo thả thẻ task giữa các cột để đổi trạng thái nhanh</em>
-            </div>
-          </div>
-
-          <div class="kanban-board">
-            <div class="kanban-col col-todo" data-status="todo">
-              <div class="kanban-header">
-                <div class="kanban-title">
-                  <span class="status-indicator" style="background:#94A3B8;"></span> Chưa bắt đầu
-                </div>
-                <span id="count-todo" class="badge-count">0</span>
-              </div>
-              <div id="kanban-cards-todo" class="kanban-cards" data-status="todo"></div>
-            </div>
-
-            <div class="kanban-col col-in_progress" data-status="in_progress">
-              <div class="kanban-header">
-                <div class="kanban-title">
-                  <span class="status-indicator" style="background:#3B82F6;"></span> Đang thực hiện
-                </div>
-                <span id="count-in_progress" class="badge-count">0</span>
-              </div>
-              <div id="kanban-cards-in_progress" class="kanban-cards" data-status="in_progress"></div>
-            </div>
-
-            <div class="kanban-col col-review" data-status="review">
-              <div class="kanban-header">
-                <div class="kanban-title">
-                  <span class="status-indicator" style="background:#F59E0B;"></span> Chờ review / Test
-                </div>
-                <span id="count-review" class="badge-count">0</span>
-              </div>
-              <div id="kanban-cards-review" class="kanban-cards" data-status="review"></div>
-            </div>
-
-            <div class="kanban-col col-done" data-status="done">
-              <div class="kanban-header">
-                <div class="kanban-title">
-                  <span class="status-indicator" style="background:#10B981;"></span> Hoàn thành
-                </div>
-                <span id="count-done" class="badge-count">0</span>
-              </div>
-              <div id="kanban-cards-done" class="kanban-cards" data-status="done"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TEAM TAB 3: WBS -->
-        <div id="team-tab-wbs" class="tab-content">
-          <div class="filter-bar">
-            <div class="filter-group">
-              <input type="text" id="search-task" class="text-input" placeholder="Tìm kiếm mã task, tên việc..." style="width:260px;" />
-              <select id="filter-status" class="select-input">
-                <option value="ALL">Tất cả trạng thái</option>
-                <option value="todo">Chưa bắt đầu</option>
-                <option value="in_progress">Đang làm</option>
-                <option value="review">Chờ review</option>
-                <option value="done">Hoàn thành</option>
-              </select>
-            </div>
-            <div style="font-size:12px; color:var(--text-muted);">
-              Đường cơ sở: 64 Task · 340 giờ kế hoạch · 8 tuần
-            </div>
-          </div>
-
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th style="width:40px; text-align:center;">Xong</th>
-                  <th style="width:70px; text-align:center;">Mã</th>
-                  <th>Tên công việc & Tiêu chí hoàn thành (DoD)</th>
-                  <th style="width:80px; text-align:center;">Chủ trì</th>
-                  <th style="width:90px; text-align:center;">Tuần</th>
-                  <th style="width:70px; text-align:center;">Giờ KH</th>
-                  <th style="width:130px; text-align:center;">Trạng thái</th>
-                  <th style="width:70px; text-align:center;">PR/Git</th>
-                  <th style="width:80px; text-align:center;">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody id="wbs-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- TEAM TAB 4: MILESTONES -->
-        <div id="team-tab-milestones" class="tab-content">
-          <div class="grid-2">
-            <div>
-              <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">5 Mốc Tiến Độ Chính Thức (Tuần 8 → Tuần 15)</h3>
-              <div id="milestones-timeline" class="timeline"></div>
-            </div>
-            <div>
-              <h3 style="font-size:15px; font-weight:700; margin-bottom:14px;">Bộ Tiêu Chí Tự Kiểm Nghiệm Thu</h3>
-              <div class="card" style="margin-bottom:16px;">
-                <div class="card-title">
-                  <span style="display:flex; align-items:center; gap:6px;">
-                    <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
-                    10 Tiêu Chí Android Chủ Trọ & Quản Lý (C.1)
-                  </span>
-                  <span style="font-size:11.5px; color:var(--text-muted);">TV02</span>
-                </div>
-                <div id="checklist-c1-container"></div>
-              </div>
-
-              <div class="card" style="margin-bottom:16px;">
-                <div class="card-title">
-                  <span style="display:flex; align-items:center; gap:6px;">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.5-8.58 3.9a2 2 0 0 1-1.66 0L2.6 12.5"/><path d="m22 17.5-8.58 3.9a2 2 0 0 1-1.66 0L2.6 17.5"/></svg>
-                    10 Tiêu Chí Flutter Sinh Viên Thuê Trọ (C.2)
-                  </span>
-                  <span style="font-size:11.5px; color:var(--text-muted);">TV03</span>
-                </div>
-                <div id="checklist-c2-container"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TEAM TAB 5: REPORTS -->
-        <div id="team-tab-reports" class="tab-content">
-          <div class="card">
-            <h3 class="card-title">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-              Trình Tạo Báo Cáo Tuần Tự Động (Markdown)
-            </h3>
-            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:14px;">
-              <div>
-                <label style="font-size:11.5px; font-weight:700;">Tuần Báo Cáo:</label><br/>
-                <select id="select-report-week" class="select-input" style="width:160px; margin-top:4px;">
-                  <option value="8">Tuần 8</option>
-                  <option value="9">Tuần 9</option>
-                  <option value="10">Tuần 10</option>
-                  <option value="11">Tuần 11</option>
-                  <option value="12">Tuần 12</option>
-                  <option value="13">Tuần 13</option>
-                  <option value="14">Tuần 14</option>
-                  <option value="15">Tuần 15</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-size:11.5px; font-weight:700;">Người Báo Cáo:</label><br/>
-                <select id="select-report-member" class="select-input" style="width:220px; margin-top:4px;">
-                  <option value="ALL">Toàn bộ nhóm (4 người)</option>
-                  <option value="TV01">TV01 (Backend & Cloud)</option>
-                  <option value="TV02">TV02 (App Android Chủ Trọ)</option>
-                  <option value="TV03">TV03 (App Flutter Sinh Viên)</option>
-                  <option value="TV04">TV04 (CSDL & QA)</option>
-                </select>
-              </div>
-              <div style="align-self:flex-end;">
-                <button id="btn-generate-report" class="btn btn-primary" style="margin-top:4px;">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  Tạo Báo Cáo
-                </button>
-                <button id="btn-copy-report" class="btn btn-outline" style="margin-top:4px; border-color:var(--border-color);">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                  Sao Chép Markdown
-                </button>
-              </div>
-            </div>
-            <textarea id="report-output-text" class="form-control" rows="12" style="font-family:monospace; font-size:12px;" placeholder="Bấm 'Tạo Báo Cáo' để sinh nội dung..."></textarea>
           </div>
         </div>
       </section>
 
-    </main>
+      <!-- ==================== TAB 8: TẠO BÁO CÁO TUẦN ==================== -->
+      <section id="tab-reports" class="app-tab-pane">
+        <div class="card">
+          <h3 class="card-title">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+            Trình Tạo Báo Cáo Tuần Tự Động (Markdown)
+          </h3>
+          <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:14px;">
+            <div>
+              <label style="font-size:11.5px; font-weight:700;">Tuần Báo Cáo:</label><br/>
+              <select id="select-report-week" class="select-input" style="width:160px; margin-top:4px;">
+                <option value="8">Tuần 8</option>
+                <option value="9">Tuần 9</option>
+                <option value="10">Tuần 10</option>
+                <option value="11">Tuần 11</option>
+                <option value="12">Tuần 12</option>
+                <option value="13">Tuần 13</option>
+                <option value="14">Tuần 14</option>
+                <option value="15">Tuần 15</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11.5px; font-weight:700;">Người Báo Cáo:</label><br/>
+              <select id="select-report-member" class="select-input" style="width:220px; margin-top:4px;">
+                <option value="ALL">Toàn bộ nhóm (4 người)</option>
+                <option value="TV01">TV01 (Backend & Cloud)</option>
+                <option value="TV02">TV02 (App Android Chủ Trọ)</option>
+                <option value="TV03">TV03 (App Flutter Sinh Viên)</option>
+                <option value="TV04">TV04 (CSDL & QA)</option>
+              </select>
+            </div>
+            <div style="align-self:flex-end;">
+              <button id="btn-generate-report" class="btn btn-primary" style="margin-top:4px;">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Tạo Báo Cáo
+              </button>
+              <button id="btn-copy-report" class="btn btn-outline" style="margin-top:4px; border-color:var(--border-color);">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Sao Chép Markdown
+              </button>
+            </div>
+          </div>
+          <textarea id="report-output-text" class="form-control" rows="12" style="font-family:monospace; font-size:12px;" placeholder="Bấm 'Tạo Báo Cáo' để sinh nội dung..."></textarea>
+        </div>
+      </section>
+</main>
 
   </div>
 

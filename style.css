@@ -2620,3 +2620,201 @@ body {
   color: var(--text-primary);
   margin: 10px 0 4px 0;
 }
+
+/* ==================== MAIN MODULAR NAVIGATION TABS ==================== */
+.main-app-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  padding: 8px 10px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+}
+
+.main-app-nav-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+.main-app-nav-tabs::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.app-nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  user-select: none;
+}
+
+.app-nav-tab:hover {
+  background: var(--bg-main);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  transform: translateY(-1px);
+}
+
+.app-nav-tab.active {
+  background: linear-gradient(135deg, var(--primary) 0%, #0F766E 100%);
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.app-nav-tab .tab-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.app-nav-tab .tab-label {
+  letter-spacing: -0.2px;
+}
+
+.app-nav-tab .tab-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.app-nav-tab:hover .tab-badge {
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+.app-nav-tab.active .tab-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+.app-nav-tab .tab-badge.badge-urgent {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+}
+
+.app-nav-tab.active .tab-badge.badge-urgent {
+  background: #EF4444;
+  color: #FFFFFF;
+}
+
+/* Tab Panes */
+.app-tab-pane {
+  display: none;
+  animation: fadeInPane 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeInPane {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Personal dependency reminder styles */
+.dep-box-mine {
+  background: rgba(245, 158, 11, 0.08) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.dep-mine-row {
+  background: rgba(245, 158, 11, 0.05);
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.dep-reminder-badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #D97706;
+  background: rgba(245, 158, 11, 0.15);
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+[data-theme="dark"] .dep-reminder-badge {
+  color: #FBBF24;
+  background: rgba(245, 158, 11, 0.25);
+}
+
+/* Studio & Commit Feed Enhancements */
+.commit-card-pro {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+}
+
+.studio-console-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.studio-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.studio-feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  transition: all 0.2s ease;
+}
+
+.studio-feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary);
+}
+
+.studio-feature-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.studio-feature-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+

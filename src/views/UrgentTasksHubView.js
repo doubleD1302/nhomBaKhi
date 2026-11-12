@@ -175,7 +175,7 @@
                 <h3>Không có công việc nào bị tồn đọng!</h3>
                 <p>Tất cả các công việc trong phạm vi đã được hoàn thành xuất sắc.</p>
               </div>
-            ` : top5.map((item, index) => this.renderTaskCard(item, index + 1, memberMap)).join('')}
+            ` : top5.map((item, index) => this.renderTaskCard(item, index + 1, memberMap, currentUser)).join('')}
           </div>
         </div>
       `;
@@ -221,7 +221,7 @@
       });
     }
 
-    renderTaskCard(item, rankNumber, memberMap) {
+    renderTaskCard(item, rankNumber, memberMap, currentUser) {
       const t = item.task;
       const isOverdue = item.isOverdue;
       const isCurrentWeek = item.isCurrentWeek;
@@ -233,6 +233,9 @@
       const claimantName = (claim.isClaimed && claim.owner) 
         ? `${t.owner} · ${claim.owner.name} (MSSV: ${claim.owner.mssv})`
         : `${t.owner} · ${ownerMember.name || ownerMember.shortTitle || t.owner}`;
+
+      // Kiểm tra xem công việc này có phải của bản thân đang đăng nhập hay không
+      const isMyTask = currentUser && t.owner === currentUser.memberId;
 
       // Deadline Pill (TÔ ĐỎ NẾU TRỄ HẠN)
       let deadlineHtml = '';
@@ -259,23 +262,60 @@
         `;
       }
 
-      // Dependency Block (CẦN CHỜ CÔNG VIỆC NÀO - CỦA AI XONG THÌ MỚI TIẾN HÀNH)
+      // Dependency Block (KHÔNG GHI "CẦN CHỜ CỦA..." CHO BẢN THÂN, CHỈ NHẮC NHỞ HOÀN THÀNH TASK NÀO)
       let depHtml = '';
       if (!isReady) {
         depHtml = `
-          <div class="dep-box blocked">
+          <div class="dep-box blocked ${isMyTask ? 'dep-box-mine' : ''}">
             <div class="dep-box-header">
-              ${window.Icons.get('alert-triangle', 'icon-xs')}
-              <strong>CẦN CHỜ CÔNG VIỆC SAU XONG MỚI TIẾN HÀNH LÀM:</strong>
+              ${isMyTask 
+                ? `${window.Icons.get('bell', 'icon-xs text-amber')} <strong>📌 NHẮC NHỞ CÔNG VIỆC TIÊN QUYẾT (CỦA BẠN):</strong>`
+                : `${window.Icons.get('alert-triangle', 'icon-xs')} <strong>⏳ ĐIỀU KIỆN TIÊN QUYẾT (CẦN HOÀN THÀNH):</strong>`
+              }
             </div>
             <div class="dep-items-list">
-              ${unfinishedDeps.map(d => `
-                <div class="dep-item-row">
-                  <span class="dep-code">${d.id}</span>
-                  <span class="dep-name">${d.name}</span>
-                  <span class="dep-owner-chip">&larr; Cần chờ của: <strong>${d.ownerName}</strong> (${d.status === 'in_progress' ? 'Đang làm' : 'Chưa bắt đầu'})</span>
-                </div>
-              `).join('')}
+              ${unfinishedDeps.map(d => {
+                const isMyDep = currentUser && d.ownerRole === currentUser.memberId;
+
+                if (isMyTask && isMyDep) {
+                  // CẢ TASK VÀ DEP ĐỀU LÀ CỦA BẢN THÂN: Không ghi "cần chờ của...", chỉ nhắc nhở hoàn thành task đó!
+                  return `
+                    <div class="dep-item-row dep-mine-row">
+                      <span class="dep-code">${d.id}</span>
+                      <span class="dep-name">${d.name}</span>
+                      <span class="dep-reminder-badge">👉 Bạn cần hoàn thành task này trước (${d.status === 'in_progress' ? 'Đang làm' : 'Chưa bắt đầu'})</span>
+                    </div>
+                  `;
+                } else if (isMyTask && !isMyDep) {
+                  // TASK CỦA BẢN THÂN, NHƯNG PHỤ THUỘC VÀO TASK ĐỒNG ĐỘI
+                  return `
+                    <div class="dep-item-row">
+                      <span class="dep-code">${d.id}</span>
+                      <span class="dep-name">${d.name}</span>
+                      <span class="dep-owner-chip">&larr; Cần chờ đồng đội <strong>${d.ownerName}</strong> hoàn thành trước</span>
+                    </div>
+                  `;
+                } else {
+                  // TASK CỦA NGƯỜI KHÁC (KHI XEM Ở CHẾ ĐỘ TOÀN ĐỘI)
+                  if (d.ownerRole === t.owner) {
+                    return `
+                      <div class="dep-item-row">
+                        <span class="dep-code">${d.id}</span>
+                        <span class="dep-name">${d.name}</span>
+                        <span class="dep-reminder-badge">👉 Cần hoàn thành task này trước (Cùng phụ trách)</span>
+                      </div>
+                    `;
+                  } else {
+                    return `
+                      <div class="dep-item-row">
+                        <span class="dep-code">${d.id}</span>
+                        <span class="dep-name">${d.name}</span>
+                        <span class="dep-owner-chip">&larr; Chờ task của <strong>${d.ownerName}</strong> hoàn thành</span>
+                      </div>
+                    `;
+                  }
+                }
+              }).join('')}
             </div>
           </div>
         `;
@@ -284,12 +324,12 @@
           <div class="dep-box ready">
             <div class="dep-box-header">
               ${window.Icons.get('check-circle', 'icon-xs')}
-              <strong>🟢 ĐÃ SẴN SÀNG THỰC HIỆN NGAY:</strong>
+              <strong>🟢 ${isMyTask ? 'BẠN ĐÃ SẴN SÀNG THỰC HIỆN NGAY:' : 'ĐÃ SẴN SÀNG THỰC HIỆN NGAY:'}</strong>
             </div>
             <div class="dep-ready-text">
               ${t.deps && t.deps.length > 0 
-                ? `Tất cả các công việc phụ thuộc (${t.deps.join(', ')}) đã hoàn thành!` 
-                : 'Công việc khởi tạo độc lập, không bị ràng buộc phụ thuộc!'}
+                ? (isMyTask ? `Tất cả các công việc tiên quyết (${t.deps.join(', ')}) của bạn đã hoàn thành, có thể tiến hành ngay!` : `Tất cả các công việc phụ thuộc (${t.deps.join(', ')}) đã hoàn thành!`) 
+                : (isMyTask ? 'Công việc độc lập, bạn có thể bắt tay vào làm ngay mà không vướng phụ thuộc!' : 'Công việc độc lập, không bị ràng buộc phụ thuộc!')}
             </div>
           </div>
         `;
