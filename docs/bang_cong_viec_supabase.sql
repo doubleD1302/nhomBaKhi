@@ -1,5 +1,5 @@
 -- ==============================================================================
--- BẢNG TIẾN ĐỘ DỰ ÁN CHO WEB DASHBOARD (NHÓM BA KHỈ - ĐỀ TÀI 25)
+-- BẢNG TIẾN ĐỘ DỰ ÁN CHO WEB DASHBOARD (NHÓM BÁ KHÍ - QUẢN LÝ & THUÊ NHÀ TRỌ SINH VIÊN)
 -- Dùng để đồng bộ thời gian thực giữa 4 thành viên (TV01, TV02, TV03, TV04)
 -- Chạy script này trong tab SQL Editor trên trang quản trị Supabase của nhóm
 -- ==============================================================================

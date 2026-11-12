@@ -39,18 +39,57 @@
       window.CloudSyncService.onStatusChange(() => this.updateCloudStatusUI());
       this.updateCloudStatusUI();
 
-      // Tự động kiểm tra và kéo dữ liệu mới nhất khi khởi động nếu đã có cấu hình
+      // Kéo dữ liệu khi khởi động
       if (window.CloudSyncService.isConfigured()) {
         setTimeout(async () => {
-          const res = await window.CloudSyncService.pullTasks();
-          if (res.success && res.data && res.data.length > 0) {
-            const count = window.ProjectModel.applyRemoteSync(res.data);
-            if (count > 0) {
-              this.renderActiveView();
-              this.showToast(`Đã đồng bộ ${count} task mới nhất từ Supabase Cloud!`);
-            }
-          }
+          await this.performCloudSync(false);
         }, 1200);
+
+        // Bật chu kỳ tự động đồng bộ thời gian thực mỗi 15 giây (Realtime Polling)
+        // Đảm bảo khi đồng đội nhận role (như TV04) hoặc cập nhật task, màn hình tự động hiển thị tên & tiến độ mới
+        if (!this._syncInterval) {
+          this._syncInterval = setInterval(async () => {
+            if (window.CloudSyncService.isConfigured() && window.CloudSyncService.status !== 'syncing') {
+              await this.performCloudSync(true); // silent background sync
+            }
+          }, 15000);
+        }
+      }
+    }
+
+    async performCloudSync(silent = false) {
+      if (!window.CloudSyncService.isConfigured()) return { success: false };
+      try {
+        let changed = false;
+
+        // 1. Đồng bộ vai trò thành viên đã pick (để hiển thị tên TV04, MSSV,...)
+        const claims = await window.CloudSyncService.fetchClaimedRoles();
+        if (claims && Object.keys(claims).length > 0) {
+          const prevClaims = JSON.stringify(window.UserModel.claimedRoles);
+          window.UserModel.setClaimedRolesFromCloud(claims);
+          if (prevClaims !== JSON.stringify(window.UserModel.claimedRoles)) {
+            changed = true;
+          }
+        }
+
+        // 2. Kéo danh sách 64 task
+        const res = await window.CloudSyncService.pullTasks();
+        if (res.success && res.data && res.data.length > 0) {
+          const count = window.ProjectModel.applyRemoteSync(res.data);
+          if (count > 0) {
+            changed = true;
+            if (!silent) this.showToast(`Đã đồng bộ ${count} task từ Supabase Cloud!`);
+          }
+        }
+
+        if (changed) {
+          this.renderActiveView();
+          window.GatewayView.render(window.ProjectModel.members);
+        }
+        return { success: true, changed };
+      } catch (err) {
+        console.warn("Lỗi đồng bộ nền:", err);
+        return { success: false, error: err };
       }
     }
 
@@ -317,7 +356,7 @@
       document.getElementById('btn-claim-role')?.addEventListener('click', async () => {
         const nameInput = document.getElementById('reg-name-input');
         const mssvInput = document.getElementById('reg-mssv-input');
-        const name = (nameInput ? nameInput.value : '').trim() || 'Thành viên Nhóm Ba Khỉ';
+        const name = (nameInput ? nameInput.value : '').trim() || 'Thành viên Nhóm Bá Khí';
         const mssv = (mssvInput ? mssvInput.value : '').trim() || 'INT4211';
         const memberId = window.GatewayView.selectedRole;
 
@@ -403,6 +442,27 @@
 
       // Theme toggle
       document.getElementById('btn-theme-toggle')?.addEventListener('click', () => this.toggleTheme());
+
+      // Nút đồng bộ nhanh ở Header
+      document.getElementById('btn-quick-sync-now')?.addEventListener('click', async () => {
+        const btn = document.getElementById('btn-quick-sync-now');
+        if (btn) {
+          btn.classList.add('loading');
+          btn.innerHTML = `${window.Icons.get('refresh-cw', 'spin')} Đang đồng bộ...`;
+        }
+
+        const res = await this.performCloudSync(false);
+        if (btn) {
+          btn.classList.remove('loading');
+          btn.innerHTML = `${window.Icons.get('refresh-cw')} Đồng bộ ngay`;
+        }
+
+        if (res.success) {
+          this.showToast("Đã đồng bộ dữ liệu thời gian thực thành công!");
+        } else {
+          this.showToast("Đã kiểm tra, chưa có dữ liệu mới từ Cloud.");
+        }
+      });
 
       // Cloud Modal
       document.getElementById('btn-cloud-sync')?.addEventListener('click', () => this.openCloudModal());

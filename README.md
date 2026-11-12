@@ -1,7 +1,7 @@
-# Nhóm Ba Khỉ — Đề tài 25: Nền Tảng Việc Làm Bán Thời Gian Cho Sinh Viên
+# Nhóm Bá Khí — Dự Án: Quản Lý & Thuê Nhà Trọ Cho Sinh Viên (SmartTro)
 
 **Môn học:** INT4211 – Lập trình trên các thiết bị di động (HK261)  
-**Thành viên:** 231A010014 - Hà Gia Bảo & các thành viên Nhóm Ba Khỉ
+**Thành viên:** 231A010014 - Hà Gia Bảo & các thành viên Nhóm Bá Khí
 
 ---
 

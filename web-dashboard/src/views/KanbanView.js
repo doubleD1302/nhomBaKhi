@@ -17,25 +17,29 @@
       tasks.forEach(t => {
         const st = t.status || 'todo';
         if (counts[st] !== undefined) counts[st]++;
-        const member = members.find(m => m.id === t.owner) || { avatarColor: '#1B365D' };
+        const member = members.find(m => m.id === t.owner) || { avatarColor: '#0D9488' };
+        const claim = window.UserModel ? window.UserModel.isRoleClaimed(t.owner) : { isClaimed: false };
 
         const el = document.createElement('div');
-        el.className = 'task-card';
+        el.className = `task-card ${st === 'done' ? 'card-done' : ''}`;
         el.draggable = true;
         el.dataset.id = t.id;
 
         const isGraded = ["T026", "T028", "T030", "T032"].includes(t.id);
+        const ownerNameTag = (claim.isClaimed && claim.owner) ? ` · ${claim.owner.name.split(' ').pop()}` : '';
 
         el.innerHTML = `
           <div class="task-meta-top">
             <span class="task-id">${t.id}</span>
-            <span class="task-badge-owner" style="background:${member.avatarColor}">${t.owner}</span>
+            <span class="task-badge-owner" style="background:${member.avatarColor}">${t.owner}${ownerNameTag}</span>
           </div>
           <div class="task-name">${isGraded ? `${window.Icons.get('flag', 'icon-sm text-rose')} ` : ''}${t.name}</div>
           <div class="task-deliverable">${t.done}</div>
           <div class="task-footer">
-            <span style="font-weight:600; background:var(--primary-subtle); color:var(--primary); padding:1px 6px; border-radius:3px;">Tuần ${t.start}</span>
-            <span style="display:flex; align-items:center; gap:4px; font-weight:700;">${window.Icons.get('clock', 'icon-sm')} ${t.hours}h</span>
+            <span class="week-pill ${t.start === 11 ? 'week-11-graded' : ''}">Tuần ${t.start}</span>
+            <span style="display:flex; align-items:center; gap:4px; font-weight:700; font-size:11.5px; color:var(--text-secondary);">
+              ${window.Icons.get('clock', 'icon-sm')} ${t.hours}h
+            </span>
           </div>
         `;
 
@@ -67,7 +71,7 @@
       cols.forEach(col => {
         col.ondragover = (e) => {
           e.preventDefault();
-          col.style.background = 'rgba(0,0,0,0.02)';
+          col.style.background = 'rgba(13, 148, 136, 0.05)';
         };
         col.ondragleave = () => col.style.background = '';
         col.ondrop = (e) => {
