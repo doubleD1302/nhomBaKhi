@@ -10,10 +10,10 @@
       this.currentUser = null;
       this.commits = { TV01: [], TV02: [], TV03: [], TV04: [] };
       this.claimedRoles = {
-        TV01: null,
-        TV02: null,
-        TV03: null,
-        TV04: null
+        TV01: { roleId: 'TV01', name: 'Nguyễn Đức Đạt', mssv: '231A290126', code: 'TRO-SRV-NMWV-87J9', claimedAt: '2026-11-12T03:19:47.278Z' },
+        TV02: { roleId: 'TV02', name: 'Nguyễn Đỗ Hoàng Anh', mssv: '231A0290111', code: 'TRO-ADM-7E3G-SC5T', claimedAt: '2026-11-12T04:57:21.784Z' },
+        TV03: { roleId: 'TV03', name: 'Hà Gia Bảo', mssv: '231A010014', code: 'TRO-STU-QFUG-7R67', claimedAt: '2026-11-12T05:00:16.214Z' },
+        TV04: { roleId: 'TV04', name: 'Võ Trần Kim Tuyến', mssv: '241A310165', code: 'TRO-DBQ-241A310165', claimedAt: '2026-11-12T05:07:02.289Z' }
       };
     }
 
@@ -42,7 +42,12 @@
       const savedClaims = localStorage.getItem(CLAIMED_ROLES_KEY);
       if (savedClaims) {
         try {
-          this.claimedRoles = Object.assign(this.claimedRoles, JSON.parse(savedClaims));
+          const parsed = JSON.parse(savedClaims);
+          Object.keys(parsed).forEach(k => {
+            if (parsed[k] && parsed[k].name) {
+              this.claimedRoles[k] = parsed[k];
+            }
+          });
         } catch (e) {
           console.error("Error parsing local claimed roles", e);
         }
