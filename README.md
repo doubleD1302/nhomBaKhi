@@ -45,4 +45,4 @@ Từ thư mục gốc repository:
 node --test web-dashboard/test/lecturer.test.cjs
 ```
 
-GitHub Actions xuất bản thư mục `web-dashboard/` lên GitHub Pages khi nhánh `main` được cập nhật. Cấu hình trong `.github/workflows/deploy-dashboard.yml`.
+Website công khai hiện xuất bản từ thư mục gốc của nhánh `gh-pages`. Mã nguồn phát triển nằm ở `main/web-dashboard/`; khi phát hành, đồng bộ nội dung thư mục này sang gốc `gh-pages` rồi push để chạy Pages build and deployment. Môi trường `github-pages` chỉ cho phép nhánh `gh-pages`; workflow cũ chạy trực tiếp từ `main` chưa phù hợp cấu hình này.
