@@ -13,6 +13,7 @@
 | Nội dung cần kiểm tra | Đường dẫn |
 | --- | --- |
 | **Tiến độ và phân công nhiệm vụ** | **[Mở trang quản lý dự án](https://doubled1302.github.io/nhomBaKhi/)** |
+| **Chế độ Giảng viên — không cần đăng nhập** | **[Xem tiến độ toàn dự án và từng thành viên](https://doubled1302.github.io/nhomBaKhi/lecturer.html)** |
 | **Sơ đồ ERD** | **[Xem toàn bộ ERD](./docs/ERD/README.md)** · [Ảnh tổng quan](./docs/ERD/00_ERD_tong_quan.png) |
 | **Sơ đồ Use Case** | **[Xem toàn bộ Use Case](./docs/UseCase/README.md)** · [Ảnh tổng quan](./docs/UseCase/00_Tong_quan.png) |
 | Kế hoạch và bảng phân công dạng Word | [Tải tài liệu phân công](./docs/Phan_Cong_Cong_Viec_Nhom_De25.docx) |
@@ -91,11 +92,11 @@ Bộ thiết kế gồm **8 sơ đồ**, mô tả **21 Use Case** với ba tác 
 
 ## Hướng dẫn kiểm tra và chạy dự án
 
-1. **Kiểm tra tiến độ:** mở [website quản lý dự án](https://doubled1302.github.io/nhomBaKhi/), xem tổng quan và lọc nhiệm vụ theo thành viên.
+1. **Kiểm tra tiến độ:** mở [chế độ Giảng viên](https://doubled1302.github.io/nhomBaKhi/lecturer.html) để xem toàn dự án, tiến độ bốn thành viên và lọc nhiệm vụ theo người, tuần, trạng thái. Trang chỉ xem, không cần đăng nhập và tự tải cập nhật Cloud mỗi 15 giây khi đang mở.
 2. **Kiểm tra thiết kế:** mở [ERD](./docs/ERD/README.md) và [Use Case](./docs/UseCase/README.md); dùng PNG để xem nhanh, SVG để phóng to hoặc `.puml` để chỉnh sửa.
 3. **Kiểm tra mã nguồn:** mở thư mục thành phần tương ứng, đối chiếu với [tài liệu API](./backend/api.md) và [checklist môn học](./PHU_LUC_4_CHECKLIST.txt).
 4. **Cài đặt và chạy:** làm theo [hướng dẫn chạy dự án](./HUONG_DAN_CHAY_PROJECT.txt). Website tiến độ có thể mở riêng bằng [Mo_Web_Theo_Doi.bat](./Mo_Web_Theo_Doi.bat).
 
 ### Lưu ý về tính đồng bộ
 
-Phạm vi tài liệu thiết kế được công bố ở đây là **quản lý việc làm sinh viên**. Dashboard hiện còn một số nhãn SmartTro/nhà trọ từ cấu hình cũ; mã nguồn và hướng dẫn API cũng còn các nghiệp vụ ca làm, chấm công và bảng lương ngoài phạm vi bộ thiết kế. Các nội dung này cần được nhóm đồng bộ và đối chiếu với kết quả kiểm thử thực tế khi nghiệm thu.
+Phạm vi dashboard và tài liệu thiết kế là **tìm kiếm việc làm cho sinh viên**. Trang Giảng viên đọc tiến độ đã được nhóm đồng bộ lên Cloud; nếu kết nối lỗi, trang ghi rõ dữ liệu đang hiển thị là kế hoạch hay lần cập nhật trước. Mã nguồn và hướng dẫn API cần được đối chiếu với bộ ERD, Use Case và kết quả kiểm thử thực tế khi nghiệm thu.

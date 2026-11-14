@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Chế độ Giảng viên: xem tiến độ toàn dự án tìm kiếm việc làm sinh viên và nhiệm vụ của từng thành viên Nhóm Bá Khí.">
+  <title>Giảng viên · Tiến độ dự án việc làm sinh viên · Nhóm Bá Khí</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="lecturer.css">
+  <script defer src="tasks-data.js"></script>
+  <script defer src="src/models/CloudSyncService.js"></script>
+  <script defer src="src/models/LecturerProgressModel.js"></script>
+  <script defer src="src/controllers/LecturerController.js"></script>
+</head>
+<body class="lecturer-page">
+  <header class="lecturer-header">
+    <div class="lecturer-header-inner">
+      <a class="lecturer-brand" href="./index.html">BÁ KHÍ <span>INT4211 · HK261 · Đề tài 25</span></a>
+      <div class="lecturer-header-actions">
+        <span class="lecturer-mode-badge">Chế độ Giảng viên · Chỉ xem</span>
+        <a class="btn btn-outline" href="./index.html">Về trang thành viên</a>
+      </div>
+    </div>
+  </header>
+  <main class="lecturer-main">
+    <section class="lecturer-intro" aria-labelledby="lecturer-title">
+      <div>
+        <p class="lecturer-eyebrow">THEO DÕI ĐỒ ÁN · NHÓM 4 THÀNH VIÊN</p>
+        <h1 id="lecturer-title">Tiến độ dự án</h1>
+        <p class="lecturer-subtitle">Nền tảng tìm kiếm việc làm cho sinh viên</p>
+        <p class="lecturer-description">Xem toàn cảnh dự án và từng phần việc được phân công. Không cần mã truy cập hoặc nhận vai trò thành viên.</p>
+      </div>
+      <div class="lecturer-doc-links">
+        <a href="https://github.com/doubleD1302/nhomBaKhi/tree/main/docs/ERD" target="_blank" rel="noopener noreferrer">Sơ đồ ERD ↗</a>
+        <a href="https://github.com/doubleD1302/nhomBaKhi/tree/main/docs/UseCase" target="_blank" rel="noopener noreferrer">Use Case ↗</a>
+        <a href="https://github.com/doubleD1302/nhomBaKhi/commits/main/" target="_blank" rel="noopener noreferrer">Lịch sử GitHub ↗</a>
+      </div>
+    </section>
+
+    <div class="lecturer-sync-panel">
+      <div role="status" aria-live="polite">
+        <strong id="lecturer-sync-status">Đang tải tiến độ từ Cloud…</strong>
+        <p id="lecturer-sync-detail">Tự cập nhật mỗi 15 giây khi trang đang mở.</p>
+      </div>
+      <button id="lecturer-refresh" class="btn btn-primary" type="button">Cập nhật ngay</button>
+    </div>
+
+    <section aria-labelledby="overall-title">
+      <div class="lecturer-section-heading"><h2 id="overall-title">Tổng quan toàn dự án</h2><span>Không thay đổi khi lọc danh sách bên dưới</span></div>
+      <div id="lecturer-overall" class="lecturer-metrics"></div>
+      <p class="lecturer-explainer">Tỷ lệ hoàn thành = số nhiệm vụ có trạng thái “Hoàn thành” / tổng số nhiệm vụ. Đây là tiến độ do nhóm cập nhật, cần đối chiếu với minh chứng khi nghiệm thu.</p>
+    </section>
+
+    <section aria-labelledby="members-title">
+      <div class="lecturer-section-heading"><h2 id="members-title">Tiến độ từng thành viên</h2><span>Chọn thành viên để xem nhiệm vụ được giao</span></div>
+      <div id="lecturer-members" class="lecturer-member-grid"></div>
+    </section>
+
+    <section class="lecturer-task-section" aria-labelledby="tasks-title">
+      <div class="lecturer-section-heading"><h2 id="tasks-title">Chi tiết nhiệm vụ</h2><span id="lecturer-task-count"></span></div>
+      <form id="lecturer-filters" class="lecturer-filters" role="search">
+        <label>Thành viên<select id="lecturer-member"><option value="ALL">Toàn bộ thành viên</option></select></label>
+        <label>Tuần<select id="lecturer-week"><option value="ALL">Tất cả các tuần</option></select></label>
+        <label>Trạng thái<select id="lecturer-status"><option value="ALL">Tất cả trạng thái</option><option value="todo">Chưa bắt đầu</option><option value="in_progress">Đang thực hiện</option><option value="review">Chờ review / test</option><option value="done">Hoàn thành</option></select></label>
+        <label class="lecturer-search">Tìm nhiệm vụ<input type="search" id="lecturer-search" placeholder="Mã, tên nhiệm vụ hoặc ghi chú…"></label>
+        <button class="btn btn-outline" id="lecturer-clear" type="button">Xóa bộ lọc</button>
+      </form>
+      <p id="lecturer-filter-summary" class="lecturer-filter-summary" aria-live="polite"></p>
+      <div class="lecturer-table-wrap" tabindex="0" role="region" aria-label="Danh sách nhiệm vụ, cuộn ngang trên điện thoại">
+        <table class="lecturer-table">
+          <thead><tr><th scope="col">Nhiệm vụ & minh chứng</th><th scope="col">Phụ trách</th><th scope="col">Tuần</th><th scope="col">Trạng thái</th><th scope="col">Giờ thực tế / kế hoạch</th></tr></thead>
+          <tbody id="lecturer-task-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <footer class="lecturer-footer">Nhóm Bá Khí · INT4211 · Dữ liệu tiến độ chung từ Cloud. Các cập nhật chỉ lưu trên máy thành viên sẽ xuất hiện sau khi được đồng bộ.</footer>
+  </main>
+  <noscript><p>Vui lòng bật JavaScript để xem tiến độ dự án.</p></noscript>
+</body>
+</html>

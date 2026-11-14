@@ -1,8 +1,6 @@
-// Dữ liệu quản lý dự án Đề tài 25 - Hệ thống Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
-// INT4211 - Lập trình trên các thiết bị di động (HK261)
-
+// Kế hoạch dự án tìm kiếm việc làm sinh viên · INT4211 · Nhóm Bá Khí
 window.PROJECT_DATA = {
-    title: "Hệ thống Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)",
+    title: "Nền tảng tìm kiếm việc làm cho sinh viên",
     subject: "INT4211 – Lập trình trên các thiết bị di động (HK261)",
     topicId: 25,
     repoUrl: "https://github.com/doubleD1302/nhomBaKhi",
@@ -18,7 +16,7 @@ window.PROJECT_DATA = {
     "shortTitle": "Backend & Cloud",
     "assignedPerson": "Nguyễn Đức Đạt",
     "mssv": "231A290126",
-    "role": "Phát triển máy chủ REST API Node.js/Express, xác thực JWT/bcrypt, quản lý danh mục phòng trọ, chốt chỉ số công tơ điện nước, tính toán hóa đơn tự động theo biểu phí lũy tiến, tích hợp cổng tạo mã VietQR chuyển khoản ngân hàng, triển khai Cloud Render 24/7.",
+    "role": "Phát triển REST API Node.js/Express, JWT/bcrypt, hồ sơ nhà tuyển dụng, tin tuyển dụng, kiểm duyệt, hồ sơ sinh viên, ứng tuyển, báo cáo lừa đảo và thống kê; triển khai Render kết nối Supabase.",
     "avatarColor": "#0D9488",
     "badgeBg": "#E6F4F1",
     "badgeBorder": "#0F766E",
@@ -30,67 +28,67 @@ window.PROJECT_DATA = {
       "Express 4",
       "JWT/bcrypt",
       "PostgreSQL pg",
-      "VietQR API",
+      "REST API",
       "Render Cloud",
       "Supabase Storage"
     ],
     "assignedTasksCount": 16,
     "deliverables": [
-      "Module mã nguồn Backend Node.js/Express phụ trách",
-      "Tài liệu đặc tả hợp đồng API (api.md) chuẩn REST phòng trọ",
-      "URL máy chủ chạy online có HTTPS trên Render",
+      "Module Backend Node.js/Express do TV01 phụ trách",
+      "Tài liệu hợp đồng API việc làm tại backend/api.md",
+      "URL API HTTPS trên Render được kiểm tra thực tế",
       "Mục 1, 4, 6 trong báo cáo tổng kết đồ án"
     ],
     "roleChecklist": [
       {
         "id": "tv01_1",
-        "text": "Khởi tạo Express server với biến môi trường .env (không lộ SECRET)",
+        "text": "Khởi tạo Express với biến môi trường riêng, không commit bí mật",
         "done": false
       },
       {
         "id": "tv01_2",
-        "text": "Cấu hình JWT Token & bcrypt băm mật khẩu bảo mật",
+        "text": "Đăng ký, đăng nhập JWT và bcrypt; kiểm tra vai trò",
         "done": false
       },
       {
         "id": "tv01_3",
-        "text": "Deploy Web Service lên Render kết nối Supabase Pooler (IPv4 cổng 5432)",
+        "text": "Triển khai Render kết nối Supabase Session Pooler IPv4 5432",
         "done": false
       },
       {
         "id": "tv01_4",
-        "text": "Endpoint kiểm tra sức khỏe /health hoạt động HTTPS công khai",
+        "text": "Kiểm tra /health và /ready qua HTTPS",
         "done": false
       },
       {
         "id": "tv01_5",
-        "text": "API duyệt thông tin Chủ trọ và danh mục phòng trọ",
+        "text": "API tạo và duyệt hồ sơ nhà tuyển dụng, tin tuyển dụng",
         "done": false
       },
       {
         "id": "tv01_6",
-        "text": "API chốt chỉ số công tơ điện nước và tính tiền lũy tiến",
+        "text": "API hồ sơ sinh viên, lịch rảnh và tìm việc theo lịch",
         "done": false
       },
       {
         "id": "tv01_7",
-        "text": "API phát sinh mã thanh toán chuẩn VietQR tự động",
+        "text": "API ứng tuyển, phân quyền và quyền sở hữu",
         "done": false
       },
       {
         "id": "tv01_8",
-        "text": "API sinh viên phản ánh báo hỏng và quản lý sửa chữa",
+        "text": "API báo cáo lừa đảo, xử lý và thống kê",
         "done": false
       }
     ]
   },
   {
     "id": "TV02",
-    "name": "Ứng Dụng Android (Chủ Trọ & Quản Lý)",
-    "shortTitle": "App Android Chủ Trọ",
+    "name": "Ứng Dụng Android Quản Trị và Nhà Tuyển Dụng",
+    "shortTitle": "App Android Admin",
     "assignedPerson": "Nguyễn Đỗ Hoàng Anh",
     "mssv": "231A0290111",
-    "role": "Toàn bộ App Android Java + XML Layout (minSdk 24), Phân quyền QUAN_TRI và CHU_TRO, 2 danh sách RecyclerView phòng trọ & hóa đơn, giao diện chốt chỉ số điện nước, lập hóa đơn VietQR thu tiền trọ, duyệt hợp đồng đặt cọc, biểu đồ doanh thu MPAndroidChart (Tuân thủ Tiêu chuẩn C.1).",
+    "role": "Ứng dụng Android Java/XML cho nhà tuyển dụng và quản trị: quản lý hồ sơ, địa điểm, tin tuyển dụng, ứng viên, kiểm duyệt vi phạm và thống kê theo C.1.",
     "avatarColor": "#2563EB",
     "badgeBg": "#EFF6FF",
     "badgeBorder": "#1D4ED8",
@@ -116,53 +114,48 @@ window.PROJECT_DATA = {
     "roleChecklist": [
       {
         "id": "tv02_1",
-        "text": "Cấu hình Retrofit 2 + Gson gọi API backend Render",
+        "text": "Đăng nhập phân quyền QUAN_TRI và NHA_TUYEN_DUNG",
         "done": false
       },
       {
         "id": "tv02_2",
-        "text": "Màn hình đăng nhập phân quyền QUAN_TRI và CHU_TRO",
+        "text": "Ít nhất 2 danh sách RecyclerView: nhà tuyển dụng và tin tuyển dụng",
         "done": false
       },
       {
         "id": "tv02_3",
-        "text": "Tối thiểu 2 danh sách dùng RecyclerView phòng trọ & hóa đơn",
+        "text": "Màn hình duyệt hoặc từ chối nhà tuyển dụng và tin kèm lý do",
         "done": false
       },
       {
         "id": "tv02_4",
-        "text": "Màn hình quản lý danh sách phòng trọ & trạng thái phòng",
+        "text": "Quản lý địa điểm và ứng viên của đúng nhà tuyển dụng",
         "done": false
       },
       {
         "id": "tv02_5",
-        "text": "Màn hình nhập chỉ số điện nước hàng tháng và tính tiền",
+        "text": "Xem hồ sơ ứng tuyển và cập nhật trạng thái có phân quyền",
         "done": false
       },
       {
         "id": "tv02_6",
-        "text": "Màn hình xuất hóa đơn và mã VietQR thanh toán cho từng phòng",
+        "text": "Xử lý báo cáo lừa đảo và lưu kết luận",
         "done": false
       },
       {
         "id": "tv02_7",
-        "text": "Màn hình duyệt hợp đồng đặt cọc của sinh viên",
-        "done": false
-      },
-      {
-        "id": "tv02_8",
-        "text": "Màn hình báo cáo thống kê vẽ biểu đồ doanh thu và công suất phòng",
+        "text": "Biểu đồ thống kê tin tuyển dụng và lương theo nhóm",
         "done": false
       }
     ]
   },
   {
     "id": "TV03",
-    "name": "Ứng Dụng Flutter (Sinh Viên Thuê Trọ)",
+    "name": "Ứng Dụng Flutter Sinh Viên",
     "shortTitle": "App Flutter Sinh Viên",
     "assignedPerson": "Hà Gia Bảo",
     "mssv": "231A010014",
-    "role": "Toàn bộ App Flutter Dart (Material Design 3), Phân hệ Sinh viên, tạo hồ sơ, tìm kiếm phòng trọ theo bán kính trường đại học qua định vị GPS (công thức Haversine), lọc tiện ích phòng, gửi yêu cầu đặt cọc & hợp đồng, gửi phản ánh sửa chữa kèm Undo SnackBar (Tuân thủ C.2).",
+    "role": "Ứng dụng Flutter cho sinh viên: hồ sơ, lịch rảnh, tìm việc theo khu vực, nhóm việc, mức lương và lịch; ứng tuyển, theo dõi trạng thái và báo cáo tin vi phạm; hỗ trợ Undo theo C.2.",
     "avatarColor": "#059669",
     "badgeBg": "#ECFDF5",
     "badgeBorder": "#047857",
@@ -173,7 +166,6 @@ window.PROJECT_DATA = {
       "Flutter 3.35+",
       "Dart 3",
       "Material Design 3",
-      "Geolocator GPS",
       "Http / Dio",
       "Shared Preferences"
     ],
@@ -188,53 +180,53 @@ window.PROJECT_DATA = {
     "roleChecklist": [
       {
         "id": "tv03_1",
-        "text": "Khởi tạo Flutter 3.35+ với cấu trúc thư mục phân lớp rõ ràng",
+        "text": "Đăng ký và đăng nhập tài khoản sinh viên",
         "done": false
       },
       {
         "id": "tv03_2",
-        "text": "Đăng ký/đăng nhập sinh viên, lưu token an toàn",
+        "text": "Tạo và cập nhật hồ sơ trường, ngành, kỹ năng",
         "done": false
       },
       {
         "id": "tv03_3",
-        "text": "Màn hình hồ sơ sinh viên và lưu vị trí trường đại học đang học",
+        "text": "Thiết lập lịch rảnh hằng tuần có hoàn tác Undo",
         "done": false
       },
       {
         "id": "tv03_4",
-        "text": "Tìm kiếm phòng trọ theo bán kính GPS (Haversine km gần trường)",
+        "text": "Tìm việc theo khu vực, nhóm việc, lương và lịch rảnh",
         "done": false
       },
       {
         "id": "tv03_5",
-        "text": "Bộ lọc nâng cao theo khoảng giá, tiện ích phòng và loại phòng",
+        "text": "Xem chi tiết tin tuyển dụng và thông tin nhà tuyển dụng",
         "done": false
       },
       {
         "id": "tv03_6",
-        "text": "Chi tiết phòng trọ: ảnh, tiện ích, nội quy, bản đồ chỉ đường",
+        "text": "Ứng tuyển và theo dõi trạng thái hồ sơ",
         "done": false
       },
       {
         "id": "tv03_7",
-        "text": "Quy trình gửi yêu cầu đặt cọc giữ chỗ và xem hợp đồng mẫu",
+        "text": "Tìm kiếm, lọc tin và tải lại danh sách khi đổi điều kiện",
         "done": false
       },
       {
         "id": "tv03_8",
-        "text": "Thao tác gửi yêu cầu sửa chữa hỏng hóc có SnackBar Undo (C.2)",
+        "text": "Báo cáo tin nghi lừa đảo, xử lý loading và lỗi",
         "done": false
       }
     ]
   },
   {
     "id": "TV04",
-    "name": "Cơ Sở Dữ Liệu & Kiểm Thử QA",
-    "shortTitle": "CSDL & QA",
+    "name": "Cơ Sở Dữ Liệu và Kiểm Thử QA",
+    "shortTitle": "Database & QA",
     "assignedPerson": "Võ Trần Kim Tuyến",
     "mssv": "241A310165",
-    "role": "Thiết kế & Quản trị CSDL PostgreSQL trên Supabase (ERD chuẩn hóa phòng trọ, chủ trọ, sinh viên, hợp đồng, chỉ số điện nước, hóa đơn, báo hỏng), Nạp bộ dữ liệu mẫu (Seed Quota), Giao dịch khóa dòng SELECT ... FOR UPDATE chống trùng đặt cọc, Bộ 25 test case tích hợp.",
+    "role": "Thiết kế ERD 14 bảng, schema và dữ liệu thử cho nền tảng việc làm; kiểm tra ràng buộc ứng tuyển, lịch sử kiểm duyệt, báo cáo vi phạm và kết quả QA.",
     "avatarColor": "#D97706",
     "badgeBg": "#FFFBEB",
     "badgeBorder": "#B45309",
@@ -251,51 +243,40 @@ window.PROJECT_DATA = {
     ],
     "assignedTasksCount": 16,
     "deliverables": [
-      "Script schema.sql chuẩn các bảng có khóa ngoại thật",
-      "Script seed.sql đạt đủ định mức dữ liệu mẫu phòng trọ",
-      "Module backend Transaction đặt cọc và chốt hóa đơn",
-      "Bảng tổng hợp kết quả kiểm thử thực tế (≥25 ca)",
-      "Mục 3, 7, 8 trong báo cáo cuối kỳ"
+      "ERD, schema và dữ liệu kiểm thử theo hợp đồng API đã chốt",
+      "Script seed đạt định mức đề 25 sau khi kiểm chứng",
+      "Ràng buộc dữ liệu ứng tuyển và nhật ký kiểm duyệt",
+      "Kết quả kiểm thử thực tế và đối soát dữ liệu"
     ],
     "roleChecklist": [
       {
         "id": "tv04_1",
-        "text": "Thiết kế ERD chuẩn hóa và viết schema.sql chạy được từ đầu",
+        "text": "Đối chiếu ERD và schema với cột/trạng thái API đang dùng",
         "done": false
       },
       {
         "id": "tv04_2",
-        "text": "Xây dựng seed.sql đủ: nhà trọ, phòng trọ, sinh viên, hợp đồng, hóa đơn",
+        "text": "Chuẩn bị dữ liệu nhà tuyển dụng, tin và hồ sơ sinh viên; đối chiếu số lượng bằng truy vấn",
         "done": false
       },
       {
         "id": "tv04_3",
-        "text": "Viết API đặt cọc bọc trong Transaction có SELECT ... FOR UPDATE chống trùng",
+        "text": "Ràng buộc duy nhất để ngăn ứng tuyển trùng cùng một tin",
         "done": false
       },
       {
         "id": "tv04_4",
-        "text": "Viết hàm tính lũy tiến tiền điện nước và phát sinh hóa đơn tự động",
+        "text": "Đối soát lịch sử kiểm duyệt và bằng chứng báo cáo vi phạm",
         "done": false
       },
       {
         "id": "tv04_5",
-        "text": "Kiểm thử API tìm kiếm bán kính GPS theo tọa độ trường đại học",
+        "text": "Điều phối tối thiểu 25 test case và lưu kết quả thật",
         "done": false
       },
       {
         "id": "tv04_6",
-        "text": "Xây dựng bộ kịch bản kiểm thử tích hợp xuyên suốt CSDL -> API -> 2 App",
-        "done": false
-      },
-      {
-        "id": "tv04_7",
-        "text": "Thực hiện và lưu kết quả thực tế tối thiểu 25 ca kiểm thử (Đạt/Không đạt)",
-        "done": false
-      },
-      {
-        "id": "tv04_8",
-        "text": "Kiểm tra khôi phục schema/seed trên Supabase trước buổi bảo vệ",
+        "text": "Đối soát dữ liệu, backup và bàn giao cấu hình CSDL",
         "done": false
       }
     ]
@@ -315,7 +296,7 @@ window.PROJECT_DATA = {
     "week": 9,
     "name": "Chốt Phân tích Thiết kế & Deploy Sớm",
     "deadline": "Hết Tuần 9",
-    "deliverable": "Sơ đồ Use Case + Sơ đồ CSDL ERD 12 bảng + Bảng phân công công việc. Mục tiêu nội bộ: Deploy sớm backend lên Render.",
+    "deliverable": "Sơ đồ Use Case 3 tác nhân, ERD 14 bảng và bảng phân công; triển khai backend bản đầu trên Render.",
     "isGraded": false,
     "completed": false,
     "note": "Hạn cuối đổi đề; Chốt hợp đồng API ban đầu (api.md)."
@@ -335,10 +316,10 @@ window.PROJECT_DATA = {
     "week": 13,
     "name": "Bản Chạy Nghiệp Vụ Tích Hợp",
     "deadline": "Hết Tuần 13",
-    "deliverable": "Cả 2 app gọi API thật; Demo trọn vẹn luồng chính: Đăng tin -> Duyệt -> Ứng tuyển -> Nhận ca -> Chấm công GPS -> Duyệt lương.",
+    "deliverable": "Hai ứng dụng gọi API thật; demo luồng tạo hồ sơ nhà tuyển dụng → duyệt → đăng tin → duyệt tin → tìm việc → ứng tuyển → xử lý hồ sơ và báo cáo vi phạm.",
     "isGraded": false,
     "completed": false,
-    "note": "Thử nghiệm 2 điểm nhấn kỹ thuật (GPS Haversine + Lọc lịch rảnh)."
+    "note": "Kiểm thử bộ lọc việc phù hợp lịch rảnh và phân quyền kiểm duyệt."
   },
   {
     "week": 15,
@@ -451,7 +432,7 @@ window.PROJECT_DATA = {
       "R11"
     ],
     "name": "Phác thảo Flutter và luồng sinh viên",
-    "done": "Wireframe hồ sơ, lịch rảnh, tìm việc, ứng tuyển, nhận ca và chấm công",
+    "done": "Wireframe hồ sơ, lịch rảnh, tìm việc, chi tiết tin, ứng tuyển và báo cáo vi phạm",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -493,7 +474,7 @@ window.PROJECT_DATA = {
       "R17"
     ],
     "name": "Thiết kế ERD và bảng dữ liệu đề 25",
-    "done": "ERD đủ 12 bảng chính, khóa ngoại; đề xuất tọa độ nơi làm và lịch sử duyệt",
+    "done": "ERD 14 bảng theo bộ thiết kế đã công bố; khóa ngoại và lịch sử kiểm duyệt rõ ràng",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -514,8 +495,8 @@ window.PROJECT_DATA = {
       "R22",
       "R23"
     ],
-    "name": "Khảo sát GPS, khoảng cách và giao khoảng thời gian",
-    "done": "Đặc tả ca kiểm tra 199/200/201m và giao thời gian; dữ liệu tọa độ giả lập an toàn",
+    "name": "Đặc tả bộ lọc tìm việc và khớp lịch rảnh",
+    "done": "Ca kiểm thử khu vực, nhóm việc, mức lương, khung giờ và các trường hợp không có kết quả",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -657,7 +638,7 @@ window.PROJECT_DATA = {
       "R23"
     ],
     "name": "Form hồ sơ và lịch rảnh; đặc tả bộ lọc phù hợp",
-    "done": "Form validator; quy tắc ngày/giờ, cùng múi giờ và kiểm tra ca nằm trọn khung rảnh",
+    "done": "Form validator; khung giờ hợp lệ và quy tắc so khớp lịch tuyển dụng với lịch rảnh",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -680,7 +661,7 @@ window.PROJECT_DATA = {
       "R18"
     ],
     "name": "Viết schema và seed nhỏ cho luồng tích hợp",
-    "done": "schema.sql và seed.sql chạy trên CSDL thử; ≥8 bảng có FK, mục tiêu đủ 12 bảng đề",
+    "done": "Schema và dữ liệu thử khớp ERD 14 bảng; chạy trên CSDL thử và kiểm tra khóa ngoại",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -751,7 +732,7 @@ window.PROJECT_DATA = {
       "R23"
     ],
     "name": "API hồ sơ/lịch rảnh và tìm việc theo khu vực, lương, lịch",
-    "done": "CRUD hồ sơ và lịch rảnh đúng chủ sở hữu; tìm tin theo nhóm/khu vực/lương và ca phù hợp, có test biên",
+    "done": "CRUD hồ sơ và lịch rảnh đúng chủ sở hữu; tìm tin đã duyệt theo nhóm, khu vực, lương và lịch tuyển dụng; có test biên",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -843,8 +824,8 @@ window.PROJECT_DATA = {
       "R13",
       "R22"
     ],
-    "name": "Thử nghiệm lấy vị trí và xử lý từ chối quyền",
-    "done": "PoC trên thiết bị; không tự đánh dấu chấm công khi thiếu tọa độ",
+    "name": "Kiểm thử bộ lọc tìm việc và trạng thái không có kết quả",
+    "done": "Tổ hợp bộ lọc đúng yêu cầu; tải lại khi đổi điều kiện; có thông báo rỗng và lỗi mạng",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -866,8 +847,8 @@ window.PROJECT_DATA = {
       "R12",
       "R19"
     ],
-    "name": "API ca và nhận ca bằng transaction",
-    "done": "Chặn đầy ca/trùng ca; 2 yêu cầu đồng thời tranh suất cuối chỉ 1 thành công",
+    "name": "Thiết kế ràng buộc ứng tuyển và trạng thái hồ sơ",
+    "done": "Ngăn trùng sinh viên/tin; dữ liệu liên kết đúng; trạng thái và lịch sử được kiểm tra",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -888,8 +869,8 @@ window.PROJECT_DATA = {
       "R13",
       "R22"
     ],
-    "name": "API chấm công phiên bản đầu và kiểm tra khoảng cách",
-    "done": "Server tự tính mét; ngoài ngưỡng vẫn lưu nhưng chuyển cần duyệt tay",
+    "name": "Thiết kế lưu báo cáo, bằng chứng và lịch sử kiểm duyệt",
+    "done": "Khóa ngoại, trạng thái và liên kết bằng chứng nhất quán với ERD và Use Case",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -958,8 +939,8 @@ window.PROJECT_DATA = {
       "R07",
       "R12"
     ],
-    "name": "Android quản lý ca và hồ sơ ứng tuyển của NTD",
-    "done": "Tạo/sửa ca và duyệt hồ sơ theo phạm vi sở hữu, kiểm tra số người đã nhận",
+    "name": "Android quản lý địa điểm và hồ sơ ứng tuyển",
+    "done": "Nhà tuyển dụng chỉ quản lý địa điểm, tin và ứng viên thuộc phạm vi sở hữu",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1004,8 +985,8 @@ window.PROJECT_DATA = {
     "req": [
       "R12"
     ],
-    "name": "Flutter ứng tuyển, trạng thái và nhận ca",
-    "done": "Nhận ca đúng điều kiện, hiển thị đầy/trùng; lịch tuần lấy từ API",
+    "name": "Flutter ứng tuyển và theo dõi trạng thái hồ sơ",
+    "done": "Gửi hồ sơ đúng tin, ngăn gửi trùng, hiển thị trạng thái phản hồi từ nhà tuyển dụng",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1049,8 +1030,8 @@ window.PROJECT_DATA = {
       "R13",
       "R22"
     ],
-    "name": "Hoàn thiện chấm công định vị và bộ test biên",
-    "done": "GPS hợp lệ, khoảng cách biên, check-out trước in, gửi lặp và chấm hộ bị kiểm soát",
+    "name": "Kiểm thử toàn vẹn dữ liệu ứng tuyển và kiểm duyệt",
+    "done": "Không có hồ sơ mồ côi; ngăn ứng tuyển trùng; lịch sử duyệt và quyền sở hữu đúng",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1141,8 +1122,8 @@ window.PROJECT_DATA = {
       "R08",
       "R13"
     ],
-    "name": "Android bảng chấm công, duyệt tay và bảng lương",
-    "done": "Xem vị trí/khoảng cách/lý do; duyệt tay; duyệt chi trả có quyền quản trị",
+    "name": "Android danh sách ứng viên và cập nhật kết quả tuyển dụng",
+    "done": "Xem hồ sơ theo từng tin, chấp nhận/từ chối đúng quyền và cập nhật trạng thái rõ ràng",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1186,8 +1167,8 @@ window.PROJECT_DATA = {
       "R13",
       "R22"
     ],
-    "name": "Flutter lịch ca và check-in/check-out có vị trí",
-    "done": "Xin quyền đúng luồng, API thật; hiển thị cần duyệt tay khi ở xa",
+    "name": "Flutter danh sách hồ sơ đã ứng tuyển và phản hồi",
+    "done": "Danh sách lấy từ API của sinh viên đăng nhập; phản hồi cập nhật sau khi tải lại",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1209,8 +1190,8 @@ window.PROJECT_DATA = {
       "R08",
       "R09"
     ],
-    "name": "Flutter bảng lương và gửi báo cáo lừa đảo",
-    "done": "Giờ × đơn giá do server tính, gửi bằng chứng và phản hồi kết quả",
+    "name": "Flutter gửi báo cáo tin vi phạm và bằng chứng",
+    "done": "Gửi mô tả, liên kết bằng chứng, theo dõi trạng thái và kết luận xử lý",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1232,8 +1213,8 @@ window.PROJECT_DATA = {
       "R08",
       "R19"
     ],
-    "name": "API tính/duyệt lương theo kỳ bằng transaction",
-    "done": "Chỉ tính giờ hợp lệ đã duyệt; tính lại không nhân đôi, lưu đơn giá áp dụng",
+    "name": "Kiểm tra truy vấn thống kê và lịch sử xử lý vi phạm",
+    "done": "Số tin, số hồ sơ và báo cáo khớp dữ liệu gốc; lịch sử không mất khi thay đổi trạng thái",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1255,7 +1236,7 @@ window.PROJECT_DATA = {
       "R18"
     ],
     "name": "Mở rộng seed đủ quy mô đề 25",
-    "done": "25 NTD, 80 tin cả từ chối, 200 SV có lịch rảnh, 300 ca, 500 chấm công",
+    "done": "Dữ liệu thử cho nhà tuyển dụng, tin đã duyệt/từ chối, sinh viên, ứng tuyển và báo cáo; kiểm tra khóa ngoại",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1416,7 +1397,7 @@ window.PROJECT_DATA = {
       "R29"
     ],
     "name": "Kiểm thử tích hợp bản tuần 13",
-    "done": "Demo đăng tin→duyệt→ứng tuyển→nhận ca→chấm công→duyệt lương; ghi lỗi thật",
+    "done": "Demo đăng tin → duyệt → tìm việc → ứng tuyển → xử lý hồ sơ/báo cáo; ghi nhận lỗi thật",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1438,7 +1419,7 @@ window.PROJECT_DATA = {
       "R23"
     ],
     "name": "Đối soát điểm nhấn và biên bản nghiệm thu nội bộ",
-    "done": "Định vị ngoài ngưỡng cần duyệt tay; lọc lịch chính xác, ca đồng thời không vượt chỗ",
+    "done": "Lọc việc đúng lịch, kiểm tra quyền sở hữu, ứng tuyển trùng và minh chứng kiểm duyệt",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1548,7 +1529,7 @@ window.PROJECT_DATA = {
       "R10"
     ],
     "name": "Sửa lỗi Flutter, analyze và build release máy thật",
-    "done": "Analyze không lỗi, APK release cài/đăng nhập được, thử quyền GPS bị từ chối",
+    "done": "Analyze không lỗi; APK cài/đăng nhập được; thử mất mạng, token hết hạn và danh sách rỗng",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1783,7 +1764,7 @@ window.PROJECT_DATA = {
       "R29"
     ],
     "name": "Kiểm tra dữ liệu cuối và checklist nghiệm thu",
-    "done": "Đủ 5 định mức seed, schema/seed phục hồi được, xác minh minh chứng 18 mục",
+    "done": "Đối soát các nhóm dữ liệu thử, phục hồi schema/seed và lưu minh chứng nghiệm thu",
     "status": "todo",
     "progressPercent": 0,
     "actualHours": 0,
@@ -1844,7 +1825,7 @@ window.PROJECT_DATA = {
   {
     "id": "C1_05",
     "name": "Xác nhận xóa dữ liệu",
-    "desc": "Hiển thị AlertDialog xác nhận trước khi gỡ tin, xóa ca hoặc khóa tài khoản",
+    "desc": "Hiển thị xác nhận trước khi gỡ tin, xóa địa điểm hoặc khóa tài khoản",
     "completed": false
   },
   {
@@ -1944,63 +1925,49 @@ window.PROJECT_DATA = {
   {
     "entity": "Nhà tuyển dụng",
     "target": 25,
-    "current": 25,
+    "current": 0,
     "unit": "doanh nghiệp",
     "note": "Gồm cả đã xác minh, đang chờ duyệt và bị từ chối"
   },
   {
     "entity": "Tin tuyển dụng",
     "target": 80,
-    "current": 80,
+    "current": 0,
     "unit": "tin đăng",
     "note": "Đủ các nhóm việc làm sinh viên, có tin bị từ chối kèm lý do"
   },
   {
     "entity": "Hồ sơ Sinh viên",
     "target": 200,
-    "current": 200,
+    "current": 0,
     "unit": "sinh viên",
     "note": "Hồ sơ trường/ngành/năm và đã thiết lập khung giờ rảnh trong tuần"
-  },
-  {
-    "entity": "Ca làm việc",
-    "target": 300,
-    "current": 300,
-    "unit": "ca làm",
-    "note": "Phân bổ theo nhiều ngày và các khung giờ sáng, chiều, tối"
-  },
-  {
-    "entity": "Bản ghi chấm công",
-    "target": 500,
-    "current": 500,
-    "unit": "lượt chấm",
-    "note": "Bao gồm check-in <200m (hợp lệ), >200m (cần duyệt tay) và đã duyệt chi trả"
   }
 ],
     techHighlights: [
   {
-    "title": "Chốt Chỉ Số Điện Nước & Tự Động Tính Hóa Đơn Kèm VietQR",
-    "desc": "Hệ thống lưu chỉ số công tơ điện nước theo tháng, tự động tính tổng tiền theo bậc lũy tiến và sinh mã chuẩn VietQR Napas 247 chuyển khoản ngân hàng ngay trong ứng dụng.",
-    "icon": "receipt",
-    "tag": "Điểm nhấn 1 · Tự Động Hóa"
+    "title": "Tìm việc theo nhiều điều kiện",
+    "desc": "Kết hợp khu vực, nhóm việc, mức lương và lịch rảnh; kiểm tra tin đã duyệt và trường hợp không có kết quả.",
+    "icon": "filter",
+    "tag": "Tìm kiếm"
   },
   {
-    "title": "Giao Thức Khóa Phòng Độc Quyền (Tránh Overbooking)",
-    "desc": "Ứng dụng Transaction với khóa dòng SELECT FOR UPDATE ở tầng PostgreSQL, bảo đảm cùng một phòng trọ không bao giờ bị 2 sinh viên đặt cọc giữ chỗ cùng thời điểm.",
+    "title": "Ứng tuyển và phản hồi",
+    "desc": "Ngăn ứng tuyển trùng và chỉ cho nhà tuyển dụng xử lý hồ sơ của tin thuộc quyền sở hữu.",
+    "icon": "file-text",
+    "tag": "Kết nối tuyển dụng"
+  },
+  {
+    "title": "Kiểm duyệt có lịch sử",
+    "desc": "Duyệt hồ sơ và tin trước khi công khai; lưu lý do từ chối, bằng chứng và kết luận xử lý.",
+    "icon": "shield",
+    "tag": "Kiểm duyệt"
+  },
+  {
+    "title": "Phân quyền và toàn vẹn dữ liệu",
+    "desc": "Kiểm tra vai trò, quyền sở hữu và quan hệ dữ liệu theo ERD 14 bảng.",
     "icon": "lock",
-    "tag": "Điểm nhấn 2 · An Toàn Giao Dịch"
-  },
-  {
-    "title": "Tìm Phòng Trọ Bán Kính Trường Đại Học Bằng GPS",
-    "desc": "Flutter tích hợp Geolocator tính khoảng cách Haversine từ vị trí trường (Bách Khoa, KHTN, KHXH&NV...) tới từng nhà trọ giúp sinh viên dễ dàng chọn phòng gần trường.",
-    "icon": "map-pin",
-    "tag": "Điểm nhấn 3 · Định Vị GPS"
-  },
-  {
-    "title": "Hệ Thống Báo Sự Cố & Quản Lý Sửa Chữa Đa Nền Tảng",
-    "desc": "Sinh viên chụp ảnh hư hỏng (vòi nước, bóng đèn, điện lưới) gửi từ app Flutter, Chủ trọ nhận thông báo tức thời trên Android để cử thợ đến xử lý kịp thời.",
-    "icon": "wrench",
-    "tag": "Điểm nhấn 4 · Đa Nền Tảng"
+    "tag": "Chất lượng dữ liệu"
   }
 ]
 };

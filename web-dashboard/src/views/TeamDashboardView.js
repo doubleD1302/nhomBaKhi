@@ -1,5 +1,5 @@
 // Views: Team Dashboard View (Team Overview, Member Cards, Tech Highlights)
-// Phục vụ: Dự án Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
+// Phục vụ: Dự án quản lý việc làm bán thời gian cho sinh viên
 (function() {
   class TeamDashboardView {
     render(stats, members, techHighlights, selectedMemberFilter, onFilterMember) {

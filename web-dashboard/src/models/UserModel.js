@@ -70,7 +70,7 @@
         part1 += chars.charAt(Math.floor(Math.random() * chars.length));
         part2 += chars.charAt(Math.floor(Math.random() * chars.length));
       }
-      return `TRO-${tag}-${part1}-${part2}`;
+      return `JOB-${tag}-${part1}-${part2}`;
     }
 
     saveSession(user) {
@@ -177,7 +177,7 @@
       // 2. Dự phòng: Cho phép dùng mã khôi phục cứu trợ khẩn cấp định dạng TRO-[ROLE] (Dành cho chủ dự án)
       for (const m of members) {
         const fallbackPrefix = `TRO-${m.id}`;
-        if (clean === fallbackPrefix) {
+        if (clean === fallbackPrefix || clean === `JOB-${m.id}`) {
           const claim = this.claimedRoles[m.id];
           const user = {
             memberId: m.id,
