@@ -1,0 +1,56 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam entityBackgroundColor #EAF1FA
+skinparam entityBorderColor #16324F
+hide circle
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 55
+title ERD 4 — Báo cáo tin vi phạm
+entity "nguoi_dung" as nguoi_dung {
+ * id : bigint <<PK>>
+ * vai_tro : varchar(25)
+}
+entity "ho_so_sinh_vien" as ho_so_sinh_vien {
+ * id : bigint <<PK,FK>>
+ * truong : varchar(200)
+ * nganh : varchar(150)
+}
+entity "tin_tuyen_dung" as tin_tuyen_dung {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * tieu_de : varchar(200)
+ * trang_thai_duyet : varchar(20)
+}
+entity "bao_cao_lua_dao" as bao_cao_lua_dao {
+ * id : bigint <<PK>>
+ * tin_id : bigint <<FK>>
+ * nguoi_bao_id : bigint <<FK>>
+ * noi_dung : text
+ * trang_thai : varchar(20)
+   xu_ly_boi : bigint <<FK>>
+}
+entity "bang_chung_bao_cao" as bang_chung_bao_cao {
+ * id : bigint <<PK>>
+ * bao_cao_id : bigint <<FK>>
+ * tep_url : text
+ * mo_ta : text
+}
+entity "lich_su_xu_ly_bao_cao" as lich_su_xu_ly_bao_cao {
+ * id : bigint <<PK>>
+ * bao_cao_id : bigint <<FK>>
+ * trang_thai_moi : varchar(20)
+ * nguoi_thuc_hien : bigint <<FK>>
+}
+tin_tuyen_dung ||--o{ bao_cao_lua_dao
+ho_so_sinh_vien ||--o{ bao_cao_lua_dao
+nguoi_dung |o--o{ bao_cao_lua_dao
+bao_cao_lua_dao ||--o{ bang_chung_bao_cao
+bao_cao_lua_dao ||--o{ lich_su_xu_ly_bao_cao
+nguoi_dung ||--o{ lich_su_xu_ly_bao_cao
+@enduml

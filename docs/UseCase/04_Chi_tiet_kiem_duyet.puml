@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case chi tiết — Kiểm duyệt và xử lý vi phạm
+actor "Quản trị viên" as QT
+actor "Sinh viên" as SV
+rectangle "Luồng an toàn nội dung" {
+  usecase "UC18 — Gắn cờ / gỡ\ntin vi phạm" as U18
+  usecase "UC19 — Khóa tài khoản\ntái phạm" as U19
+  usecase "UC20 — Tiếp nhận, xử lý\nbáo cáo" as U20
+  usecase "UC21 — Xem thống kê\ntin và ứng tuyển" as U21
+  usecase "UC10 — Báo cáo\ntin vi phạm" as U10
+  usecase "Ghi lý do và\nlịch sử xử lý" as LOG
+}
+QT -- U18
+QT -- U19
+QT -- U20
+QT -- U21
+SV -- U10
+U18 ..> LOG : <<include>>
+U19 ..> LOG : <<include>>
+U20 ..> LOG : <<include>>
+@enduml

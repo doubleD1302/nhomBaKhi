@@ -1,0 +1,30 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case chi tiết — Báo cáo tin vi phạm
+actor "Sinh viên" as SV
+actor "Quản trị viên" as QT
+rectangle "Luồng báo cáo" {
+  usecase "UC10 — Gửi báo cáo\nvà bằng chứng" as U10
+  usecase "Tiếp nhận báo cáo" as RECEIVE
+  usecase "Xem nội dung và\ntệp bằng chứng" as REVIEW
+  usecase "Kết luận và cập nhật\ntrạng thái" as DECIDE
+  usecase "UC18 — Gắn cờ / gỡ\ntin vi phạm" as U18
+  usecase "UC19 — Khóa tài khoản\ntái phạm" as U19
+}
+SV -- U10
+QT -- RECEIVE
+QT -- DECIDE
+U10 ..> RECEIVE : <<include>>
+DECIDE ..> REVIEW : <<include>>
+DECIDE ..> U18 : <<extend>>\n[kết luận vi phạm]
+DECIDE ..> U19 : <<extend>>\n[tái phạm]
+@enduml

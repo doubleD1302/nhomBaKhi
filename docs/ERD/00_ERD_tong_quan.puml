@@ -1,0 +1,101 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam entityBackgroundColor #EAF1FA
+skinparam entityBorderColor #16324F
+skinparam packageStyle rectangle
+hide circle
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 45
+skinparam ranksep 65
+skinparam Padding 10
+title ERD tổng quan — nền tảng kết nối việc làm (14 bảng)
+entity "nguoi_dung" as nguoi_dung {
+ * id : bigint <<PK>>
+}
+entity "ho_so_sinh_vien" as ho_so_sinh_vien {
+ * id : bigint <<PK,FK>>
+}
+entity "khung_gio_ranh" as khung_gio_ranh {
+ * id : bigint <<PK>>
+ * sinh_vien_id : bigint <<FK>>
+}
+entity "nha_tuyen_dung" as nha_tuyen_dung {
+ * id : bigint <<PK,FK>>
+ * duyet_boi : bigint <<FK>>
+}
+entity "khu_vuc" as khu_vuc {
+ * id : bigint <<PK>>
+}
+entity "dia_diem_lam_viec" as dia_diem_lam_viec {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * khu_vuc_id : bigint <<FK>>
+}
+entity "nhom_viec" as nhom_viec {
+ * id : bigint <<PK>>
+}
+entity "tin_tuyen_dung" as tin_tuyen_dung {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * nhom_id : bigint <<FK>>
+ * dia_diem_id : bigint <<FK>>
+}
+entity "ung_tuyen" as ung_tuyen {
+ * id : bigint <<PK>>
+ * tin_id : bigint <<FK>>
+ * sinh_vien_id : bigint <<FK>>
+   xu_ly_boi : bigint <<FK>>
+}
+entity "lich_su_duyet_ntd" as lich_su_duyet_ntd {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * nguoi_thuc_hien : bigint <<FK>>
+}
+entity "lich_su_duyet_tin" as lich_su_duyet_tin {
+ * id : bigint <<PK>>
+ * tin_id : bigint <<FK>>
+ * nguoi_thuc_hien : bigint <<FK>>
+}
+entity "bao_cao_lua_dao" as bao_cao_lua_dao {
+ * id : bigint <<PK>>
+ * tin_id : bigint <<FK>>
+ * nguoi_bao_id : bigint <<FK>>
+ * xu_ly_boi : bigint <<FK>>
+}
+entity "bang_chung_bao_cao" as bang_chung_bao_cao {
+ * id : bigint <<PK>>
+ * bao_cao_id : bigint <<FK>>
+}
+entity "lich_su_xu_ly_bao_cao" as lich_su_xu_ly_bao_cao {
+ * id : bigint <<PK>>
+ * bao_cao_id : bigint <<FK>>
+ * nguoi_thuc_hien : bigint <<FK>>
+}
+nguoi_dung ||--o| ho_so_sinh_vien
+ho_so_sinh_vien ||--o{ khung_gio_ranh
+nguoi_dung ||--o| nha_tuyen_dung
+nguoi_dung |o--o{ nha_tuyen_dung
+nha_tuyen_dung ||--o{ dia_diem_lam_viec
+khu_vuc ||--o{ dia_diem_lam_viec
+nha_tuyen_dung ||--o{ tin_tuyen_dung
+nhom_viec ||--o{ tin_tuyen_dung
+dia_diem_lam_viec ||--o{ tin_tuyen_dung
+tin_tuyen_dung ||--o{ ung_tuyen
+ho_so_sinh_vien ||--o{ ung_tuyen
+nguoi_dung |o--o{ ung_tuyen
+nha_tuyen_dung ||--o{ lich_su_duyet_ntd
+nguoi_dung ||--o{ lich_su_duyet_ntd
+tin_tuyen_dung ||--o{ lich_su_duyet_tin
+nguoi_dung ||--o{ lich_su_duyet_tin
+tin_tuyen_dung ||--o{ bao_cao_lua_dao
+ho_so_sinh_vien ||--o{ bao_cao_lua_dao
+nguoi_dung |o--o{ bao_cao_lua_dao
+bao_cao_lua_dao ||--o{ bang_chung_bao_cao
+bao_cao_lua_dao ||--o{ lich_su_xu_ly_bao_cao
+nguoi_dung ||--o{ lich_su_xu_ly_bao_cao
+@enduml

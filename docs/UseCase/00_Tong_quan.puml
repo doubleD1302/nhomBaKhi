@@ -1,0 +1,53 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+skinparam packageStyle rectangle
+hide circle
+left to right direction
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam linetype ortho
+title Use case tổng quan — nền tảng kết nối việc làm
+
+actor "Sinh viên" as SV
+actor "Nhà tuyển dụng" as NTD
+actor "Quản trị viên" as QT
+
+rectangle "Nền tảng kết nối việc làm" {
+  usecase "Tài khoản dùng chung\nUC01 Đăng ký\nUC02 Đăng nhập / đăng xuất" as AUTH
+
+  package "Sinh viên" {
+    usecase "Hồ sơ cá nhân\nvà lịch rảnh\nUC03–04" as SV_PROFILE
+    usecase "Tìm việc và ứng tuyển\nUC05–09" as SV_APPLY
+    usecase "Báo cáo tin vi phạm\nUC10" as SV_REPORT
+  }
+
+  package "Nhà tuyển dụng" {
+    usecase "Hồ sơ doanh nghiệp\nvà địa điểm\nUC11, UC13" as NTD_PROFILE
+    usecase "Đăng tin và quản lý\nứng viên\nUC12, UC14–15" as NTD_JOBS
+  }
+
+  package "Quản trị viên" {
+    usecase "Kiểm duyệt và xử lý\nvi phạm\nUC16–20" as ADMIN_MOD
+    usecase "Thống kê tin và\nứng tuyển\nUC21" as ADMIN_REPORT
+  }
+}
+
+SV -- AUTH
+SV -- SV_PROFILE
+SV -- SV_APPLY
+SV -- SV_REPORT
+
+NTD -- AUTH
+NTD -- NTD_PROFILE
+NTD -- NTD_JOBS
+
+QT -- AUTH
+QT -- ADMIN_MOD
+QT -- ADMIN_REPORT
+@enduml

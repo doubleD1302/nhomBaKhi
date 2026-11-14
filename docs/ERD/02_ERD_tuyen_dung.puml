@@ -1,0 +1,70 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam entityBackgroundColor #EAF1FA
+skinparam entityBorderColor #16324F
+hide circle
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 55
+title ERD 2 — Tin tuyển dụng và ứng tuyển
+entity "nha_tuyen_dung" as nha_tuyen_dung {
+ * id : bigint <<PK,FK>>
+ * ten_cong_ty : varchar(200)
+ * trang_thai_duyet : varchar(20)
+}
+entity "nhom_viec" as nhom_viec {
+ * id : bigint <<PK>>
+ * ten : varchar(100)
+}
+entity "dia_diem_lam_viec" as dia_diem_lam_viec {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * khu_vuc_id : bigint <<FK>>
+ * ten : varchar(150)
+ * dia_chi : text
+}
+entity "tin_tuyen_dung" as tin_tuyen_dung {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * nhom_id : bigint <<FK>>
+ * dia_diem_id : bigint <<FK>>
+ * tieu_de : varchar(200)
+ * mo_ta : text
+ * yeu_cau : text
+ * luong_theo_gio : numeric(12,2)
+ * so_luong : integer
+ * han_ung_tuyen : timestamptz
+ * trang_thai_duyet : varchar(20)
+}
+entity "ho_so_sinh_vien" as ho_so_sinh_vien {
+ * id : bigint <<PK,FK>>
+ * truong : varchar(200)
+ * nganh : varchar(150)
+ * ky_nang : text
+}
+entity "nguoi_dung" as nguoi_dung {
+ * id : bigint <<PK>>
+ * vai_tro : varchar(25)
+}
+entity "ung_tuyen" as ung_tuyen {
+ * id : bigint <<PK>>
+ * tin_id : bigint <<FK>>
+ * sinh_vien_id : bigint <<FK>>
+ * loi_gioi_thieu : text
+ * trang_thai : varchar(20)
+ * ung_tuyen_luc : timestamptz
+   xu_ly_boi : bigint <<FK>>
+}
+nha_tuyen_dung ||--o{ dia_diem_lam_viec
+nha_tuyen_dung ||--o{ tin_tuyen_dung
+nhom_viec ||--o{ tin_tuyen_dung
+dia_diem_lam_viec ||--o{ tin_tuyen_dung
+tin_tuyen_dung ||--o{ ung_tuyen
+ho_so_sinh_vien ||--o{ ung_tuyen
+nguoi_dung |o--o{ ung_tuyen
+@enduml

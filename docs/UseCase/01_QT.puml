@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+hide circle
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case — Quản trị viên
+actor "Quản trị viên" as QT
+rectangle "Nền tảng kết nối việc làm" {
+usecase "UC02\nĐăng nhập / đăng xuất" as UC02
+usecase "UC16\nDuyệt / từ chối\nhồ sơ doanh nghiệp" as UC16
+usecase "UC17\nDuyệt / từ chối\ntin tuyển dụng" as UC17
+usecase "UC18\nGắn cờ / gỡ tin\nvi phạm" as UC18
+usecase "UC19\nKhóa tài khoản\ntái phạm" as UC19
+usecase "UC20\nTiếp nhận và xử lý\nbáo cáo" as UC20
+usecase "UC21\nXem thống kê\ntin và ứng tuyển" as UC21
+}
+QT -- UC02
+QT -- UC16
+QT -- UC17
+QT -- UC18
+QT -- UC19
+QT -- UC20
+QT -- UC21
+@enduml

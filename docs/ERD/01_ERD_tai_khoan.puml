@@ -1,0 +1,69 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam entityBackgroundColor #EAF1FA
+skinparam entityBorderColor #16324F
+hide circle
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 45
+skinparam ranksep 55
+title ERD 1 — Tài khoản, hồ sơ và địa điểm
+entity "nguoi_dung" as nguoi_dung {
+ * id : bigint <<PK>>
+ * email : varchar(254)
+ * mat_khau_hash : varchar(100)
+ * ho_ten : varchar(150)
+ * sdt : varchar(20)
+ * vai_tro : varchar(25)
+ * trang_thai : varchar(20)
+   ly_do_khoa : text
+}
+entity "ho_so_sinh_vien" as ho_so_sinh_vien {
+ * id : bigint <<PK,FK>>
+ * truong : varchar(200)
+ * nganh : varchar(150)
+ * nam_hoc : smallint
+ * ky_nang : text
+ * gioi_thieu : text
+   avatar_url : text
+}
+entity "khung_gio_ranh" as khung_gio_ranh {
+ * id : bigint <<PK>>
+ * sinh_vien_id : bigint <<FK>>
+ * thu_trong_tuan : smallint
+ * gio_bat_dau : time
+ * gio_ket_thuc : time
+}
+entity "nha_tuyen_dung" as nha_tuyen_dung {
+ * id : bigint <<PK,FK>>
+ * ten_cong_ty : varchar(200)
+ * ma_so_thue : varchar(20)
+ * dia_chi : text
+ * nguoi_lien_he : varchar(150)
+ * trang_thai_duyet : varchar(20)
+   duyet_boi : bigint <<FK>>
+}
+entity "khu_vuc" as khu_vuc {
+ * id : bigint <<PK>>
+ * ma : varchar(30)
+ * ten : varchar(150)
+}
+entity "dia_diem_lam_viec" as dia_diem_lam_viec {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * khu_vuc_id : bigint <<FK>>
+ * ten : varchar(150)
+ * dia_chi : text
+ * dang_hoat_dong : boolean
+}
+nguoi_dung ||--o| ho_so_sinh_vien
+ho_so_sinh_vien ||--o{ khung_gio_ranh
+nguoi_dung ||--o| nha_tuyen_dung
+nguoi_dung |o--o{ nha_tuyen_dung
+nha_tuyen_dung ||--o{ dia_diem_lam_viec
+khu_vuc ||--o{ dia_diem_lam_viec
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam entityBackgroundColor #EAF1FA
+skinparam entityBorderColor #16324F
+hide circle
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 55
+title ERD 3 — Kiểm duyệt nhà tuyển dụng và tin
+entity "nguoi_dung" as nguoi_dung {
+ * id : bigint <<PK>>
+ * vai_tro : varchar(25)
+ * trang_thai : varchar(20)
+}
+entity "nha_tuyen_dung" as nha_tuyen_dung {
+ * id : bigint <<PK,FK>>
+ * ten_cong_ty : varchar(200)
+ * trang_thai_duyet : varchar(20)
+   duyet_boi : bigint <<FK>>
+}
+entity "tin_tuyen_dung" as tin_tuyen_dung {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * trang_thai_duyet : varchar(20)
+ * bi_gan_co : boolean
+   duyet_boi : bigint <<FK>>
+}
+entity "lich_su_duyet_ntd" as lich_su_duyet_ntd {
+ * id : bigint <<PK>>
+ * ntd_id : bigint <<FK>>
+ * trang_thai_moi : varchar(20)
+ * nguoi_thuc_hien : bigint <<FK>>
+ * thuc_hien_luc : timestamptz
+}
+entity "lich_su_duyet_tin" as lich_su_duyet_tin {
+ * id : bigint <<PK>>
+ * tin_id : bigint <<FK>>
+ * trang_thai_moi : varchar(20)
+ * nguoi_thuc_hien : bigint <<FK>>
+ * thuc_hien_luc : timestamptz
+}
+nguoi_dung ||--o| nha_tuyen_dung
+nguoi_dung |o--o{ nha_tuyen_dung
+nha_tuyen_dung ||--o{ tin_tuyen_dung
+nguoi_dung |o--o{ tin_tuyen_dung
+nha_tuyen_dung ||--o{ lich_su_duyet_ntd
+nguoi_dung ||--o{ lich_su_duyet_ntd
+tin_tuyen_dung ||--o{ lich_su_duyet_tin
+nguoi_dung ||--o{ lich_su_duyet_tin
+@enduml

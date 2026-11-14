@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case chi tiết — Đăng và quản lý tin tuyển dụng
+actor "Nhà tuyển dụng" as NTD
+actor "Quản trị viên" as QT
+rectangle "Luồng đăng tin" {
+  usecase "UC11 — Gửi / cập nhật\nhồ sơ doanh nghiệp" as U11
+  usecase "UC12 — Đăng / sửa / đóng\ntin tuyển dụng" as U12
+  usecase "UC13 — Quản lý\nđịa điểm làm việc" as U13
+  usecase "Kiểm tra tin có đủ\nthông tin bắt buộc" as VALID
+  usecase "UC16 — Duyệt / từ chối\nhồ sơ doanh nghiệp" as U16
+  usecase "UC17 — Duyệt / từ chối\ntin tuyển dụng" as U17
+}
+NTD -- U11
+NTD -- U12
+NTD -- U13
+QT -- U16
+QT -- U17
+U12 ..> VALID : <<include>>
+U16 ..> U11 : <<include>>
+U17 ..> U12 : <<include>>
+@enduml

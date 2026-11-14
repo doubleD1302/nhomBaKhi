@@ -1,0 +1,38 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+hide circle
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case — Sinh viên
+actor "Sinh viên" as SV
+rectangle "Nền tảng kết nối việc làm" {
+usecase "UC01\nĐăng ký tài khoản" as UC01
+usecase "UC02\nĐăng nhập / đăng xuất" as UC02
+usecase "UC03\nCập nhật hồ sơ cá nhân" as UC03
+usecase "UC04\nQuản lý lịch rảnh" as UC04
+usecase "UC05\nTìm và lọc việc làm" as UC05
+usecase "UC06\nXem chi tiết tin\nvà hồ sơ doanh nghiệp" as UC06
+usecase "UC07\nỨng tuyển việc làm" as UC07
+usecase "UC08\nTheo dõi trạng thái ứng tuyển" as UC08
+usecase "UC09\nRút hồ sơ ứng tuyển" as UC09
+usecase "UC10\nBáo cáo tin vi phạm" as UC10
+}
+SV -- UC01
+SV -- UC02
+SV -- UC03
+SV -- UC04
+SV -- UC05
+SV -- UC06
+SV -- UC07
+SV -- UC08
+SV -- UC09
+SV -- UC10
+UC05 ..> UC04 : <<extend>>\n[bật lọc theo lịch rảnh]
+@enduml

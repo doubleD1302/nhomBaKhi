@@ -1,0 +1,35 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case chi tiết — Tìm việc và ứng tuyển
+actor "Sinh viên" as SV
+actor "Nhà tuyển dụng" as NTD
+rectangle "Luồng kết nối ứng viên — tin tuyển dụng" {
+  usecase "UC05 — Tìm và lọc\nviệc làm" as U05
+  usecase "Bộ lọc khu vực,\nnhóm việc, mức lương" as LOC
+  usecase "UC06 — Xem chi tiết tin\nvà hồ sơ doanh nghiệp" as U06
+  usecase "UC07 — Ứng tuyển\nviệc làm" as U07
+  usecase "UC08 — Theo dõi\ntrạng thái ứng tuyển" as U08
+  usecase "UC09 — Rút hồ sơ\nứng tuyển" as U09
+  usecase "UC14 — Xem hồ sơ\nứng viên" as U14
+  usecase "UC15 — Cập nhật trạng thái\nứng tuyển" as U15
+}
+SV -- U05
+SV -- U06
+SV -- U07
+SV -- U08
+SV -- U09
+NTD -- U14
+NTD -- U15
+LOC ..> U05 : <<extend>>\n[khi chọn bộ lọc]
+U07 ..> U06 : <<include>>
+U15 ..> U14 : <<include>>
+@enduml

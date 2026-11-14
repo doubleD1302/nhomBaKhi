@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #526779
+skinparam usecaseBackgroundColor #E8F5F2
+skinparam usecaseBorderColor #087F8C
+hide circle
+left to right direction
+skinparam nodesep 40
+skinparam ranksep 55
+title Use case — Nhà tuyển dụng
+actor "Nhà tuyển dụng" as NTD
+rectangle "Nền tảng kết nối việc làm" {
+usecase "UC01\nĐăng ký tài khoản" as UC01
+usecase "UC02\nĐăng nhập / đăng xuất" as UC02
+usecase "UC11\nGửi / cập nhật hồ sơ\ndoanh nghiệp" as UC11
+usecase "UC12\nĐăng / sửa / đóng\ntin tuyển dụng" as UC12
+usecase "UC13\nQuản lý địa điểm\nlàm việc" as UC13
+usecase "UC14\nXem hồ sơ ứng viên" as UC14
+usecase "UC15\nCập nhật trạng thái\nứng tuyển" as UC15
+}
+NTD -- UC01
+NTD -- UC02
+NTD -- UC11
+NTD -- UC12
+NTD -- UC13
+NTD -- UC14
+NTD -- UC15
+@enduml
