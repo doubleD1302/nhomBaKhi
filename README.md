@@ -6,14 +6,13 @@
 
 ## 📌 Liên kết dành cho giảng viên
 
-> ### [📊 XEM TIẾN ĐỘ & PHÂN CÔNG NHIỆM VỤ](https://doubled1302.github.io/nhomBaKhi/)
+> ### [📊 XEM TIẾN ĐỘ & PHÂN CÔNG NHIỆM VỤ — CHẾ ĐỘ GIẢNG VIÊN][tien-do-giang-vien]
 >
-> Trang theo dõi công việc của nhóm: tổng quan tiến độ, nhiệm vụ từng thành viên, bảng Kanban và các mốc thực hiện.
+> Xem tiến độ toàn dự án, tiến độ từng thành viên và chi tiết nhiệm vụ. Không cần đăng nhập; dữ liệu chung tự cập nhật từ Cloud mỗi 15 giây khi trang đang mở.
 
 | Nội dung cần kiểm tra | Đường dẫn |
 | --- | --- |
-| **Tiến độ và phân công nhiệm vụ** | **[Mở trang quản lý dự án](https://doubled1302.github.io/nhomBaKhi/)** |
-| **Chế độ Giảng viên — không cần đăng nhập** | **[Xem tiến độ toàn dự án và từng thành viên](https://doubled1302.github.io/nhomBaKhi/lecturer.html)** |
+| **Tiến độ và phân công nhiệm vụ** | **[Mở chế độ Giảng viên — không cần đăng nhập][tien-do-giang-vien]** |
 | **Sơ đồ ERD** | **[Xem toàn bộ ERD](./docs/ERD/README.md)** · [Ảnh tổng quan](./docs/ERD/00_ERD_tong_quan.png) |
 | **Sơ đồ Use Case** | **[Xem toàn bộ Use Case](./docs/UseCase/README.md)** · [Ảnh tổng quan](./docs/UseCase/00_Tong_quan.png) |
 | Kế hoạch và bảng phân công dạng Word | [Tải tài liệu phân công](./docs/Phan_Cong_Cong_Viec_Nhom_De25.docx) |
@@ -41,7 +40,7 @@ Bộ ERD và Use Case trong `docs/` mô tả phạm vi kết nối ứng viên v
 | TV03 | Hà Gia Bảo | 231A010014 | Ứng dụng Flutter cho sinh viên |
 | TV04 | Võ Trần Kim Tuyến | 241A310165 | Cơ sở dữ liệu, thiết kế ERD và kiểm thử QA |
 
-Xem từng nhiệm vụ, thời hạn và trạng thái tại **[trang tiến độ và phân công nhiệm vụ](https://doubled1302.github.io/nhomBaKhi/)**. Danh sách thành viên được đối chiếu với [dữ liệu kế hoạch trong repository](./web-dashboard/tasks-data.js).
+Xem từng nhiệm vụ, thời hạn và trạng thái tại **[chế độ Giảng viên — tiến độ và phân công nhiệm vụ][tien-do-giang-vien]**. Danh sách thành viên được đối chiếu với [dữ liệu kế hoạch trong repository](./web-dashboard/tasks-data.js).
 
 ## Sơ đồ ERD
 
@@ -92,7 +91,7 @@ Bộ thiết kế gồm **8 sơ đồ**, mô tả **21 Use Case** với ba tác 
 
 ## Hướng dẫn kiểm tra và chạy dự án
 
-1. **Kiểm tra tiến độ:** mở [chế độ Giảng viên](https://doubled1302.github.io/nhomBaKhi/lecturer.html) để xem toàn dự án, tiến độ bốn thành viên và lọc nhiệm vụ theo người, tuần, trạng thái. Trang chỉ xem, không cần đăng nhập và tự tải cập nhật Cloud mỗi 15 giây khi đang mở.
+1. **Kiểm tra tiến độ:** mở [chế độ Giảng viên][tien-do-giang-vien] để xem toàn dự án, tiến độ bốn thành viên và lọc nhiệm vụ theo người, tuần, trạng thái. Trang chỉ xem, không cần đăng nhập và tự tải cập nhật Cloud mỗi 15 giây khi đang mở.
 2. **Kiểm tra thiết kế:** mở [ERD](./docs/ERD/README.md) và [Use Case](./docs/UseCase/README.md); dùng PNG để xem nhanh, SVG để phóng to hoặc `.puml` để chỉnh sửa.
 3. **Kiểm tra mã nguồn:** mở thư mục thành phần tương ứng, đối chiếu với [tài liệu API](./backend/api.md) và [checklist môn học](./PHU_LUC_4_CHECKLIST.txt).
 4. **Cài đặt và chạy:** làm theo [hướng dẫn chạy dự án](./HUONG_DAN_CHAY_PROJECT.txt). Website tiến độ có thể mở riêng bằng [Mo_Web_Theo_Doi.bat](./Mo_Web_Theo_Doi.bat).
@@ -100,3 +99,6 @@ Bộ thiết kế gồm **8 sơ đồ**, mô tả **21 Use Case** với ba tác 
 ### Lưu ý về tính đồng bộ
 
 Phạm vi dashboard và tài liệu thiết kế là **tìm kiếm việc làm cho sinh viên**. Trang Giảng viên đọc tiến độ đã được nhóm đồng bộ lên Cloud; nếu kết nối lỗi, trang ghi rõ dữ liệu đang hiển thị là kế hoạch hay lần cập nhật trước. Mã nguồn và hướng dẫn API cần được đối chiếu với bộ ERD, Use Case và kết quả kiểm thử thực tế khi nghiệm thu.
+
+<!-- Dùng chung một địa chỉ cho mọi liên kết tiến độ trong README. -->
+[tien-do-giang-vien]: https://doubled1302.github.io/nhomBaKhi/lecturer.html
