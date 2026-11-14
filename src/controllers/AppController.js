@@ -1,5 +1,5 @@
 // Controller: Main Application Controller
-// Phục vụ: Dự án Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
+// Phục vụ: Dự án quản lý việc làm bán thời gian cho sinh viên
 (function() {
   class AppController {
     constructor() {
@@ -327,7 +327,7 @@
       document.getElementById('modal-owner').value = t.owner;
       document.getElementById('modal-status').value = t.status || 'todo';
       document.getElementById('modal-progress').value = t.progressPercent || 0;
-      document.getElementById('modal-actual-hours').value = t.actualHours || t.hours;
+      document.getElementById('modal-actual-hours').value = t.actualHours ?? 0;
       document.getElementById('modal-pr').value = t.prLink || '';
       document.getElementById('modal-notes').value = t.notes || '';
 
@@ -369,10 +369,9 @@
         sel.innerHTML = memberTasks.map(t => `<option value="${t.id}">${t.id} — ${t.name} (Tuần ${t.start})</option>`).join('');
       }
 
-      // Generate a fresh random commit hash
-      const randomHash = Math.random().toString(16).substring(2, 9);
+      // Require the actual commit hash from GitHub as evidence.
       const hashInput = document.getElementById('commit-input-hash');
-      if (hashInput) hashInput.value = randomHash;
+      if (hashInput) hashInput.value = '';
 
       // Default message with first task
       const firstTask = memberTasks[0];
@@ -392,11 +391,11 @@
       const user = window.UserModel.currentUser;
       if (!user) return;
 
-      const hash = (document.getElementById('commit-input-hash')?.value || '').trim() || Math.random().toString(16).substring(2, 9);
+      const hash = (document.getElementById('commit-input-hash')?.value || '').trim();
       const msg = (document.getElementById('commit-input-msg')?.value || '').trim();
 
-      if (!msg) {
-        alert("Vui lòng nhập thông điệp commit!");
+      if (!msg || !/^[0-9a-f]{7,40}$/i.test(hash)) {
+        alert("Nhập thông điệp và hash Git thật gồm 7–40 ký tự hex.");
         return;
       }
 
@@ -502,7 +501,7 @@
           this.showToast(`Đăng nhập thành công với mã ${user.accessCode}!`);
           this.checkAuthAndRender();
         } else {
-          alert(`Mã bảo mật "${code}" không chính xác hoặc chưa được đăng ký!\n\nVui lòng kiểm tra lại mã đã được cấp (định dạng TRO-XXX-XXXX-XXXX).`);
+          alert(`Mã bảo mật "${code}" không chính xác hoặc chưa được đăng ký!\n\nVui lòng kiểm tra lại mã đã được cấp (định dạng JOB-XXX-XXXX-XXXX).`);
         }
       });
 
@@ -606,13 +605,6 @@
         if (e.target.id === 'modal-add-commit') this.closeAddCommitModal();
       });
 
-      // Quick random hash generator
-      document.getElementById('btn-gen-random-hash')?.addEventListener('click', () => {
-        const hash = Math.random().toString(16).substring(2, 9);
-        const input = document.getElementById('commit-input-hash');
-        if (input) input.value = hash;
-      });
-
       // Task selector change auto-populates message
       document.getElementById('commit-select-task')?.addEventListener('change', (e) => {
         const taskId = e.target.value;
@@ -677,7 +669,7 @@
       // Export JSON
       document.getElementById('btn-export-json')?.addEventListener('click', () => {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-          project: "INT4211_SmartTro_De25",
+          project: "INT4211_ViecLamSinhVien_De25",
           exportedAt: new Date().toISOString(),
           tasks: window.ProjectModel.tasks,
           commits: window.UserModel.commits,
@@ -688,7 +680,7 @@
         }, null, 2));
         const a = document.createElement('a');
         a.setAttribute("href", dataStr);
-        a.setAttribute("download", `TienDo_SmartTro_${new Date().toISOString().slice(0, 10)}.json`);
+        a.setAttribute("download", `TienDo_ViecLamSinhVien_${new Date().toISOString().slice(0, 10)}.json`);
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -705,11 +697,11 @@
         reader.onload = (evt) => {
           try {
             const data = JSON.parse(evt.target.result);
-            if (data.tasks) window.ProjectModel.tasks = data.tasks;
+            if (data.tasks) window.ProjectModel.tasks = window.ProjectModel.restoreTasks(data.tasks);
             if (data.commits) window.UserModel.commits = data.commits;
             if (data.claimedRoles) window.UserModel.claimedRoles = data.claimedRoles;
-            if (data.criteriaC1) window.ProjectModel.criteriaC1 = data.criteriaC1;
-            if (data.criteriaC2) window.ProjectModel.criteriaC2 = data.criteriaC2;
+            if (data.criteriaC1) window.ProjectModel.criteriaC1 = window.ProjectModel.restoreChecklist(window.PROJECT_DATA.criteriaC1, data.criteriaC1);
+            if (data.criteriaC2) window.ProjectModel.criteriaC2 = window.ProjectModel.restoreChecklist(window.PROJECT_DATA.criteriaC2, data.criteriaC2);
             window.ProjectModel.save();
             window.UserModel.saveCommits();
             window.UserModel.saveClaimedRoles();

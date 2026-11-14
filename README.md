@@ -1,71 +1,48 @@
-# Web Dashboard Quản Lý Dự Án — Đề Tài 25
+# Dashboard tiến độ · Nhóm Bá Khí
 
-**INT4211 – Lập trình trên các thiết bị di động (HK261)**  
-*Đề tài: Nền tảng việc làm bán thời gian cho sinh viên (Nhóm 4 thành viên)*
+**Đề tài 25: Nền tảng tìm kiếm việc làm cho sinh viên · INT4211 · HK261**
 
----
+## Truy cập
 
-## 🚀 Cách mở và sử dụng
+- [Trang chính và đăng nhập thành viên](https://doubled1302.github.io/nhomBaKhi/).
+- **[Chế độ Giảng viên — xem ngay, không cần đăng nhập](https://doubled1302.github.io/nhomBaKhi/lecturer.html).**
 
-### Cách 1: Mở trực tiếp (Không cần cài đặt bất cứ thứ gì)
-- Nhấp đúp chuột vào file `Mo_Web_Theo_Doi.bat` ở thư mục gốc đồ án.
-- Hoặc mở trực tiếp file `web_dashboard/index.html` bằng bất kỳ trình duyệt nào (Google Chrome, Microsoft Edge, Firefox, Brave,...).
-- Ứng dụng hoạt động 100% offline và tự động lưu tiến độ vào `localStorage` của trình duyệt.
+## Chế độ Giảng viên
 
-### Cách 2: Chạy qua Local Server (Nếu muốn chia sẻ qua mạng nội bộ LAN / Wi-Fi)
-Mở terminal tại thư mục này và gõ:
-```bash
-# Bằng Node.js:
-npx serve .
+Trang `lecturer.html` cung cấp:
 
-# Hoặc bằng Python:
-python -m http.server 3000
+- Tổng quan toàn dự án: tỷ lệ nhiệm vụ hoàn thành, số nhiệm vụ từng trạng thái và giờ thực tế so với kế hoạch.
+- Tiến độ của cả bốn thành viên; chọn một người để xem toàn bộ nhiệm vụ được giao.
+- Bộ lọc theo thành viên, tuần, trạng thái và từ khóa; xem tiêu chí hoàn thành, ghi chú và liên kết minh chứng.
+- Liên kết trực tiếp đến ERD, Use Case và lịch sử GitHub.
+- Tự tải dữ liệu Cloud mỗi 15 giây khi trang đang hiển thị; có nút cập nhật thủ công và thời điểm đồng bộ gần nhất.
+
+Đây là giao diện chỉ xem: không nhận vai trò, không ghi dữ liệu Cloud và không thay đổi phiên đăng nhập thành viên trên cùng trình duyệt. Trang không dùng tiến độ chỉ lưu cục bộ trên máy thành viên; cần đồng bộ lên Cloud để giảng viên thấy cập nhật.
+
+Tỷ lệ hoàn thành tính bằng số nhiệm vụ có trạng thái `done` chia cho tổng số nhiệm vụ. Khi mất kết nối hoặc chưa có bản ghi Cloud, trang ghi rõ nguồn dữ liệu đang hiển thị. Số liệu phản ánh cập nhật của nhóm, cần đối chiếu minh chứng khi nghiệm thu.
+
+## Chế độ thành viên
+
+Đăng nhập bằng mã được cấp để làm việc với dashboard cá nhân, Kanban, WBS, mốc tiến độ, checklist và báo cáo tuần. Mã mới có tiền tố `JOB-`; các mã `TRO-` đã cấp trước đây vẫn dùng được.
+
+Kế hoạch trong `tasks-data.js` mô tả hồ sơ sinh viên, lịch rảnh, tìm việc, ứng tuyển, nhà tuyển dụng, tin tuyển dụng và kiểm duyệt vi phạm. Khi tải dữ liệu đã lưu hoặc nhập JSON, dashboard giữ tiến độ theo mã nhiệm vụ và lấy tên, phân công, tiêu chí từ kế hoạch hiện tại.
+
+## Chạy tại máy
+
+Từ thư mục `web-dashboard`, chạy:
+
+```powershell
+python -m http.server 8766 --bind 127.0.0.1
 ```
-Sau đó truy cập: `http://localhost:3000`.
 
-### Cách 3: Đưa lên GitHub Pages (Để cả 4 thành viên cùng xem online)
-1. Trong repository GitHub của nhóm, tạo thư mục hoặc đưa nội dung thư mục `web_dashboard` vào nhánh `gh-pages` hoặc thư mục `docs/`.
-2. Vào **Settings** của Repo -> **Pages** -> Chọn nhánh xuất bản.
-3. Cả nhóm có thể truy cập qua link: `https://[username].github.io/[repo-name]/`.
+Mở [dashboard thành viên](http://127.0.0.1:8766/) hoặc [trang Giảng viên](http://127.0.0.1:8766/lecturer.html).
 
----
+## Kiểm tra
 
-## 🌟 Các tính năng chính trên Web Dashboard
+Từ thư mục gốc repository:
 
-1. **📊 Dashboard (Tổng quan tiến độ)**:
-   - Theo dõi % hoàn thành toàn dự án, số task đã xong, số giờ đã làm so với kế hoạch (340h) và tổng năng lực (384h).
-   - Tiến độ riêng của 4 thành viên (TV01, TV02, TV03, TV04). Nhấp vào thẻ thành viên để lọc nhanh việc của người đó.
-   - Cảnh báo mốc kiểm tra giữa kỳ Tuần 11 (1.0 điểm, không nộp bù).
-   - Tóm tắt 4 điểm nhấn kỹ thuật quan trọng của Đề tài 25 (GPS Haversine, Lọc lịch rảnh, Transaction nhận ca, Tính lương).
+```powershell
+node --test web-dashboard/test/lecturer.test.cjs
+```
 
-2. **📋 Bảng Kanban tương tác**:
-   - 4 cột: *Chưa bắt đầu*, *Đang thực hiện*, *Chờ review / test*, *Hoàn thành*.
-   - Hỗ trợ **kéo thả thẻ (Drag & Drop)** hoặc bấm vào thẻ để cập nhật chi tiết.
-   - Bộ lọc theo thành viên và theo tuần (Tuần 8 đến 15).
-
-3. **📑 Danh sách WBS 64 Task**:
-   - Bảng tra cứu toàn diện 64 đầu việc từ kế hoạch gốc.
-   - Tìm kiếm nhanh bằng từ khóa, lọc theo trạng thái, tuần học, thành viên.
-   - Tick chọn hoàn thành nhanh hoặc chỉnh sửa % tiến độ, link PR, giờ thực tế.
-
-4. **👤 Trang cá nhân 4 thành viên**:
-   - Xem chi tiết 16 đầu việc được giao cho từng thành viên.
-   - Thanh đếm số commit (Mục tiêu: ≥15 commit có ý nghĩa rải đều 8 tuần trên GitHub).
-
-5. **🎯 Mốc tiến độ & Bộ tiêu chí tự kiểm (Checklists)**:
-   - 5 mốc tiến độ chính thức từ tuần 8 đến tuần 15.
-   - Bảng kiểm 10 tiêu chí App Admin Android (Mục C.1).
-   - Bảng kiểm 10 tiêu chí App Client Flutter (Mục C.2).
-   - Định mức dữ liệu mẫu (Seed Data): 25 NTD, 80 tin, 200 SV có lịch rảnh, 300 ca, 500 chấm công.
-
-6. **📖 Căn cứ kỹ thuật & Hợp đồng API**:
-   - Tra cứu nhanh các endpoint API (`/api/v1/...`) và 12 bảng CSDL Supabase.
-
-7. **📝 Trình tạo báo cáo tuần tự động (Markdown)**:
-   - Chọn tuần và thành viên -> Tự động trích xuất các task hoàn thành, đang làm, tồn đọng và link PR thành văn bản báo cáo tuần chuẩn mẫu.
-   - Bấm 1 nút để sao chép Markdown nộp cho Giảng viên.
-
-8. **💾 Đồng bộ & Sao lưu dữ liệu**:
-   - **Xuất JSON (Export)**: Tải file tiến độ về máy.
-   - **Nhập JSON (Import)**: Nạp file tiến độ từ đồng đội để cập nhật trạng thái chung.
-   - **Đặt lại (Reset)**: Khôi phục kế hoạch ban đầu nếu cần.
+GitHub Actions xuất bản thư mục `web-dashboard/` lên GitHub Pages khi nhánh `main` được cập nhật. Cấu hình trong `.github/workflows/deploy-dashboard.yml`.

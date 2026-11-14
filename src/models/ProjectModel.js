@@ -21,12 +21,12 @@
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          this.tasks = parsed.tasks || base.tasks || [];
+          this.tasks = this.restoreTasks(parsed.tasks);
           this.members = base.members || [];
           this.milestones = base.milestones || [];
-          this.criteriaC1 = parsed.criteriaC1 || base.criteriaC1 || [];
-          this.criteriaC2 = parsed.criteriaC2 || base.criteriaC2 || [];
-          this.seedQuota = parsed.seedQuota || base.seedQuota || [];
+          this.criteriaC1 = this.restoreChecklist(base.criteriaC1, parsed.criteriaC1);
+          this.criteriaC2 = this.restoreChecklist(base.criteriaC2, parsed.criteriaC2);
+          this.seedQuota = JSON.parse(JSON.stringify(base.seedQuota || []));
           this.techHighlights = base.techHighlights || [];
           this.theme = parsed.theme || 'light';
           return;
@@ -43,6 +43,24 @@
       this.seedQuota = JSON.parse(JSON.stringify(base.seedQuota || []));
       this.techHighlights = base.techHighlights || [];
       this.theme = 'light';
+    }
+
+    restoreTasks(savedTasks) {
+      const records = new Map((Array.isArray(savedTasks) ? savedTasks : []).map(t => [t.id, t]));
+      const progressFields = ['status', 'progressPercent', 'actualHours', 'prLink', 'commitHash', 'notes', 'updatedAt', 'updatedBy'];
+      return (window.PROJECT_DATA.tasks || []).map(task => {
+        const saved = records.get(task.id) || {};
+        const progress = {};
+        for (const field of progressFields) {
+          if (saved[field] !== undefined) progress[field] = saved[field];
+        }
+        // Retain real progress by ID, but always use the current job-search plan.
+        return { ...task, ...progress };
+      });
+    }
+
+    restoreChecklist(base = [], saved = []) {
+      return base.map(item => ({ ...item, completed: Boolean(saved?.find(old => old.id === item.id)?.completed ?? item.completed) }));
     }
 
     save() {

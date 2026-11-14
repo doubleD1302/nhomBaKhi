@@ -1,0 +1,9 @@
+.lecturer-entry { display: flex; align-items: center; gap: 16px; padding: 18px 20px; margin: 22px 0; border: 1px solid #39bda7; border-radius: 12px; background: linear-gradient(120deg, #113e48, #173658); color: #fff; text-decoration: none; text-align: left; }
+.lecturer-entry:hover { background: #174b56; border-color: #81ead4; }
+.lecturer-entry:focus-visible { outline: 3px solid #a9eadf; outline-offset: 4px; }
+.lecturer-entry-icon { font-size: 30px; }
+.lecturer-entry > span:nth-child(2) { flex: 1; }
+.lecturer-entry strong { display: block; font-size: 17px; margin-bottom: 4px; }
+.lecturer-entry small { display: block; color: #c2dee4; font-size: 12px; line-height: 1.6; }
+.lecturer-entry > span:last-child { font-size: 26px; }
+@media (max-width: 480px) { .lecturer-entry { gap: 10px; padding: 14px; } .lecturer-entry strong { font-size: 15px; } }

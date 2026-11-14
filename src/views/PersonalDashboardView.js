@@ -1,5 +1,5 @@
 // Views: Personal Dashboard View (Customized Studio for Each Member)
-// Phục vụ: Dự án Quản lý & Thuê Nhà Trọ Sinh Viên (SmartTro)
+// Phục vụ: Dự án quản lý việc làm bán thời gian cho sinh viên
 (function() {
   class PersonalDashboardView {
     constructor() {
@@ -255,7 +255,7 @@
             </div>
             <span class="studio-badge-live">
               <span class="pulse-dot"></span>
-              Online HTTPS
+              HTTPS cần kiểm tra
             </span>
           </div>
 
@@ -293,27 +293,27 @@
           <div class="studio-features-grid">
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('building', 'icon-xs')} Danh Mục Phòng & Cọc
+                ${window.Icons.get('building', 'icon-xs')} Nhà Tuyển Dụng & Tin Tuyển Dụng
               </div>
-              <div class="studio-feature-desc">REST API CRUD phòng trọ, chống trùng lặp giữ chỗ overbooking.</div>
+              <div class="studio-feature-desc">API hồ sơ nhà tuyển dụng, đăng tin và kiểm duyệt trước khi công khai.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('zap', 'icon-xs')} Điện Nước Lũy Tiến
+                ${window.Icons.get('zap', 'icon-xs')} Hồ Sơ & Lịch Rảnh
               </div>
-              <div class="studio-feature-desc">Thuật toán bậc thang chốt chỉ số công tơ điện và tiền nước theo đầu người.</div>
+              <div class="studio-feature-desc">Quản lý hồ sơ sinh viên và tìm việc theo khu vực, lương, lịch rảnh.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('credit-card', 'icon-xs')} VietQR Chuẩn NapAS
+                ${window.Icons.get('credit-card', 'icon-xs')} Ứng Tuyển & Kiểm Duyệt
               </div>
-              <div class="studio-feature-desc">Tự động sinh mã VietQR chuyển khoản ngân hàng chính xác tiền hóa đơn.</div>
+              <div class="studio-feature-desc">Tiếp nhận ứng tuyển, kiểm tra quyền sở hữu và lưu lý do từ chối.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
                 ${window.Icons.get('shield', 'icon-xs')} JWT & Bcrypt Bảo Mật
               </div>
-              <div class="studio-feature-desc">Phân quyền 3 tác nhân: SINH_VIEN, CHU_TRO, QUAN_TRI không lộ mật khẩu.</div>
+              <div class="studio-feature-desc">Phân quyền 3 tác nhân: SINH_VIEN, NHA_TUYEN_DUNG, QUAN_TRI không lộ mật khẩu.</div>
             </div>
           </div>
 
@@ -339,7 +339,7 @@
                 ${window.Icons.get('smartphone', 'icon-lg')}
               </div>
               <div>
-                <div class="studio-title-text">Ứng Dụng Android Chủ Trọ & Quản Lý Tòa Nhà (TV02)</div>
+                <div class="studio-title-text">Ứng Dụng Android Quản Trị & Nhà Tuyển Dụng (TV02)</div>
                 <div class="studio-sub-text">Android Studio · Java · XML Layout · Retrofit 2 · MPAndroidChart · minSdk 24</div>
               </div>
             </div>
@@ -359,10 +359,10 @@
               </div>
             </div>
             <div>
-              <span class="studio-url-badge">com.nhombakhi.smarttro.admin</span>
+              <span class="studio-url-badge">com.nhomxx.parttime</span>
             </div>
             <div style="font-size:11.5px; color:var(--text-muted);">
-              Quy định bắt buộc: Tên app, Package ID và log TAG phải mang mã nhóm <code>nhomBaKhi</code>.
+              Package ID hiện tại còn là placeholder; khi bàn giao cần đổi tên app, Package ID và log TAG theo mã nhóm <code>nhomBaKhi</code>.
             </div>
           </div>
 
@@ -371,32 +371,32 @@
               <div class="studio-feature-title">
                 ${window.Icons.get('layout', 'icon-xs')} RecyclerView 2 Danh Mục
               </div>
-              <div class="studio-feature-desc">Danh sách phòng trọ & hóa đơn với ViewHolder tối ưu mượt mà.</div>
+              <div class="studio-feature-desc">Danh sách nhà tuyển dụng và tin tuyển dụng với RecyclerView.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('zap', 'icon-xs')} Chốt Số Điện Nước
+                ${window.Icons.get('zap', 'icon-xs')} Duyệt Nhà Tuyển Dụng & Tin
               </div>
-              <div class="studio-feature-desc">Giao diện nhập chỉ số công tơ định kỳ có validation và tính tức thì.</div>
+              <div class="studio-feature-desc">Duyệt hoặc từ chối hồ sơ và tin tuyển dụng, ghi rõ lý do xử lý.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('credit-card', 'icon-xs')} Hóa Đơn & Mã VietQR
+                ${window.Icons.get('credit-card', 'icon-xs')} Ứng Viên & Kết Quả Tuyển Dụng
               </div>
-              <div class="studio-feature-desc">Xuất hóa đơn thanh toán tiền phòng tích hợp hiển thị mã QR thu tiền.</div>
+              <div class="studio-feature-desc">Xem hồ sơ ứng viên theo tin và cập nhật kết quả tuyển dụng đúng quyền.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
                 ${window.Icons.get('bar-chart', 'icon-xs')} Biểu Đồ MPAndroidChart
               </div>
-              <div class="studio-feature-desc">Thống kê doanh thu theo tháng và công nợ trực quan bằng biểu đồ cột.</div>
+              <div class="studio-feature-desc">Thống kê số tin tuyển dụng và mức lương trung bình theo nhóm việc.</div>
             </div>
           </div>
 
           <div class="studio-checklist-box">
             <div class="studio-checklist-header">
               <span class="studio-checklist-title">
-                ${window.Icons.get('check-square', 'icon-xs')} Checklist 10 Tiêu Chí C.1 (Android Admin & Chủ Trọ):
+                ${window.Icons.get('check-square', 'icon-xs')} Checklist Vai Trò Android Quản Trị & Nhà Tuyển Dụng:
               </span>
               <span id="role-checklist-count-badge" class="studio-checklist-counter">${doneCount}/${totalCount} (${pct}%)</span>
             </div>
@@ -414,8 +414,8 @@
                 ${window.Icons.get('layers', 'icon-lg')}
               </div>
               <div>
-                <div class="studio-title-text">Ứng Dụng Flutter Cho Sinh Viên Thuê Trọ (TV03)</div>
-                <div class="studio-sub-text">Flutter 3.35+ · Dart 3 · Material 3 · Geolocator GPS · SharedPreferences</div>
+                <div class="studio-title-text">Ứng Dụng Flutter Cho Sinh Viên Tìm Việc (TV03)</div>
+                <div class="studio-sub-text">Flutter 3.35+ · Dart 3 · Material 3 · HTTP · SharedPreferences</div>
               </div>
             </div>
             <span class="studio-badge-live">
@@ -444,27 +444,27 @@
           <div class="studio-features-grid">
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('navigation', 'icon-xs')} GPS Haversine Bán Kính
+                ${window.Icons.get('navigation', 'icon-xs')} Tìm Việc Theo Lịch Rảnh
               </div>
-              <div class="studio-feature-desc">Tìm phòng trọ theo khoảng cách thực tế quanh trường đại học.</div>
+              <div class="studio-feature-desc">Kết hợp lịch rảnh, khu vực, nhóm việc và mức lương để tìm tin phù hợp.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('filter', 'icon-xs')} Bộ Lọc Tiện Ích Phòng
+                ${window.Icons.get('filter', 'icon-xs')} Bộ Lọc Việc & Lịch Rảnh
               </div>
-              <div class="studio-feature-desc">Lọc giá, máy lạnh, gác lửng, ban công, giờ giấc tự do không chung chủ.</div>
+              <div class="studio-feature-desc">Lọc khu vực, nhóm việc, mức lương và lịch tuyển dụng phù hợp sinh viên.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('file-text', 'icon-xs')} Đặt Cọc & Hợp Đồng
+                ${window.Icons.get('file-text', 'icon-xs')} Ứng Tuyển & Theo Dõi Hồ Sơ
               </div>
-              <div class="studio-feature-desc">Gửi yêu cầu giữ phòng trực tuyến kèm xác nhận điều khoản hợp đồng.</div>
+              <div class="studio-feature-desc">Gửi hồ sơ ứng tuyển và theo dõi trạng thái phản hồi từ nhà tuyển dụng.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('refresh-cw', 'icon-xs')} Báo Hỏng & Undo SnackBar
+                ${window.Icons.get('refresh-cw', 'icon-xs')} Lịch Rảnh & Undo SnackBar
               </div>
-              <div class="studio-feature-desc">Gửi phản ánh sửa chữa cho chủ trọ, tích hợp thanh Undo SnackBar hoàn tác.</div>
+              <div class="studio-feature-desc">Thay đổi lịch rảnh với Undo SnackBar để hoàn tác thao tác.</div>
             </div>
           </div>
 
@@ -509,29 +509,29 @@
               </div>
             </div>
             <div>
-              <span class="studio-url-badge">aws-0-ap-northeast-2.pooler.supabase.com:5432</span>
+              <span class="studio-url-badge">${window.PROJECT_DATA.supabaseUrl}</span>
             </div>
             <div style="font-size:11.5px; color:var(--text-muted);">
-              Định mức dữ liệu mẫu: &ge;25 Chủ trọ · &ge;80 Phòng · &ge;200 Sinh viên · &ge;300 Hóa đơn.
+              Định mức dữ liệu mẫu: &ge;25 NTD · &ge;80 Tin · &ge;200 Sinh viên. Số lượng thực tế cần được đối chiếu bằng truy vấn.
             </div>
           </div>
 
           <div class="studio-features-grid">
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('lock', 'icon-xs')} Khóa Dòng FOR UPDATE
+                ${window.Icons.get('lock', 'icon-xs')} Ngăn Ứng Tuyển Trùng
               </div>
-              <div class="studio-feature-desc">Transaction CSDL chống tình trạng overbooking khi 2 người cùng giữ phòng.</div>
+              <div class="studio-feature-desc">Ràng buộc dữ liệu ngăn sinh viên gửi hồ sơ trùng vào cùng một tin tuyển dụng.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('zap', 'icon-xs')} Công Thức Điện Nước
+                ${window.Icons.get('zap', 'icon-xs')} Lịch Sử Kiểm Duyệt
               </div>
-              <div class="studio-feature-desc">Hàm tính toán lũy tiến hóa đơn và định mức lưu trữ CSDL chuẩn xác.</div>
+              <div class="studio-feature-desc">Lưu lý do duyệt hoặc từ chối, bằng chứng báo cáo và kết luận xử lý.</div>
             </div>
             <div class="studio-feature-card">
               <div class="studio-feature-title">
-                ${window.Icons.get('database', 'icon-xs')} 12 Bảng CSDL Chuẩn Hóa
+                ${window.Icons.get('database', 'icon-xs')} 14 Bảng CSDL Theo ERD
               </div>
               <div class="studio-feature-desc">Mô hình quan hệ 3NF với ràng buộc khóa ngoại (FK) chặt chẽ.</div>
             </div>
@@ -571,7 +571,7 @@
       });
 
       document.getElementById('btn-copy-pkg-tv02')?.addEventListener('click', () => {
-        navigator.clipboard.writeText("com.nhombakhi.smarttro.admin").then(() => {
+        navigator.clipboard.writeText("com.nhomxx.parttime").then(() => {
           window.AppController?.showToast?.("Đã sao chép Package ID Android!");
         });
       });
@@ -583,7 +583,7 @@
       });
 
       document.getElementById('btn-copy-db-host')?.addEventListener('click', () => {
-        navigator.clipboard.writeText("aws-0-ap-northeast-2.pooler.supabase.com").then(() => {
+        navigator.clipboard.writeText(window.PROJECT_DATA.supabaseUrl).then(() => {
           window.AppController?.showToast?.("Đã sao chép Host CSDL Supabase!");
         });
       });
@@ -607,7 +607,7 @@
             resultBox.style.background = 'rgba(16, 185, 129, 0.12)';
             resultBox.style.color = '#059669';
             resultBox.style.borderColor = 'rgba(16, 185, 129, 0.25)';
-            textSpan.innerHTML = `<strong>● HTTP 200 OK</strong> — Độ trễ: <strong>${latency}ms</strong> — Web Service hoạt động ổn định!`;
+            textSpan.innerHTML = `<strong>● HTTP 200 OK</strong> — Độ trễ: <strong>${latency}ms</strong> — Endpoint /health trả thành công; cần kiểm tra thêm /ready và đăng nhập.`;
           } else {
             resultBox.style.background = 'rgba(239, 68, 68, 0.12)';
             resultBox.style.color = '#DC2626';
