@@ -1,0 +1,417 @@
+{
+  "info": {
+    "name": "TV01 - T002 T009 T010 - Việc làm sinh viên",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Chỉ chạy trên môi trường thử được phép tạo dữ liệu. Điền mật khẩu và tài khoản admin hiện có trong Postman; không commit bản xuất chứa token/mật khẩu. Không có tài khoản admin mặc định. Bước 07: chọn đúng employerId của tài khoản thử. Luồng hiện cho phép admin xét duyệt lại trạng thái để thử REJECT rồi APPROVE; chưa phải workflow trạng thái đã được nhóm nghiệm thu."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "employerEmail",
+      "value": "ntd-tv01@example.test",
+      "type": "string"
+    },
+    {
+      "key": "employerPassword",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminEmail",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminPassword",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "employerToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "employerId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "jobId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Health HTTP",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "02 Ready database",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/ready"
+      }
+    },
+    {
+      "name": "03 Register employer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/auth/register",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{employerEmail}}\",\n  \"password\": \"{{employerPassword}}\",\n  \"fullName\": \"Nhà tuyển dụng thử nghiệm\",\n  \"role\": \"NHA_TUYEN_DUNG\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "04 Login employer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{employerEmail}}\",\n  \"password\": \"{{employerPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP success', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) { const data = pm.response.json(); pm.collectionVariables.set('employerToken', data.token); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Update employer profile",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{employerToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/employer/profile",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"companyName\": \"Doanh nghiệp thử nghiệm\",\n  \"taxCode\": \"TEST-TV01-001\",\n  \"address\": \"TP HCM\",\n  \"licenseUrl\": \"https://example.test/license.png\",\n  \"contactName\": \"Liên hệ thử nghiệm\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "06 Login existing admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP success', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) { const data = pm.response.json(); pm.collectionVariables.set('adminToken', data.token); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Pending employers - copy correct id into employerId",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/employers"
+      }
+    },
+    {
+      "name": "08 Approve employer",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/employers/{{employerId}}/review",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"decision\": \"APPROVE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "09 Create category",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/categories",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Phục vụ thử TV01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP success', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) { const data = pm.response.json(); pm.collectionVariables.set('categoryId', data.id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Create pending job",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{employerToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/jobs",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"title\": \"Việc làm thử TV01\",\n  \"description\": \"Mô tả phục vụ kiểm thử, không tuyển dụng thật\",\n  \"location\": \"TP HCM\",\n  \"latitude\": 10.77,\n  \"longitude\": 106.69,\n  \"hourlyWage\": 30000,\n  \"headcount\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP success', () => pm.expect(pm.response.code).to.be.within(200, 299));",
+              "if (pm.response.code >= 200 && pm.response.code < 300) { const data = pm.response.json(); pm.collectionVariables.set('jobId', data.id); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Reject job with reason",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/jobs/{{jobId}}/review",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"decision\": \"REJECT\",\n  \"reason\": \"Cần bổ sung mô tả công việc\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "12 Own jobs and rejection reason",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{employerToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/jobs/employer/mine"
+      }
+    },
+    {
+      "name": "13 Approve job",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/admin/jobs/{{jobId}}/review",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"decision\": \"APPROVE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "14 Public approved jobs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/jobs"
+      }
+    },
+    {
+      "name": "15 Public job details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/jobs/{{jobId}}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-11-14T22:58:22.052Z",
+  "baseUrl": "https://nhombakhi-backend.onrender.com",
+  "results": [
+    {
+      "endpoint": "/health",
+      "status": 404,
+      "passed": false
+    },
+    {
+      "endpoint": "/ready",
+      "status": 404,
+      "passed": false
+    },
+    {
+      "endpoint": "/api/jobs/categories",
+      "status": 404,
+      "passed": false
+    },
+    {
+      "endpoint": "/api/jobs",
+      "status": 404,
+      "passed": false
+    }
+  ]
+}

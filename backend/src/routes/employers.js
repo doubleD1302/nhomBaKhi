@@ -10,7 +10,7 @@ router.get('/profile', asyncHandler(async (req, res) => {
   const result = await truyVan(
     `SELECT e.ten_cong_ty AS "companyName", e.ma_so_thue AS "taxCode",
        e.dia_chi AS address, e.giay_phep_url AS "licenseUrl",
-       e.trang_thai_duyet AS status, e.da_xac_minh AS verified,
+       e.trang_thai_duyet AS status, e.da_xac_minh AS verified, e.ly_do_tu_choi AS "rejectionReason",
        u.ho_ten AS "contactName", u.sdt AS phone
      FROM nha_tuyen_dung e JOIN nguoi_dung u ON u.id = e.nguoi_dung_id
      WHERE u.id = $1`,
@@ -33,7 +33,7 @@ router.patch('/profile', asyncHandler(async (req, res) => {
     await client.query(
       `UPDATE nha_tuyen_dung SET ten_cong_ty = $2, ma_so_thue = $3,
        dia_chi = $4, giay_phep_url = $5, trang_thai_duyet = 'CHO_DUYET',
-       da_xac_minh = FALSE WHERE nguoi_dung_id = $1`,
+       da_xac_minh = FALSE, ly_do_tu_choi = NULL WHERE nguoi_dung_id = $1`,
       [req.nguoiDung.id, companyName.trim(), taxCode.trim(), address.trim(), licenseUrl.trim()],
     );
     await client.query(

@@ -12,9 +12,12 @@ xung đột thao tác) và 500 (lỗi máy chủ/cơ sở dữ liệu).
 
 ## API công khai và xác thực
 
+Hợp đồng này mô tả code `/api` hiện tại. Hợp đồng đề xuất `/api/v1` dùng snake_case trong bộ thiết kế là phương án khác, chưa được triển khai/migration. Schema ứng viên tương thích code: `database/api-v1/schema.sql`; xem README cùng thư mục trước khi khởi tạo CSDL.
+
 | Phương thức | Đường dẫn | Chức năng |
 |---|---|---|
 | GET | `/health` | Kiểm tra trạng thái hoạt động công khai của máy chủ |
+| GET | `/ready` | 200 khi truy vấn được bảng `nguoi_dung`; 503 khi CSDL/schema chưa sẵn sàng |
 | POST | `/api/auth/register` | Đăng ký sinh viên hoặc nhà tuyển dụng với các trường `email,password,fullName,phone,role` |
 | POST | `/api/auth/login` | Đăng nhập bằng `email,password`; trả về JWT và thông tin người dùng |
 | GET | `/api/auth/me` | Lấy thông tin tài khoản hiện đang đăng nhập |
@@ -89,9 +92,16 @@ Tất cả đường dẫn quản trị yêu cầu token có vai trò `QUAN_TRI`
 
 ## Trạng thái cơ sở dữ liệu
 
-`npm run db:setup` tạo bảng; `seed.sql` được để trống nên không có tài khoản,
-nhóm việc, tin tuyển dụng hay dữ liệu mẫu nào được thêm tự động. Cần tạo
-nhóm việc bằng API quản trị trước khi có thể đăng tin.
+`npm run db:setup` tạo schema ứng viên trong `public` cho CSDL mới còn trống và không tự seed. Lệnh từ chối khi đã có bảng ứng dụng trong `public` hoặc `viec_lam`. Schema/seed gốc dưới `backend/` thuộc mô hình khác và không được chạy tự động. Reset bị vô hiệu; đối chiếu với TV04 trước migration CSDL dùng chung.
 
-`npm run db:reset` xóa toàn bộ bảng thuộc ứng dụng rồi tạo lại schema rỗng.
-Chỉ chạy lệnh này trên database có thể xóa.
+## Luồng nghiệm thu T002 và T010
+
+1. `POST /api/auth/register` với `email`, `password`, `fullName`, `role`; chỉ nhận SINH_VIEN hoặc NHA_TUYEN_DUNG. Mật khẩu từ 8 ký tự, tối đa 72 byte UTF-8; email được trim/lowercase, không trùng. Trả 201 `{ "user": { "id": 1, "email": "...", "fullName": "...", "role": "..." } }`.
+2. `POST /api/auth/login` với email/password trả 200 `{ "token": "...", "user": {...} }`. Không trả hash. Token hết hạn/sai chữ ký hoặc tài khoản bị khóa trả 401 khi gọi route bảo vệ; mỗi request kiểm tra lại trạng thái và vai trò trong DB.
+3. NTD `PATCH /api/employer/profile` với `companyName,taxCode,address,licenseUrl,contactName,phone`; URL giấy phép bắt đầu HTTPS. Hồ sơ trở về CHO_DUYET.
+4. Quản trị `GET /api/admin/employers`, lấy id hồ sơ; `PATCH /api/admin/employers/:id/review` với `decision: APPROVE|REJECT|BLOCK`. REJECT/BLOCK cần `reason`; lý do lưu ở `nha_tuyen_dung.ly_do_tu_choi`. BLOCK đồng thời khóa tài khoản; JWT cũ bị từ chối.
+5. Quản trị `POST /api/admin/categories` với `{ "name": "Phục vụ" }`; nhận id nhóm việc.
+6. NTD đã được duyệt `POST /api/jobs` với `{ "categoryId": 1, "title": "Phục vụ", "description": "Mô tả công việc", "location": "TP HCM", "latitude": 10.77, "longitude": 106.69, "hourlyWage": 30000, "headcount": 2 }`. Trả 201 `{ "id": 1, "status": "CHO_DUYET" }`.
+7. Quản trị `PATCH /api/admin/jobs/:id/review` với `decision: APPROVE|REJECT|REMOVE`; REJECT/REMOVE cần `reason`. `GET /api/jobs/employer/mine` trả tin của đúng chủ và `rejectionReason`. Tin chưa duyệt/bị từ chối/NTD bị khóa không công khai.
+
+Collection chạy thủ công: `docs/TV01/TV01.postman_collection.json`. Test tích hợp thực thi HTTP + SQL trên PGlite tách biệt; không xác nhận CSDL Supabase hoặc Render đã hoạt động.

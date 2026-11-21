@@ -10,8 +10,11 @@
     "dev": "nodemon src/server.js",
     "create-admin": "node scripts/create-admin.js",
     "db:setup": "node scripts/setup-db.js",
+    "db:seed": "node scripts/seed-api-v1.js",
+    "dev:local": "node scripts/dev-pglite.js",
     "db:reset": "node scripts/setup-db.js --reset --confirm-reset",
-    "test": "node --test"
+    "test": "node --test",
+    "check:deploy": "node scripts/check-deployment.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -24,6 +27,7 @@
     "pg": "^8.13.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16",
     "nodemon": "^3.1.7"
   }
 }

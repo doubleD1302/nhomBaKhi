@@ -1,0 +1,86 @@
+{
+  "assessmentDate": "2026-11-15",
+  "checkedAt": "2026-11-14T22:58:20.735Z",
+  "sourceUrl": "https://doubled1302.github.io/nhomBaKhi/",
+  "memberMapping": "TV001 -> TV01",
+  "currentWeek": 9,
+  "weekBasis": "Hardcoded default on public dashboard, not a verified academic calendar",
+  "tasks": [
+    {
+      "id": "T001",
+      "name": "Khởi động, đăng ký đề, lập repo và quy ước",
+      "week": 8,
+      "plannedHours": 4,
+      "deadlineGroup": "overdue",
+      "acceptance": "Thông tin LMS, link repo, danh sách 4 tài khoản và biên bản khởi động",
+      "dependencies": [],
+      "remote": {
+        "status": "todo",
+        "progressPercent": 0,
+        "reportedActualHours": 4,
+        "notes": "Khởi tạo kế hoạch ban đầu (Tuần 8-8)",
+        "updatedAt": "2026-11-12T02:22:17.317+00:00",
+        "updatedBy": "HeThong_AutoSeed"
+      }
+    },
+    {
+      "id": "T002",
+      "name": "Khởi tạo Express, JWT/bcrypt và hợp đồng API",
+      "week": 8,
+      "plannedHours": 6,
+      "deadlineGroup": "overdue",
+      "acceptance": "Auth và /health chạy local; api.md bản đầu, mã lỗi và vai trò thống nhất",
+      "dependencies": [
+        "T001"
+      ],
+      "remote": {
+        "status": "todo",
+        "progressPercent": 0,
+        "reportedActualHours": 6,
+        "notes": "Khởi tạo kế hoạch ban đầu (Tuần 8-8)",
+        "updatedAt": "2026-11-12T02:22:17.319+00:00",
+        "updatedBy": "HeThong_AutoSeed"
+      }
+    },
+    {
+      "id": "T009",
+      "name": "Hoàn thiện auth và deploy Render kết nối Supabase",
+      "week": 9,
+      "plannedHours": 6,
+      "deadlineGroup": "due",
+      "acceptance": "/health và đăng nhập HTTPS hoạt động; cấu hình pooler theo hướng dẫn",
+      "dependencies": [
+        "T002",
+        "T007",
+        "T015"
+      ],
+      "remote": {
+        "status": "todo",
+        "progressPercent": 0,
+        "reportedActualHours": 6,
+        "notes": "Khởi tạo kế hoạch ban đầu (Tuần 9-9)",
+        "updatedAt": "2026-11-12T02:22:17.319+00:00",
+        "updatedBy": "HeThong_AutoSeed"
+      }
+    },
+    {
+      "id": "T010",
+      "name": "API nhà tuyển dụng và tin tuyển dụng cơ bản",
+      "week": 9,
+      "plannedHours": 5,
+      "deadlineGroup": "due",
+      "acceptance": "Tạo/duyệt NTD, tạo/duyệt tin; tin bị từ chối có lý do",
+      "dependencies": [
+        "T009"
+      ],
+      "remote": {
+        "status": "todo",
+        "progressPercent": 0,
+        "reportedActualHours": 5,
+        "notes": "Khởi tạo kế hoạch ban đầu (Tuần 9-9)",
+        "updatedAt": "2026-11-12T02:22:17.319+00:00",
+        "updatedBy": "HeThong_AutoSeed"
+      }
+    }
+  ]
+}

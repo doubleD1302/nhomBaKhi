@@ -13,3 +13,4 @@ local.properties
 .idea/
 *.jks
 *.keystore
+.pglite-data/

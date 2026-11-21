@@ -32,7 +32,7 @@ router.get('/employers', asyncHandler(async (req, res) => {
   const result = await truyVan(
     `SELECT e.id, e.ten_cong_ty AS "companyName", e.ma_so_thue AS "taxCode",
        e.dia_chi AS address, e.giay_phep_url AS "licenseUrl",
-       e.trang_thai_duyet AS status, u.ho_ten AS "contactName", u.email, u.sdt AS phone
+       e.trang_thai_duyet AS status, e.ly_do_tu_choi AS "rejectionReason", u.ho_ten AS "contactName", u.email, u.sdt AS phone
      FROM nha_tuyen_dung e JOIN nguoi_dung u ON u.id = e.nguoi_dung_id
      WHERE e.trang_thai_duyet = $1 ORDER BY e.id DESC`,
     [status],
@@ -49,9 +49,10 @@ router.patch('/employers/:id/review', asyncHandler(async (req, res) => {
   const result = await trongGiaoDich(async (client) => {
     const updated = await client.query(
       `UPDATE nha_tuyen_dung SET trang_thai_duyet = $2,
-       da_xac_minh = ($2 = 'DA_DUYET')
+       da_xac_minh = ($2 = 'DA_DUYET'), ly_do_tu_choi = $3
        WHERE id = $1 RETURNING nguoi_dung_id`,
-      [req.params.id, decision === 'APPROVE' ? 'DA_DUYET' : decision === 'BLOCK' ? 'BI_KHOA' : 'TU_CHOI'],
+      [req.params.id, decision === 'APPROVE' ? 'DA_DUYET' : decision === 'BLOCK' ? 'BI_KHOA' : 'TU_CHOI',
+        decision === 'APPROVE' ? null : String(reason).trim()],
     );
     if (!updated.rows[0]) return false;
     if (decision === 'BLOCK') {

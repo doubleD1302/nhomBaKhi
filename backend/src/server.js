@@ -1,11 +1,8 @@
 require('dotenv').config();
+const { validateEnvironment } = require('./config');
+const { port } = validateEnvironment(process.env);
 const app = require('./app');
 const { pool } = require('./db');
-
-const port = Number(process.env.PORT || 3000);
-if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
-  throw new Error('JWT_SECRET must be set to a random value of at least 32 characters.');
-}
 
 const server = app.listen(port, () => {
   console.log(`API listening on port ${port}`);

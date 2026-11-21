@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: nhomxx-student-jobs-api
+    name: nhombakhi-backend
     runtime: node
     rootDir: backend
     plan: free
-    buildCommand: npm install
+    buildCommand: npm ci --omit=dev
     startCommand: npm start
     healthCheckPath: /health
     envVars:

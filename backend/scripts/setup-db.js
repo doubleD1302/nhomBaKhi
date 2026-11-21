@@ -5,25 +5,20 @@ const { pool } = require('../src/db');
 
 async function setup() {
   if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is required.');
-  const reset = process.argv.includes('--reset');
-  if (reset && !process.argv.includes('--confirm-reset')) {
-    throw new Error('Reset refused. Add --confirm-reset to confirm dropping application tables.');
+  if (process.argv.includes('--reset')) {
+    throw new Error('Automatic reset is disabled. Use a separate empty database for API v1.');
   }
-  if (reset) {
-    await pool.query(await fs.readFile(path.join(__dirname, '..', 'reset-schema.sql'), 'utf8'));
-  } else {
-    const existing = await pool.query(
-      "SELECT to_regclass('public.nguoi_dung') AS users_table",
-    );
-    if (existing.rows[0].users_table) {
-      throw new Error('Application tables already exist. Use npm run db:reset only on a database you intend to clear.');
-    }
+  const existing = await pool.query(
+    "SELECT tablename FROM pg_tables WHERE schemaname IN ('public', 'viec_lam') AND tablename = ANY($1::text[])",
+    [['nguoi_dung','ho_so_sinh_vien','nha_tuyen_dung','nhom_viec','khung_gio_ranh','tin_tuyen_dung',
+      'ung_tuyen','ca_lam_viec','nhan_ca','cham_cong','bang_luong','bao_cao_lua_dao']],
+  );
+  if (existing.rowCount) {
+    throw new Error('Application tables already exist. Review the schema with TV04; setup does not overwrite existing data.');
   }
-  const schema = await fs.readFile(path.join(__dirname, '..', 'schema.sql'), 'utf8');
+  const schema = await fs.readFile(path.join(__dirname, '..', 'database', 'api-v1', 'schema.sql'), 'utf8');
   await pool.query(schema);
-  const seed = await fs.readFile(path.join(__dirname, '..', 'seed.sql'), 'utf8');
-  if (seed.trim()) await pool.query(seed);
-  console.log('Database schema created. No sample records were inserted.');
+  console.log('API v1 schema created. No sample records were inserted; legacy seed.sql was not executed.');
 }
 
 setup()

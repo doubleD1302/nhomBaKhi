@@ -10,9 +10,11 @@ const router = express.Router();
 router.post('/register', asyncHandler(async (req, res) => {
   const { email, password, fullName, phone = '', role } = req.body;
   const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)
+  if (normalizedEmail.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)
       || typeof password !== 'string' || password.length < 8
+      || Buffer.byteLength(password, 'utf8') > 72
       || typeof fullName !== 'string' || !fullName.trim()
+      || fullName.trim().length > 150
       || !['SINH_VIEN', 'NHA_TUYEN_DUNG'].includes(role)) {
     return res.status(400).json({ loi: 'Thông tin đăng ký không hợp lệ' });
   }
@@ -37,6 +39,10 @@ router.post('/register', asyncHandler(async (req, res) => {
 router.post('/login', asyncHandler(async (req, res) => {
   const email = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
   const password = req.body.password;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254
+      || typeof password !== 'string' || !password || Buffer.byteLength(password, 'utf8') > 72) {
+    return res.status(400).json({ loi: 'Email hoặc mật khẩu không hợp lệ' });
+  }
   const result = await truyVan(
     `SELECT id, email, mat_khau_hash, ho_ten, vai_tro, trang_thai
      FROM nguoi_dung WHERE email = $1`,

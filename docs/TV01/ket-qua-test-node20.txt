@@ -1,0 +1,165 @@
+TAP version 13
+# Subtest: health endpoint is public and returns success
+ok 1 - health endpoint is public and returns success
+  ---
+  duration_ms: 57.6797
+  ...
+# Subtest: configured wildcard CORS allows mobile/web development origins
+ok 2 - configured wildcard CORS allows mobile/web development origins
+  ---
+  duration_ms: 9.0875
+  ...
+# Subtest: student endpoints reject requests without a token
+ok 3 - student endpoints reject requests without a token
+  ---
+  duration_ms: 4.7942
+  ...
+# Subtest: student endpoints reject authenticated users with another role
+ok 4 - student endpoints reject authenticated users with another role
+  ---
+  duration_ms: 13.8357
+  ...
+# Subtest: T002 readiness verifies the application users table
+ok 5 - T002 readiness verifies the application users table
+  ---
+  duration_ms: 2133.8803
+  ...
+# Subtest: T002 registration creates student and employer profiles atomically
+ok 6 - T002 registration creates student and employer profiles atomically
+  ---
+  duration_ms: 704.5801
+  ...
+# Subtest: T002 stored password is bcrypt hashed and login normalizes email
+ok 7 - T002 stored password is bcrypt hashed and login normalizes email
+  ---
+  duration_ms: 1219.4698
+  ...
+# Subtest: T002 duplicate email returns 409 and leaves no extra profile
+ok 8 - T002 duplicate email returns 409 and leaves no extra profile
+  ---
+  duration_ms: 276.1141
+  ...
+# Subtest: T002 public registration cannot create administrators
+ok 9 - T002 public registration cannot create administrators
+  ---
+  duration_ms: 3.8381
+  ...
+# Subtest: T002 bcrypt input over 72 UTF-8 bytes is rejected
+ok 10 - T002 bcrypt input over 72 UTF-8 bytes is rejected
+  ---
+  duration_ms: 3.7146
+  ...
+# Subtest: T002 invalid login payload returns 400 and wrong password returns 401
+ok 11 - T002 invalid login payload returns 400 and wrong password returns 401
+  ---
+  duration_ms: 232.0143
+  ...
+# Subtest: T002 /me returns only public user data
+ok 12 - T002 /me returns only public user data
+  ---
+  duration_ms: 4.1172
+  ...
+# Subtest: T002 missing expired and wrongly signed JWTs are rejected
+ok 13 - T002 missing expired and wrongly signed JWTs are rejected
+  ---
+  duration_ms: 10.3995
+  ...
+# Subtest: T010 student cannot create categories or use admin review
+ok 14 - T010 student cannot create categories or use admin review
+  ---
+  duration_ms: 10.2837
+  ...
+# Subtest: T010 admin creates categories from real SQL data
+ok 15 - T010 admin creates categories from real SQL data
+  ---
+  duration_ms: 7.9408
+  ...
+# Subtest: T010 employer completes profile and unverified employer cannot post jobs
+ok 16 - T010 employer completes profile and unverified employer cannot post jobs
+  ---
+  duration_ms: 16.6481
+  ...
+# Subtest: T010 rejection requires a reason and persists employer review reason
+ok 17 - T010 rejection requires a reason and persists employer review reason
+  ---
+  duration_ms: 12.3229
+  ...
+# Subtest: T010 approved employer creates pending job hidden from public list
+ok 18 - T010 approved employer creates pending job hidden from public list
+  ---
+  duration_ms: 12.0574
+  ...
+# Subtest: T010 employer list is scoped to its owner
+ok 19 - T010 employer list is scoped to its owner
+  ---
+  duration_ms: 7.9356
+  ...
+# Subtest: T010 rejected job has a reason and remains private
+ok 20 - T010 rejected job has a reason and remains private
+  ---
+  duration_ms: 14.6561
+  ...
+# Subtest: T010 approved job is visible publicly with current API fields
+ok 21 - T010 approved job is visible publicly with current API fields
+  ---
+  duration_ms: 11.13
+  ...
+# Subtest: T010 malformed identifiers are reported as client errors
+ok 22 - T010 malformed identifiers are reported as client errors
+  ---
+  duration_ms: 5.6282
+  ...
+# Subtest: T009 blocking account invalidates its previously issued JWT
+ok 23 - T009 blocking account invalidates its previously issued JWT
+  ---
+  duration_ms: 16.3828
+  ...
+# Subtest: T009 readiness returns 503 without leaking connection details when DB fails
+ok 24 - T009 readiness returns 503 without leaking connection details when DB fails
+  ---
+  duration_ms: 1.4911
+  ...
+# Subtest: runtime accepts a real connection URL and private JWT secret
+ok 25 - runtime accepts a real connection URL and private JWT secret
+  ---
+  duration_ms: 3.4574
+  ...
+# Subtest: runtime rejects missing or public example JWT secrets
+ok 26 - runtime rejects missing or public example JWT secrets
+  ---
+  duration_ms: 0.686
+  ...
+# Subtest: runtime rejects missing, non-PostgreSQL and placeholder DB URLs without echoing them
+ok 27 - runtime rejects missing, non-PostgreSQL and placeholder DB URLs without echoing them
+  ---
+  duration_ms: 0.6739
+  ...
+# Subtest: runtime rejects invalid ports
+ok 28 - runtime rejects invalid ports
+  ---
+  duration_ms: 0.3097
+  ...
+# Subtest: haversine distance is zero for the same point
+ok 29 - haversine distance is zero for the same point
+  ---
+  duration_ms: 0.9654
+  ...
+# Subtest: haversine distance measures nearby points in meters
+ok 30 - haversine distance measures nearby points in meters
+  ---
+  duration_ms: 0.2392
+  ...
+# Subtest: coordinate validation rejects out-of-range and non-finite values
+ok 31 - coordinate validation rejects out-of-range and non-finite values
+  ---
+  duration_ms: 0.1967
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5365.2464

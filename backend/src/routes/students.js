@@ -127,8 +127,11 @@ router.get('/my-shifts', asyncHandler(async (req, res) => {
   const result = await truyVan(
     `SELECT n.id, j.tieu_de AS title, s.ngay AS "workDate",
        s.gio_bat_dau AS "startTime", s.gio_ket_thuc AS "endTime",
-       j.dia_diem AS location, c.trang_thai_duyet AS "timeRecordStatus",
-       c.check_in_luc AS "checkInAt", c.check_out_luc AS "checkOutAt"
+       j.dia_diem AS location, j.vi_do AS latitude, j.kinh_do AS longitude,
+       j.luong_theo_gio AS "hourlyWage",
+       c.trang_thai_duyet AS "timeRecordStatus",
+       c.check_in_luc AS "checkInAt", c.check_out_luc AS "checkOutAt",
+       c.so_gio AS "totalHours"
      FROM nhan_ca n JOIN ho_so_sinh_vien p ON p.id = n.sinh_vien_id
      JOIN ca_lam_viec s ON s.id = n.ca_id JOIN tin_tuyen_dung j ON j.id = s.tin_id
      LEFT JOIN cham_cong c ON c.nhan_ca_id = n.id

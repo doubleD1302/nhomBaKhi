@@ -7,6 +7,8 @@ const pool = new Pool({
     ? { rejectUnauthorized: false }
     : undefined,
   max: 5,
+  connectionTimeoutMillis: 10000,
+  idleTimeoutMillis: 30000,
 });
 
 const truyVan = (sql, params = []) => pool.query(sql, params);
